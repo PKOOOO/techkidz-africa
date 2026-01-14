@@ -1,0 +1,8 @@
+export { Navbar } from "./Navbar";
+export { Hero } from "./Hero";
+export { About } from "./About";
+export { Programs } from "./Programs";
+export { Impact } from "./Impact";
+export { Team } from "./Team";
+export { Contact } from "./Contact";
+export { Footer } from "./Footer";
