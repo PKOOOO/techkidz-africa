@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { useChat } from "@ai-sdk/react";
 import { useAuth } from "@clerk/nextjs";
 import { Sparkles, Send, Loader2, X, Bot } from "lucide-react";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -65,17 +66,16 @@ export function ChatSheet() {
       />
 
       {/* Sidebar */}
-      <div className="fixed top-0 right-0 z-50 flex h-full w-full flex-col border-l border-zinc-200 bg-white overscroll-contain dark:border-zinc-800 dark:bg-zinc-950 sm:w-[448px] animate-in slide-in-from-right duration-300">
+      <div className="fixed top-0 right-0 z-50 flex h-full w-full flex-col border-l border-zinc-200 bg-white shadow-xl overscroll-contain dark:border-zinc-800 dark:bg-zinc-950 xl:w-[380px] animate-in slide-in-from-right duration-300">
         {/* Header */}
-        <header className="shrink-0 border-b border-zinc-200 dark:border-zinc-800">
-          <div className="flex h-16 items-center justify-between px-6">
-            <div className="flex items-center gap-2 font-semibold">
-              <Sparkles className="h-5 w-5 text-swahilipot-600" />
-              Swahilipot AI
-            </div>
+        <header className="shrink-0 ">
+          <div className="flex h-16 items-center gap-3 px-4">
             <Button variant="ghost" size="icon" onClick={closeChat}>
-              <X className="h-4 w-4" />
+              <X className="size-6" />
             </Button>
+            <span className="font-semibold text-zinc-900 dark:text-zinc-100">
+              Chat with Tech Kidz Africa
+            </span>
           </div>
         </header>
 

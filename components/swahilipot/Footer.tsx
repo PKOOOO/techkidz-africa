@@ -36,7 +36,7 @@ export function Footer() {
                     <div>
                         <Link href="/" className="inline-block mb-4">
                             <Image
-                                src="/sph-logo-white.png"
+                                src="/logo.svg"
                                 alt="Swahilipot Hub"
                                 width={180}
                                 height={50}
