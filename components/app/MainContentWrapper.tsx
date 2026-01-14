@@ -7,7 +7,7 @@ export function MainContentWrapper({ children }: { children: React.ReactNode }) 
 
     return (
         <div
-            className={`flex flex-col min-h-screen transition-all duration-300 ${isOpen ? "xl:mr-[448px]" : ""
+            className={`flex flex-col min-h-screen transition-all duration-300 ${isOpen ? "xl:mr-[380px]" : ""
                 }`}
         >
             {children}

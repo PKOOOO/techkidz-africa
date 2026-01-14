@@ -40,7 +40,7 @@ export function Navbar() {
                 <div className="flex items-center">
                     <Link href="/" className="flex items-center">
                         <Image
-                            src="/sph-logo.png"
+                            src="/logo.svg"
                             alt="Swahilipot Hub Logo"
                             width={180}
                             height={50}
