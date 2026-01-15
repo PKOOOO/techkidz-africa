@@ -8,12 +8,10 @@ export function About() {
             <div className="container-custom">
                 <div className="max-w-3xl mx-auto text-center">
                     <h2 className="text-3xl md:text-4xl font-bold mb-6">
-                        About <span className="text-gradient-blue">Swahilipot Hub</span>
+                        About <span className="text-gradient-blue">Tech Kidz Africa</span>
                     </h2>
                     <p className="text-lg text-gray-700 mb-4">
-                        Swahilipot Hub Foundation is a youth-focused organization based in Mombasa, Kenya.
-                        We provide a collaborative space where young people can develop their skills in technology,
-                        arts, and entrepreneurship.
+                    Tech Kidz Africa is an edtech Academy, innovation hub and social enterprise that nurtures the spirit of innovativeness through empowering learners,capacity building educators, digital learning resources development and offering digital literacy employability skills.
                     </p>
                     <p className="text-lg text-gray-700 mb-8">
                         Our mission is to empower the next generation of leaders, innovators, and creators
