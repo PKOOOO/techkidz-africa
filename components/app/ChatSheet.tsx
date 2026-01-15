@@ -148,7 +148,7 @@ export function ChatSheet() {
             <Input
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Ask about Swahilipot Hub..."
+              placeholder="Ask about Tech Kidz Africa.."
               disabled={isLoading}
               className="flex-1"
             />
