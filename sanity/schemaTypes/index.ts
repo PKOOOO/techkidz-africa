@@ -9,6 +9,8 @@ import { courseType } from './courseType'
 import { industrialAttachmentType } from './industrialAttachmentType'
 import { teamMemberType } from './teamMemberType'
 import { partnerType } from './partnerType'
+import { heroImageType } from './heroImageType'
+import { eventsHeroImageType } from './eventsHeroImageType'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -25,5 +27,9 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     // Organization
     teamMemberType,
     partnerType,
+    // Homepage
+    heroImageType,
+    // Events Page
+    eventsHeroImageType,
   ],
 }

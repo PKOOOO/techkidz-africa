@@ -28,36 +28,48 @@ export default function ColourfulText({ text }: { text: string }) {
     return () => clearInterval(interval);
   }, []);
 
+  // Split text into words to prevent mid-word breaking
+  const words = text.split(" ");
   const textArray = text.split("");
   const totalChars = textArray.length;
 
-  return textArray.map((char, index) => {
-    // Calculate position in gradient (0 to 1)
-    const position = index / Math.max(totalChars - 1, 1);
-    // Interpolate color based on position
-    const color = interpolateColor(startColor, endColor, position);
-    
-    return (
-      <motion.span
-        key={`${char}-${count}-${index}`}
-        initial={{
-          y: 0,
-        }}
-        animate={{
-          color: color,
-          y: [0, -3, 0],
-          scale: [1, 1.01, 1],
-          filter: ["blur(0px)", `blur(5px)`, "blur(0px)"],
-          opacity: [1, 0.8, 1],
-        }}
-        transition={{
-          duration: 0.5,
-          delay: index * 0.05,
-        }}
-        className="inline-block whitespace-pre font-sans tracking-tight"
-      >
-        {char}
-      </motion.span>
-    );
-  });
+  return (
+    <>
+      {words.map((word, wordIndex) => {
+        const wordStartIndex = words.slice(0, wordIndex).join(" ").length + (wordIndex > 0 ? 1 : 0);
+        
+        return (
+          <span key={`word-${wordIndex}-${count}`} className="inline-block">
+            {word.split("").map((char, charIndex) => {
+              const index = wordStartIndex + charIndex;
+              const position = index / Math.max(totalChars - 1, 1);
+              const color = interpolateColor(startColor, endColor, position);
+              
+              return (
+                <motion.span
+                  key={`${char}-${count}-${index}`}
+                  initial={{ y: 0 }}
+                  animate={{
+                    color: color,
+                    y: [0, -3, 0],
+                    scale: [1, 1.01, 1],
+                    filter: ["blur(0px)", `blur(5px)`, "blur(0px)"],
+                    opacity: [1, 0.8, 1],
+                  }}
+                  transition={{
+                    duration: 0.5,
+                    delay: index * 0.05,
+                  }}
+                  className="inline font-sans tracking-tight"
+                >
+                  {char}
+                </motion.span>
+              );
+            })}
+            {wordIndex < words.length - 1 && <span className="inline"> </span>}
+          </span>
+        );
+      })}
+    </>
+  );
 }

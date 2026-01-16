@@ -81,7 +81,10 @@ export function Hero({ images = ["/hero1.jpg"] }: HeroProps) {
             <div className="absolute inset-0 bg-[#6A1383]/10 -z-10 h-[400px] md:h-[500px]" />
             
             {/* Bottom blur gradient */}
-            <div className="absolute bottom-0 z-40 inset-x-0 h-32 bg-gradient-to-t from-background via-background/80 to-transparent w-full pointer-events-none" />
+            <div className="absolute bottom-0 z-30 inset-x-0 h-24 md:h-32 w-full pointer-events-none">
+                <div className="absolute inset-0 backdrop-blur-lg" style={{ maskImage: 'linear-gradient(to top, black 0%, black 40%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to top, black 0%, black 40%, transparent 100%)' }} />
+                <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgb(245,240,248) 0%, rgb(245,240,248) 5%, rgba(245,240,248,0.98) 10%, rgba(245,240,248,0.9) 20%, rgba(245,240,248,0.75) 35%, rgba(245,240,248,0.5) 55%, rgba(245,240,248,0.25) 75%, rgba(245,240,248,0.1) 90%, transparent 100%)', maskImage: 'linear-gradient(to top, black 0%, transparent 70%)', WebkitMaskImage: 'linear-gradient(to top, black 0%, transparent 70%)' }} />
+            </div>
 
             {/* Content */}
             <div className="container-custom section-padding relative z-10">
@@ -94,28 +97,24 @@ export function Hero({ images = ["/hero1.jpg"] }: HeroProps) {
                     </h1>
 
                     <div className="mt-10 flex flex-col sm:flex-row gap-4">
-                        <Button className="bg-[#6A1383] hover:bg-[#5a0f70] text-white flex items-center gap-2 text-base" asChild>
+                        <Button className="w-full sm:w-auto bg-[#6A1383] hover:bg-[#5a0f70] text-white flex items-center justify-center gap-2 text-base" asChild>
                             <Link href="/programs">
                                 Our Programs <ArrowRight size={16} />
                             </Link>
                         </Button>
-                        <Button className="bg-[#80569E] hover:bg-[#6A1383] text-white flex items-center gap-2 text-base" asChild>
+                        <Button className="w-full sm:w-auto bg-[#38B6FF] hover:bg-[#1A9FE8] text-white flex items-center justify-center gap-2 text-base" asChild>
                             <Link href="/about">
                                 Learn More
                             </Link>
                         </Button>
-                        <Button className="bg-[#38B6FF] hover:bg-[#1A9FE8] text-white flex items-center gap-2 text-base" asChild>
-                            <Link href="/careers">
-                                Careers <ArrowRight size={16} />
-                            </Link>
-                        </Button>
+                        
                     </div>
                 </div>
             </div>
 
             {/* Dot indicators */}
             {count > 1 && (
-                <div className="absolute bottom-8 left-1/2 flex -translate-x-1/2 gap-2 z-50 sm:bottom-10">
+                <div className="absolute bottom-8 left-1/2 flex -translate-x-1/2 gap-2 z-30 sm:bottom-10">
                     {Array.from({ length: count }).map((_, index) => (
                         <button
                             key={`dot-${index}`}
