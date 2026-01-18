@@ -65,9 +65,11 @@ export function Hero({ images = ["/hero1.jpg"] }: HeroProps) {
                         {images.map((image, index) => (
                             <CarouselItem key={index} className="pl-0 basis-full shrink-0 grow-0">
                                 <div
-                                    className="h-[400px] md:h-[500px] w-full bg-cover bg-center bg-no-repeat"
+                                    className="h-[400px] md:h-[500px] w-full bg-center bg-no-repeat overflow-hidden"
                                     style={{
                                         backgroundImage: `url(${image})`,
+                                        backgroundSize: 'cover',
+                                        backgroundPosition: 'center',
                                         opacity: 0.5,
                                     }}
                                 />

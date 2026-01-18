@@ -1,94 +1,111 @@
 import Link from "next/link";
-import { ArrowRight, Laptop, Palette, Megaphone, Users, GraduationCap, Briefcase } from "lucide-react";
+import { ArrowRight, Code, Shield, Bot, Film, Gamepad2, Monitor } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { BentoGrid, BentoGridItem } from "@/components/ui/bento-grid";
+import { cn } from "@/lib/utils";
+import { client } from "@/sanity/lib/client";
+import { urlFor } from "@/sanity/lib/image";
+import { ProgramSkeleton } from "@/components/app/ProgramSkeleton";
 
-export const metadata = {
-    title: "Programs | Swahilipot Hub Foundation",
-    description: "Explore our youth empowerment programs in technology, arts, and entrepreneurship.",
-};
+async function getProgramsHeroImage() {
+    const query = `*[_type == "programsHeroImage" && isActive == true][0] {
+        image
+    }`;
+    
+    const result = await client.fetch(query);
+    if (result?.image) {
+        return urlFor(result.image).url();
+    }
+    return null;
+}
 
-const programs = [
-    {
-        title: "Case Management",
-        description: "Personalized support and guidance for youth development. We provide one-on-one mentorship, career counseling, and life skills training to help young people navigate their personal and professional journeys.",
-        href: "/programs/case-management",
-        icon: Users,
-    },
-    {
-        title: "Tourism Innovation Lab",
-        description: "Transforming tourism through technology and innovation. Young innovators work on digital solutions to enhance visitor experiences and promote sustainable tourism in the coastal region.",
-        href: "/programs/tourism-innovation-lab",
-        icon: Laptop,
-    },
-    {
-        title: "Swahili Tech Women",
-        description: "Empowering women in technology and STEM fields. This initiative provides training, mentorship, and networking opportunities to help women break into and thrive in tech careers.",
-        href: "/programs/swahili-tech-women",
-        icon: Palette,
-    },
-    {
-        title: "Employer Engagement",
-        description: "Connecting youth with employment opportunities. We partner with businesses to create internships, apprenticeships, and entry-level positions for program graduates.",
-        href: "/programs/employer-engagement",
-        icon: Briefcase,
-    },
-    {
-        title: "Campus Ambassador",
-        description: "University outreach program extending our reach to campuses across the region. Ambassadors help spread our mission and identify talented students for our programs.",
-        href: "/programs/campus-ambassador",
-        icon: GraduationCap,
-    },
-    {
-        title: "Industrial Attachment",
-        description: "Practical work experience for students. We host students from universities and TVETs for industrial attachment, providing hands-on experience in their fields of study.",
-        href: "/industrial-attachment",
-        icon: Megaphone,
-    },
-];
+async function getPrograms() {
+    const query = `*[_type == "programsPage" && isActive == true] | order(order asc) {
+        _id,
+        title,
+        description,
+        href,
+        iconName,
+        isAnimationTraining,
+        svgImages[] {
+            asset-> {
+                _id,
+                url,
+                metadata {
+                    dimensions
+                }
+            }
+        },
+        order
+    }`;
+    
+    return await client.fetch(query);
+}
 
-export default function ProgramsPage() {
+export default async function ProgramsPage() {
+    let heroImageUrl: string | null = null;
+    let programs: any[] = [];
+    
+    try {
+        heroImageUrl = await getProgramsHeroImage();
+        programs = await getPrograms();
+    } catch (error) {
+        console.error("Error fetching programs data:", error);
+    }
+
     return (
         <>
             {/* Hero Section */}
-            <section className="section-padding bg-swahilipot-50">
-                <div className="container-custom">
-                    <div className="max-w-3xl mx-auto text-center">
-                        <h1 className="text-4xl md:text-5xl font-bold mb-6">
+            <section className="relative overflow-hidden h-[300px] md:h-[400px] z-0">
+                {/* Background Image */}
+                {heroImageUrl && (
+                    <div className="absolute inset-0 z-0 h-full w-full">
+                        <div
+                            className="h-[300px] md:h-[400px] w-full bg-cover bg-center bg-no-repeat"
+                            style={{
+                                backgroundImage: `url(${heroImageUrl})`,
+                                opacity: 0.8,
+                            }}
+                        />
+                    </div>
+                )}
+                
+                {/* Overlay */}
+                <div className="absolute inset-0 bg-[#6A1383]/5 z-0 h-[300px] md:h-[400px]" />
+                
+                {/* Bottom blur gradient */}
+                <div className="absolute bottom-0 z-30 inset-x-0 h-24 md:h-32 w-full pointer-events-none">
+                    <div className="absolute inset-0 backdrop-blur-lg" style={{ maskImage: 'linear-gradient(to top, black 0%, black 40%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to top, black 0%, black 40%, transparent 100%)' }} />
+                    <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgb(255,255,255) 0%, rgb(255,255,255) 5%, rgba(255,255,255,0.98) 10%, rgba(255,255,255,0.9) 20%, rgba(255,255,255,0.75) 35%, rgba(255,255,255,0.5) 55%, rgba(255,255,255,0.25) 75%, rgba(255,255,255,0.1) 90%, transparent 100%)', maskImage: 'linear-gradient(to top, black 0%, transparent 70%)', WebkitMaskImage: 'linear-gradient(to top, black 0%, transparent 70%)' }} />
+                    
+                    {/* Text in middle of blur area */}
+                    <div className="absolute inset-0 flex items-end justify-center pb-2 md:pb-4 z-10">
+                        <h1 className="text-2xl md:text-3xl font-bold text-gradient-blue drop-shadow-[0_2px_4px_rgba(255,255,255,0.8)]">
                             Our <span className="text-gradient-blue">Programs</span>
                         </h1>
-                        <p className="text-lg text-gray-700">
-                            Discover initiatives designed to empower youth through technology,
-                            creativity, and entrepreneurship.
-                        </p>
                     </div>
                 </div>
             </section>
 
-            {/* Programs Grid */}
+            {/* Programs Bento Grid */}
             <section className="section-padding">
                 <div className="container-custom">
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {programs.map((program) => (
-                            <div
-                                key={program.href}
-                                className="bg-white rounded-xl border shadow-sm hover:shadow-md transition-shadow overflow-hidden"
-                            >
-                                <div className="p-6">
-                                    <div className="bg-swahilipot-100 text-swahilipot-600 w-14 h-14 rounded-lg flex items-center justify-center mb-4">
-                                        <program.icon size={28} />
-                                    </div>
-                                    <h2 className="text-xl font-semibold mb-3">{program.title}</h2>
-                                    <p className="text-gray-600 text-sm mb-4">{program.description}</p>
-                                    <Button variant="outline" className="group" asChild>
-                                        <Link href={program.href}>
-                                            Learn More
-                                            <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                                        </Link>
-                                    </Button>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
+                    <BentoGrid className="max-w-7xl mx-auto md:auto-rows-[20rem]">
+                        {programs.map((program, i) => {
+                                            
+                            return (
+                                <BentoGridItem
+                                    key={program._id || program.href}
+                                    title={program.title}
+                                    description={<span className="text-sm">{program.description}</span>}
+                                    header={<ProgramSkeleton program={program} index={i} />}
+                                    className={cn("[&>p:text-lg]", "md:col-span-1")}
+                                   
+                                    href={program.href}
+                                />
+                            );
+                        })}
+                    </BentoGrid>
                 </div>
             </section>
 
