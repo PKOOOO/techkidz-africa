@@ -11,6 +11,8 @@ import { teamMemberType } from './teamMemberType'
 import { partnerType } from './partnerType'
 import { heroImageType } from './heroImageType'
 import { eventsHeroImageType } from './eventsHeroImageType'
+import { programsHeroImageType } from './programsHeroImageType'
+import { programsPageType } from './programsPageType'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -31,5 +33,8 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     heroImageType,
     // Events Page
     eventsHeroImageType,
+    // Programs Page
+    programsHeroImageType,
+    programsPageType,
   ],
 }

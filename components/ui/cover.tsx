@@ -8,11 +8,13 @@ import { SparklesCore } from "@/components/ui/sparkles";
 export const Cover = ({
   children,
   className,
+  alwaysHovered = false,
 }: {
   children?: React.ReactNode;
   className?: string;
+  alwaysHovered?: boolean;
 }) => {
-  const [hovered, setHovered] = useState(true);
+  const [hovered, setHovered] = useState(alwaysHovered ? true : true);
 
   const ref = useRef<HTMLDivElement>(null);
 
@@ -35,10 +37,13 @@ export const Cover = ({
 
   return (
     <div
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
+      onMouseEnter={() => !alwaysHovered && setHovered(true)}
+      onMouseLeave={() => !alwaysHovered && setHovered(true)}
       ref={ref}
-      className="relative bg-[#6A1383]/20 backdrop-blur-sm group/cover inline-block px-2 py-2 transition duration-200 rounded-sm"
+      className={cn(
+        "relative bg-[#6A1383]/20 backdrop-blur-sm group/cover inline-block px-2 py-2 transition duration-200 rounded-sm",
+        className
+      )}
     >
       <motion.div
         initial={{ opacity: 1 }}

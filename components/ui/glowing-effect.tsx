@@ -9,7 +9,7 @@ interface GlowingEffectProps {
   inactiveZone?: number;
   proximity?: number;
   spread?: number;
-  variant?: "default" | "white";
+  variant?: "default" | "white" | "brand";
   glow?: boolean;
   className?: string;
   disabled?: boolean;
@@ -143,6 +143,19 @@ const GlowingEffect = memo(
                   from 236.84deg at 50% 50%,
                   var(--black),
                   var(--black) calc(25% / var(--repeating-conic-gradient-times))
+                )`
+                  : variant === "brand"
+                  ? `radial-gradient(circle, #6A1383 10%, #6A138300 20%),
+                radial-gradient(circle at 40% 40%, #38B6FF 5%, #38B6FF00 15%),
+                radial-gradient(circle at 60% 60%, #80569E 10%, #80569E00 20%), 
+                radial-gradient(circle at 40% 60%, #5a0f70 10%, #5a0f7000 20%),
+                repeating-conic-gradient(
+                  from 236.84deg at 50% 50%,
+                  #6A1383 0%,
+                  #38B6FF calc(25% / var(--repeating-conic-gradient-times)),
+                  #80569E calc(50% / var(--repeating-conic-gradient-times)), 
+                  #5a0f70 calc(75% / var(--repeating-conic-gradient-times)),
+                  #6A1383 calc(100% / var(--repeating-conic-gradient-times))
                 )`
                   : `radial-gradient(circle, #dd7bbb 10%, #dd7bbb00 20%),
                 radial-gradient(circle at 40% 40%, #d79f1e 5%, #d79f1e00 15%),
