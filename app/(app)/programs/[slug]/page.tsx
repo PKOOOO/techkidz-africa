@@ -2,10 +2,9 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { client } from "@/sanity/lib/client";
 import { urlFor } from "@/sanity/lib/image";
-import { TracingBeam } from "@/components/ui/tracing-beam";
-import { PortableText } from "@portabletext/react";
 import { Code, Shield, Bot, Film, Gamepad2, Monitor, LucideIcon } from "lucide-react";
 import { notFound } from "next/navigation";
+import { ProgramExpandableCards } from "@/components/app/ProgramExpandableCards";
 
 const iconMap: Record<string, LucideIcon> = {
     Code,
@@ -49,6 +48,27 @@ async function getProgramBySlug(slug: string) {
     return result;
 }
 
+async function getProgramItems(programId: string) {
+    const query = `*[_type == "programItem" && program._ref == $programId && isActive == true] | order(order asc) {
+        _id,
+        title,
+        description,
+        image,
+        content,
+        ctaText,
+        ctaLink,
+        order
+    }`;
+    
+    const items = await client.fetch(query, { programId });
+    
+    // Process items: convert images to URLs
+    return items.map((item: any) => ({
+        ...item,
+        imageUrl: item.image ? urlFor(item.image).url() : "",
+    }));
+}
+
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
     const { slug } = await params;
     const program = await getProgramBySlug(slug);
@@ -65,115 +85,6 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     };
 }
 
-const CheckIcon = () => {
-    return (
-        <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="currentColor"
-            className="h-4 w-4 text-[#38B6FF] mt-1 shrink-0"
-        >
-            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-            <path
-                d="M12 2c-.218 0 -.432 .002 -.642 .005l-.616 .017l-.299 .013l-.579 .034l-.553 .046c-4.785 .464 -6.732 2.411 -7.196 7.196l-.046 .553l-.034 .579c-.005 .098 -.01 .198 -.013 .299l-.017 .616l-.004 .318l-.001 .324c0 .218 .002 .432 .005 .642l.017 .616l.013 .299l.034 .579l.046 .553c.464 4.785 2.411 6.732 7.196 7.196l.553 .046l.579 .034c.098 .005 .198 .01 .299 .013l.616 .017l.642 .005l.642 -.005l.616 -.017l.299 -.013l.579 -.034l.553 -.046c4.785 -.464 6.732 -2.411 7.196 -7.196l.046 -.553l.034 -.579c.005 -.098 .01 -.198 .013 -.299l.017 -.616l.005 -.642l-.005 -.642l-.017 -.616l-.013 -.299l-.034 -.579l-.046 -.553c-.464 -4.785 -2.411 -6.732 -7.196 -7.196l-.553 -.046l-.579 -.034a28.058 28.058 0 0 0 -.299 -.013l-.616 -.017l-.318 -.004l-.324 -.001zm2.293 7.293a1 1 0 0 1 1.497 1.32l-.083 .094l-4 4a1 1 0 0 1 -1.32 .083l-.094 -.083l-2 -2a1 1 0 0 1 1.32 -1.497l.094 .083l1.293 1.292l3.293 -3.292z"
-                fill="currentColor"
-                strokeWidth="0"
-            />
-        </svg>
-    );
-};
-
-const portableTextComponents = {
-    types: {
-        image: ({ value }: any) => {
-            if (!value?.asset) return null;
-            const imageUrl = urlFor(value).url();
-            return (
-                <div className="my-8 rounded-lg overflow-hidden">
-                    <img 
-                        src={imageUrl} 
-                        alt={value.alt || "Program image"} 
-                        className="w-full rounded-lg shadow-lg"
-                    />
-                </div>
-            );
-        },
-    },
-    block: {
-        h1: ({ children }: any) => (
-            <h1 className="text-2xl md:text-3xl font-bold mt-10 mb-4 bg-gradient-to-r from-[#6A1383] to-[#38B6FF] bg-clip-text text-transparent">
-                {children}
-            </h1>
-        ),
-        h2: ({ children }: any) => (
-            <h2 className="text-xl md:text-2xl font-bold mt-8 mb-3 text-white">
-                {children}
-            </h2>
-        ),
-        h3: ({ children }: any) => (
-            <h3 className="text-lg md:text-xl font-semibold mt-6 mb-2 text-gray-200">
-                {children}
-            </h3>
-        ),
-        normal: ({ children }: any) => (
-            <p className="text-gray-300 mt-4 leading-relaxed text-base">
-                {children}
-            </p>
-        ),
-        blockquote: ({ children }: any) => (
-            <blockquote className="border-l-4 border-[#38B6FF] pl-4 my-6 italic text-gray-400 bg-neutral-900/50 py-3 rounded-r-lg">
-                {children}
-            </blockquote>
-        ),
-    },
-    list: {
-        bullet: ({ children }: any) => (
-            <ul className="list-none mt-4 space-y-3">{children}</ul>
-        ),
-        number: ({ children }: any) => (
-            <ol className="list-none mt-4 space-y-3">{children}</ol>
-        ),
-    },
-    listItem: {
-        bullet: ({ children }: any) => (
-            <li className="flex gap-3 items-start">
-                <CheckIcon />
-                <span className="text-gray-300">{children}</span>
-            </li>
-        ),
-        number: ({ children }: any) => (
-            <li className="flex gap-3 items-start">
-                <CheckIcon />
-                <span className="text-gray-300">{children}</span>
-            </li>
-        ),
-    },
-    marks: {
-        strong: ({ children }: any) => (
-            <strong className="font-bold text-white">{children}</strong>
-        ),
-        em: ({ children }: any) => (
-            <em className="italic text-gray-200">{children}</em>
-        ),
-        link: ({ value, children }: any) => {
-            const target = (value?.href || "").startsWith("http") ? "_blank" : undefined;
-            return (
-                <a
-                    href={value?.href}
-                    target={target}
-                    rel={target === "_blank" ? "noopener noreferrer" : undefined}
-                    className="text-[#38B6FF] hover:text-[#6A1383] underline underline-offset-2 transition-colors"
-                >
-                    {children}
-                </a>
-            );
-        },
-    },
-};
-
-
 export default async function ProgramDetailPage({ params }: { params: Promise<{ slug: string }> }) {
     const { slug } = await params;
     const program = await getProgramBySlug(slug);
@@ -184,11 +95,19 @@ export default async function ProgramDetailPage({ params }: { params: Promise<{ 
     
     const Icon = iconMap[program.iconName] || Code;
     const heroImageUrl = program.heroImageUrl;
+    
+    // Fetch program items/modules
+    let programItems: any[] = [];
+    try {
+        programItems = await getProgramItems(program._id);
+    } catch (error) {
+        console.error("Error fetching program items:", error);
+    }
 
     return (
         <>
             {/* Hero Section */}
-            <section className="relative overflow-hidden h-[300px] md:h-[400px] z-0">
+            <section className="relative overflow-visible h-[300px] md:h-[400px] z-20">
                 {/* Background Image */}
                 {heroImageUrl && (
                     <div className="absolute inset-0 z-0 h-full w-full">
@@ -205,22 +124,36 @@ export default async function ProgramDetailPage({ params }: { params: Promise<{ 
                 {/* Overlay */}
                 <div className="absolute inset-0 bg-[#6A1383]/5 z-0 h-[300px] md:h-[400px]" />
                 
-                {/* Bottom blur gradient - dark to match content section */}
-                <div className="absolute bottom-0 z-30 inset-x-0 h-32 md:h-40 w-full pointer-events-none">
-                    <div className="absolute inset-0 backdrop-blur-xl" style={{ maskImage: 'linear-gradient(to top, black 0%, black 30%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to top, black 0%, black 30%, transparent 100%)' }} />
-                    <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.85) 15%, rgba(0,0,0,0.7) 30%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0.15) 85%, rgba(0,0,0,0.05) 95%, transparent 100%)' }} />
-                    
-                    {/* Text in middle of blur area */}
-                    <div className="absolute inset-0 flex items-end justify-center pb-2 md:pb-4 z-10">
-                        <h1 className="text-2xl md:text-3xl font-bold text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
-                            {program.title}
-                        </h1>
-                    </div>
+                {/* Bottom blur gradient - light blend into white content (match Events page) */}
+                <div className="absolute bottom-0 z-30 inset-x-0 h-24 md:h-32 w-full pointer-events-none">
+                    <div
+                        className="absolute inset-0 backdrop-blur-lg"
+                        style={{
+                            maskImage: "linear-gradient(to top, black 0%, black 40%, transparent 100%)",
+                            WebkitMaskImage: "linear-gradient(to top, black 0%, black 40%, transparent 100%)",
+                        }}
+                    />
+                    <div
+                        className="absolute inset-0"
+                        style={{
+                            background:
+                                "linear-gradient(to top, rgb(255,255,255) 0%, rgb(255,255,255) 5%, rgba(255,255,255,0.98) 10%, rgba(255,255,255,0.9) 20%, rgba(255,255,255,0.75) 35%, rgba(255,255,255,0.5) 55%, rgba(255,255,255,0.25) 75%, rgba(255,255,255,0.1) 90%, transparent 100%)",
+                            maskImage: "linear-gradient(to top, black 0%, transparent 70%)",
+                            WebkitMaskImage: "linear-gradient(to top, black 0%, transparent 70%)",
+                        }}
+                    />
+                </div>
+                
+                {/* Text in middle of blur area */}
+                <div className="absolute bottom-0 z-40 inset-x-0 h-24 md:h-32 w-full flex items-center justify-center translate-y-16 md:translate-y-20 pointer-events-none">
+                    <h1 className="text-2xl md:text-3xl font-bold text-gradient-blue drop-shadow-[0_2px_4px_rgba(255,255,255,0.8)]">
+                        {program.title}
+                    </h1>
                 </div>
             </section>
 
             {/* Content Section */}
-            <section className="section-padding bg-neutral-950">
+            <section className="section-padding bg-white dark:bg-neutral-950 relative pt-20 md:pt-24">
                 <div className="container-custom">
                     <Link 
                         href="/programs" 
@@ -235,24 +168,28 @@ export default async function ProgramDetailPage({ params }: { params: Promise<{ 
                             <div className="bg-gradient-to-br from-[#6A1383] to-[#38B6FF] text-white w-16 h-16 rounded-xl flex items-center justify-center mb-6">
                                 <Icon size={32} />
                             </div>
-                            <p className="text-lg md:text-xl text-gray-300 leading-relaxed">
+                            <p className="text-lg md:text-xl text-neutral-700 dark:text-gray-300 leading-relaxed">
                                 {program.description}
                             </p>
                         </div>
 
-                        {/* Rich Content with TracingBeam */}
-                        {program.content && program.content.length > 0 ? (
-                            <TracingBeam className="px-6">
-                                <div className="max-w-2xl mx-auto antialiased pt-4 relative">
-                                    <PortableText 
-                                        value={program.content} 
-                                        components={portableTextComponents}
-                                    />
-                                </div>
-                            </TracingBeam>
+                        {/* Program Items/Modules with Expandable Cards */}
+                        {programItems.length > 0 ? (
+                            <div className="mt-12">
+                                <ProgramExpandableCards items={programItems} />
+                            </div>
+                        ) : program.content && program.content.length > 0 ? (
+                            <div className="text-center py-12">
+                                <p className="text-neutral-600 dark:text-gray-400 mb-4">
+                                    Program modules coming soon...
+                                </p>
+                                <p className="text-sm text-neutral-500 dark:text-gray-500">
+                                    Check back later for detailed program content.
+                                </p>
+                            </div>
                         ) : (
                             <div className="text-center py-12">
-                                <p className="text-gray-400">
+                                <p className="text-neutral-600 dark:text-gray-400">
                                     Detailed content coming soon...
                                 </p>
                             </div>
