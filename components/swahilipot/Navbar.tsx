@@ -13,14 +13,15 @@ import {
     NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 
-const programs = [
-    { name: "All Programs", href: "/programs", description: "Overview of all our programs" },
-    { name: "Case Management", href: "/programs/case-management", description: "Personalized youth support" },
-    { name: "Tourism Innovation Lab", href: "/programs/tourism-innovation-lab", description: "Transforming tourism through tech" },
-    { name: "Employer Engagement", href: "/programs/employer-engagement", description: "Youth employment program" },
-    { name: "Campus Ambassador", href: "/programs/campus-ambassador", description: "University outreach program" },
-    { name: "Swahili Tech Women", href: "/programs/swahili-tech-women", description: "Women in technology initiative" },
-];
+type Program = {
+    _id: string;
+    title: string;
+    href: string;
+};
+
+type NavbarProps = {
+    programs?: Program[];
+};
 
 const departments = [
     { name: "Communication", href: "/department/communication", description: "Strategic messaging and media" },
@@ -29,10 +30,20 @@ const departments = [
     { name: "Community & Entrepreneurship", href: "/department/community-entrepreneurship", description: "Business development and community support" },
 ];
 
-export function Navbar() {
+export function Navbar({ programs = [] }: NavbarProps) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+
+    // Add "All Programs" as the first item
+    const allPrograms = [
+        { _id: "all", title: "All Programs", href: "/programs" },
+        ...programs.map((p) => ({
+            _id: p._id,
+            title: p.title,
+            href: p.href,
+        })),
+    ];
 
     return (
         <nav className="sticky top-0 z-40 w-full bg-white/90 backdrop-blur-sm border-b shadow-sm">
@@ -66,14 +77,13 @@ export function Navbar() {
                                 </NavigationMenuTrigger>
                                 <NavigationMenuContent>
                                     <div className="grid grid-cols-2 w-[500px] gap-3 p-4">
-                                        {programs.map((item) => (
+                                        {allPrograms.map((item) => (
                                             <Link
-                                                key={item.href}
+                                                key={item._id || item.href}
                                                 href={item.href}
-                                                className="block p-3 space-y-1 rounded-md hover:bg-gray-100"
+                                                className="block p-3 rounded-md hover:bg-gray-100"
                                             >
-                                                <div className="font-medium">{item.name}</div>
-                                                <div className="text-sm text-gray-600">{item.description}</div>
+                                                <div className="font-medium">{item.title}</div>
                                             </Link>
                                         ))}
                                     </div>
@@ -149,14 +159,14 @@ export function Navbar() {
                                 </Link>
                             </div>
                             <div className="pl-4 mt-2 border-l border-gray-200 space-y-2">
-                                {programs.slice(1).map((item) => (
+                                {programs.map((item) => (
                                     <Link
-                                        key={item.href}
+                                        key={item._id || item.href}
                                         href={item.href}
                                         className="block text-sm text-gray-600 hover:text-swahilipot-600 py-1"
                                         onClick={toggleMenu}
                                     >
-                                        {item.name}
+                                        {item.title}
                                     </Link>
                                 ))}
                             </div>

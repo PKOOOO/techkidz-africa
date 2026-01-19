@@ -1,84 +1,87 @@
 import { Impact } from "@/components/swahilipot";
-import { TrendingUp, Users, Award, Globe } from "lucide-react";
+import { client } from "@/sanity/lib/client";
+import { urlFor } from "@/sanity/lib/image";
+
+async function getImpactHeroImage() {
+    const query = `*[_type == "impactHeroImage" && isActive == true][0] {
+        image
+    }`;
+    
+    const result = await client.fetch(query);
+    if (result?.image) {
+        return urlFor(result.image).url();
+    }
+    return null;
+}
+
+async function getImpactStats() {
+    const query = `*[_type == "impactStat" && isActive == true] | order(order asc) {
+        _id,
+        value,
+        label,
+        iconName,
+        description,
+        order
+    }`;
+    
+    return await client.fetch(query);
+}
 
 export const metadata = {
     title: "Our Impact | Swahilipot Hub Foundation",
     description: "See how Swahilipot Hub is making a difference in the lives of young people across East Africa.",
 };
 
-const impactDetails = [
-    {
-        title: "Youth Reached",
-        value: "10,000+",
-        description: "Young people have participated in our programs and events since inception.",
-        icon: Users,
-    },
-    {
-        title: "Jobs Created",
-        value: "500+",
-        description: "Employment opportunities facilitated through our employer engagement programs.",
-        icon: TrendingUp,
-    },
-    {
-        title: "Skills Training",
-        value: "200+",
-        description: "Youth have completed our skills development and training programs.",
-        icon: Award,
-    },
-    {
-        title: "Global Partners",
-        value: "50+",
-        description: "Organizations from around the world partnering with us on youth development.",
-        icon: Globe,
-    },
-];
+export default async function ImpactPage() {
+    let heroImageUrl: string | null = null;
+    let impactStats: any[] = [];
+    
+    try {
+        heroImageUrl = await getImpactHeroImage();
+        impactStats = await getImpactStats();
+    } catch (error) {
+        console.error("Error fetching impact data:", error);
+    }
 
-export default function ImpactPage() {
     return (
         <>
             {/* Hero Section */}
-            <section className="section-padding bg-swahilipot-50">
-                <div className="container-custom">
-                    <div className="max-w-3xl mx-auto text-center">
-                        <h1 className="text-4xl md:text-5xl font-bold mb-6">
+            <section className="relative overflow-hidden h-[300px] md:h-[400px] z-0">
+                {/* Background Image */}
+                {heroImageUrl && (
+                    <div className="absolute inset-0 z-0">
+                        <div
+                            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+                            style={{
+                                backgroundImage: `url(${heroImageUrl})`,
+                                backgroundSize: 'cover',
+                                backgroundPosition: 'center',
+                            }}
+                        />
+                    </div>
+                )}
+                
+                {/* Overlay */}
+                <div className="absolute inset-0 bg-[#6A1383]/5 z-0 h-[300px] md:h-[400px]" />
+                
+                {/* Bottom blur gradient */}
+                <div className="absolute bottom-0 z-30 inset-x-0 h-24 md:h-32 w-full pointer-events-none">
+                    <div className="absolute inset-0 backdrop-blur-lg" style={{ maskImage: 'linear-gradient(to top, black 0%, black 40%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to top, black 0%, black 40%, transparent 100%)' }} />
+                    <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgb(255,255,255) 0%, rgb(255,255,255) 5%, rgba(255,255,255,0.98) 10%, rgba(255,255,255,0.9) 20%, rgba(255,255,255,0.75) 35%, rgba(255,255,255,0.5) 55%, rgba(255,255,255,0.25) 75%, rgba(255,255,255,0.1) 90%, transparent 100%)', maskImage: 'linear-gradient(to top, black 0%, transparent 70%)', WebkitMaskImage: 'linear-gradient(to top, black 0%, transparent 70%)' }} />
+                    
+                    {/* Text in middle of blur area */}
+                    <div className="absolute inset-0 flex items-end justify-center pb-2 md:pb-4 z-10">
+                        <h1 className="text-2xl md:text-3xl font-bold text-gradient-blue drop-shadow-[0_2px_4px_rgba(255,255,255,0.8)]">
                             Our <span className="text-gradient-blue">Impact</span>
                         </h1>
-                        <p className="text-lg text-gray-700">
-                            Measuring our success through the lives we've touched and communities we've transformed.
-                        </p>
                     </div>
                 </div>
             </section>
 
             {/* Impact Stats */}
-            <Impact />
-
-            {/* Detailed Impact */}
-            <section className="section-padding">
-                <div className="container-custom">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        {impactDetails.map((item) => (
-                            <div
-                                key={item.title}
-                                className="bg-white rounded-xl border shadow-sm p-8"
-                            >
-                                <div className="flex items-start gap-4">
-                                    <div className="bg-swahilipot-100 text-swahilipot-600 w-14 h-14 rounded-lg flex items-center justify-center shrink-0">
-                                        <item.icon size={28} />
-                                    </div>
-                                    <div>
-                                        <div className="text-3xl font-bold text-swahilipot-600 mb-1">
-                                            {item.value}
-                                        </div>
-                                        <h3 className="text-lg font-semibold mb-2">{item.title}</h3>
-                                        <p className="text-gray-600">{item.description}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
+            <div className="relative pt-8 md:pt-12">
+                <Impact stats={impactStats} />
+            </div>
 
             {/* Success Stories */}
             <section className="section-padding bg-gray-50">

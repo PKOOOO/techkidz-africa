@@ -8,14 +8,14 @@ import { ChatStoreProvider } from "@/lib/store/chat-store-provider";
 import { ChatSheet } from "@/components/app/ChatSheet";
 import { FloatingChatTrigger } from "@/components/app/FloatingChatTrigger";
 import { MainContentWrapper } from "@/components/app/MainContentWrapper";
-import { Navbar, Footer } from "@/components/swahilipot";
+import { NavbarWrapper, Footer } from "@/components/swahilipot";
 
 function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <ClerkProvider>
       <ChatStoreProvider>
         <MainContentWrapper>
-          <Navbar />
+          <NavbarWrapper />
           <main className="flex-grow">{children}</main>
           <Footer />
         </MainContentWrapper>

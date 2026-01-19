@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Facebook, Twitter, Instagram, Linkedin, Youtube } from "lucide-react";
+import { client } from "@/sanity/lib/client";
 
 const quickLinks = [
     { name: "About Us", href: "/about" },
@@ -10,23 +11,32 @@ const quickLinks = [
     { name: "Contact", href: "/contact" },
 ];
 
-const programs = [
-    { name: "Case Management", href: "/programs/case-management" },
-    { name: "Tourism Innovation Lab", href: "/programs/tourism-innovation-lab" },
-    { name: "Swahili Tech Women", href: "/programs/swahili-tech-women" },
-    { name: "Employer Engagement", href: "/programs/employer-engagement" },
-];
-
 const socialLinks = [
-    { name: "Facebook", icon: Facebook, href: "https://facebook.com/swahilipothub" },
-    { name: "Twitter", icon: Twitter, href: "https://twitter.com/swahilipothub" },
-    { name: "Instagram", icon: Instagram, href: "https://instagram.com/swahilipothub" },
-    { name: "LinkedIn", icon: Linkedin, href: "https://linkedin.com/company/swahilipothub" },
-    { name: "YouTube", icon: Youtube, href: "https://youtube.com/@swahilipothub" },
+    { name: "Facebook", icon: Facebook, href: "https://facebook.com/techkidzafrica" },
+    { name: "Twitter", icon: Twitter, href: "https://twitter.com/techkidzafrica" },
+    { name: "Instagram", icon: Instagram, href: "https://instagram.com/techkidzafrica" },
+    { name: "LinkedIn", icon: Linkedin, href: "https://linkedin.com/company/techkidzafrica" },
+    { name: "YouTube", icon: Youtube, href: "https://youtube.com/@techkidzafrica" },
 ];
 
-export function Footer() {
+async function getPrograms() {
+    const query = `*[_type == "programsPage" && isActive == true] | order(order asc) {
+        _id,
+        title,
+        href
+    }`;
+    
+    try {
+        return await client.fetch(query);
+    } catch (error) {
+        console.error("Error fetching programs for footer:", error);
+        return [];
+    }
+}
+
+export async function Footer() {
     const currentYear = new Date().getFullYear();
+    const programs = await getPrograms();
 
     return (
         <footer className="bg-swahilipot-950 text-white">
@@ -37,7 +47,7 @@ export function Footer() {
                         <Link href="/" className="inline-block mb-4">
                             <Image
                                 src="/logo.svg"
-                                alt="Swahilipot Hub"
+                                alt="Tech Kidz Africa"
                                 width={180}
                                 height={50}
                                 className="brightness-0 invert"
@@ -83,41 +93,50 @@ export function Footer() {
                     <div>
                         <h3 className="font-semibold text-lg mb-4">Programs</h3>
                         <ul className="space-y-2">
-                            {programs.map((link) => (
-                                <li key={link.href}>
-                                    <Link
-                                        href={link.href}
-                                        className="text-swahilipot-300 hover:text-white transition-colors text-sm"
-                                    >
-                                        {link.name}
-                                    </Link>
-                                </li>
-                            ))}
+                            {programs.length > 0 ? (
+                                programs.map((program) => (
+                                    <li key={program._id || program.href}>
+                                        <Link
+                                            href={program.href}
+                                            className="text-swahilipot-300 hover:text-white transition-colors text-sm"
+                                        >
+                                            {program.title}
+                                        </Link>
+                                    </li>
+                                ))
+                            ) : (
+                                <li className="text-swahilipot-400 text-sm">No programs available</li>
+                            )}
                         </ul>
                     </div>
 
                     {/* Contact */}
                     <div>
-                        <h3 className="font-semibold text-lg mb-4">Contact Us</h3>
-                        <address className="text-swahilipot-300 text-sm not-italic space-y-2">
-                            <p>Fort Jesus Road, Old Town</p>
-                            <p>Mombasa, Kenya</p>
+                        <h3 className="font-semibold text-lg mb-4">Contact us</h3>
+                        <div className="text-swahilipot-300 text-sm space-y-2">
                             <p>
-                                <a href="mailto:info@swahilipothub.co.ke" className="hover:text-white transition-colors">
-                                    info@swahilipothub.co.ke
+                                <a href="tel:+254780754126" className="hover:text-white transition-colors">
+                                    (+254) 780 754126
                                 </a>
                             </p>
-                            <p>
-                                <a href="tel:+254700000000" className="hover:text-white transition-colors">
-                                    +254 700 000 000
-                                </a>
-                            </p>
-                        </address>
+                            <div>
+                                <p className="mb-1">Email Us</p>
+                                <p>
+                                    <a href="mailto:info@techkidzafrica.co.ke" className="hover:text-white transition-colors">
+                                        info@techkidzafrica.co.ke
+                                    </a>
+                                </p>
+                            </div>
+                            <div>
+                                <p className="mb-1">Headquarters</p>
+                                <p>Ratna Square, Mombasa</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <div className="border-t border-swahilipot-800 mt-8 pt-8 text-center text-swahilipot-400 text-sm">
-                    <p>&copy; {currentYear} Swahilipot Hub Foundation. All rights reserved.</p>
+                    <p>&copy; {currentYear} Tech Kidz Africa. All rights reserved.</p>
                 </div>
             </div>
         </footer>

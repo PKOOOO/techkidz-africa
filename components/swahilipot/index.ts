@@ -1,4 +1,5 @@
 export { Navbar } from "./Navbar";
+export { NavbarWrapper } from "./NavbarWrapper";
 export { Hero } from "./Hero";
 export { About } from "./About";
 export { Programs } from "./Programs";

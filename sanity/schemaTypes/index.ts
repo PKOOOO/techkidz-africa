@@ -14,6 +14,8 @@ import { eventsHeroImageType } from './eventsHeroImageType'
 import { programsHeroImageType } from './programsHeroImageType'
 import { programsPageType } from './programsPageType'
 import { programItemType } from './programItemType'
+import { impactHeroImageType } from './impactHeroImageType'
+import { impactStatType } from './impactStatType'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -38,5 +40,8 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     programsHeroImageType,
     programsPageType,
     programItemType,
+    // Impact Page
+    impactHeroImageType,
+    impactStatType,
   ],
 }
