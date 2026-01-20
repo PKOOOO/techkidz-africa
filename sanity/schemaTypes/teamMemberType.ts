@@ -20,12 +20,6 @@ export const teamMemberType = defineType({
             validation: (rule) => rule.required(),
         }),
         defineField({
-            name: "department",
-            title: "Department",
-            type: "reference",
-            to: [{ type: "department" }],
-        }),
-        defineField({
             name: "bio",
             title: "Short Bio",
             type: "text",

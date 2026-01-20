@@ -1,4 +1,5 @@
 import { Impact } from "@/components/swahilipot";
+import Carousel from "@/components/ui/carousel2";
 import { client } from "@/sanity/lib/client";
 import { urlFor } from "@/sanity/lib/image";
 
@@ -27,6 +28,22 @@ async function getImpactStats() {
     return await client.fetch(query);
 }
 
+async function getTeamMembers() {
+    const query = `*[_type == "teamMember" && (!defined(isActive) || isActive == true)] | order(order asc) {
+        _id,
+        name,
+        role,
+        bio,
+        image
+    }`;
+
+    const members = await client.fetch(query);
+    return members.map((member: any) => ({
+        ...member,
+        imageUrl: member.image ? urlFor(member.image).width(800).height(800).url() : "/images/team/placeholder.jpg",
+    }));
+}
+
 export const metadata = {
     title: "Our Impact | Swahilipot Hub Foundation",
     description: "See how Swahilipot Hub is making a difference in the lives of young people across East Africa.",
@@ -35,10 +52,12 @@ export const metadata = {
 export default async function ImpactPage() {
     let heroImageUrl: string | null = null;
     let impactStats: any[] = [];
+    let teamMembers: any[] = [];
     
     try {
         heroImageUrl = await getImpactHeroImage();
         impactStats = await getImpactStats();
+        teamMembers = await getTeamMembers();
     } catch (error) {
         console.error("Error fetching impact data:", error);
     }
@@ -82,6 +101,30 @@ export default async function ImpactPage() {
             <div className="relative pt-8 md:pt-12">
                 <Impact stats={impactStats} />
             </div>
+
+            {/* Team Carousel */}
+            {teamMembers.length > 0 && (
+                <section className="section-padding bg-white dark:bg-neutral-950 overflow-x-hidden">
+                    <div className="container-custom text-center overflow-x-hidden">
+                        <h2 className="text-3xl md:text-4xl font-bold mb-4">
+                            Our <span className="text-gradient-blue">Team</span>
+                        </h2>
+                        <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-10">
+                            Meet the leaders behind the impact. Tap to explore their vision.
+                        </p>
+                        <div className="flex justify-center">
+                            <Carousel
+                                slides={teamMembers.map((member) => ({
+                                    title: member.name,
+                                    role: member.role,
+                                    vision: member.bio || undefined,
+                                    src: member.imageUrl,
+                                }))}
+                            />
+                        </div>
+                    </div>
+                </section>
+            )}
 
             {/* Success Stories */}
             <section className="section-padding bg-gray-50">
