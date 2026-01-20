@@ -64,33 +64,25 @@ const Slide = ({ slide, index, current, handleSlideClick }: SlideProps) => {
   const { src, button, title, role, vision } = slide;
 
   return (
-    <div className="perspective-distant transform-3d">
+    <div className="[perspective:1200px] [transform-style:preserve-3d]">
       <li
         ref={slideRef}
-        className="flex flex-1 flex-col items-center justify-center relative text-center text-white opacity-100 transition-all duration-300 ease-in-out w-[70vmin] h-[70vmin] mx-[4vmin] z-10 "
+        className="flex flex-1 flex-col items-center justify-center relative text-center text-white opacity-100 transition-all duration-300 ease-in-out w-[70vmin] h-[70vmin] mx-[4vmin] md:mx-[1vmin] z-10"
+        onClick={() => handleSlideClick(index)}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+        style={{
+          transform:
+            current !== index
+              ? "scale(0.98) rotateX(8deg)"
+              : "scale(1) rotateX(0deg)",
+          transition: "transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)",
+          transformOrigin: "bottom",
+          cursor: "pointer",
+        }}
       >
-        <button
-          type="button"
-          className="relative block w-full h-full text-center"
-          onClick={() => handleSlideClick(index)}
-          onKeyDown={(event) => {
-            if (event.key === "Enter" || event.key === " ") {
-              handleSlideClick(index);
-            }
-          }}
-          onMouseMove={handleMouseMove}
-          onMouseLeave={handleMouseLeave}
-          style={{
-            transform:
-              current !== index
-                ? "scale(0.98) rotateX(8deg)"
-                : "scale(1) rotateX(0deg)",
-            transition: "transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)",
-            transformOrigin: "bottom",
-          }}
-        >
-          <div
-          className="absolute top-0 left-0 w-full h-full bg-[#1D1F2F] rounded-[1%] overflow-hidden transition-all duration-150 ease-out"
+        <div
+          className="absolute top-0 left-0 w-full h-full bg-neutral-50 dark:bg-neutral-950 rounded-[1%] overflow-hidden transition-all duration-150 ease-out"
           style={{
             transform:
               current === index
@@ -101,7 +93,7 @@ const Slide = ({ slide, index, current, handleSlideClick }: SlideProps) => {
           <Image
             fill
             sizes="(min-width: 1024px) 70vmin, (min-width: 640px) 80vmin, 100vw"
-            className="absolute inset-0 object-cover opacity-100 transition-opacity duration-600 ease-in-out"
+            className="absolute inset-0 object-cover object-center opacity-100 transition-opacity duration-600 ease-in-out"
             style={{
               opacity: current === index ? 1 : 0.5,
             }}
@@ -112,38 +104,37 @@ const Slide = ({ slide, index, current, handleSlideClick }: SlideProps) => {
           {current === index && (
             <div className="absolute inset-0 bg-black/30 transition-all duration-1000" />
           )}
-          </div>
+        </div>
 
-          <article
-            className={`relative p-[4vmin] transition-opacity duration-1000 ease-in-out ${
-              current === index ? "opacity-100 visible" : "opacity-0 invisible"
-            }`}
-          >
-            <h2 className="text-lg md:text-2xl lg:text-4xl font-semibold  relative">
-              {title}
-            </h2>
-            {role ? (
-              <p className="mt-2 text-sm md:text-base text-neutral-200/90">
-                {role}
-              </p>
-            ) : null}
-            {vision ? (
-              <p className="mt-3 text-xs md:text-sm text-neutral-200/80">
-                Vision: {vision}
-              </p>
-            ) : null}
-            {button ? (
-              <div className="flex justify-center">
-                <button
-                  type="button"
-                  className="mt-6 px-4 py-2 w-fit mx-auto sm:text-sm text-black bg-white h-12 border border-transparent text-xs flex justify-center items-center rounded-2xl hover:shadow-lg transition duration-200 shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]"
-                >
-                  {button}
-                </button>
-              </div>
-            ) : null}
-          </article>
-        </button>
+        <article
+          className={`relative p-[4vmin] transition-opacity duration-1000 ease-in-out ${
+            current === index ? "opacity-100 visible" : "opacity-0 invisible"
+          }`}
+        >
+          <h2 className="text-lg md:text-2xl lg:text-4xl font-semibold relative">
+            {title}
+          </h2>
+          {role ? (
+            <p className="mt-2 text-sm md:text-base text-neutral-200/90">
+              {role}
+            </p>
+          ) : null}
+          {vision ? (
+            <p className="mt-3 text-xs md:text-sm text-neutral-200/80">
+              Vision: {vision}
+            </p>
+          ) : null}
+          {button ? (
+            <div className="flex justify-center">
+              <button
+                type="button"
+                className="mt-6 px-4 py-2 w-fit mx-auto sm:text-sm text-black bg-white h-12 border border-transparent text-xs flex justify-center items-center rounded-2xl hover:shadow-lg transition duration-200 shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]"
+              >
+                {button}
+              </button>
+            </div>
+          ) : null}
+        </article>
       </li>
     </div>
   );
@@ -163,7 +154,7 @@ const CarouselControl = ({
   return (
     <button
       type="button"
-      className={`w-10 h-10 flex items-center mx-2 justify-center bg-neutral-200 dark:bg-neutral-800 border-3 border-transparent rounded-full focus:border-[#6D64F7] focus:outline-none hover:-translate-y-0.5 active:translate-y-0.5 transition duration-200 ${
+      className={`w-10 h-10 flex items-center mx-2 justify-center bg-neutral-200 dark:bg-neutral-800 border-transparent rounded-full outline-none focus:outline-none hover:-translate-y-0.5 active:translate-y-0.5 transition duration-200 ${
         type === "previous" ? "rotate-180" : ""
       }`}
       title={title}
@@ -203,27 +194,30 @@ export default function Carousel({ slides }: CarouselProps) {
   };
 
   return (
-    <div
-      className="relative w-full max-w-[70vmin] h-[70vmin] mx-auto overflow-x-hidden"
-    >
-      <ul
-        className="absolute flex mx-[-4vmin] transition-transform duration-1000 ease-in-out"
-        style={{
-          transform: `translateX(-${current * (100 / length)}%)`,
-        }}
+    <div className="flex flex-col items-center gap-6 w-full overflow-hidden">
+      <div
+        className="relative w-[70vmin] h-[70vmin]"
+        aria-labelledby="carousel-heading"
       >
-        {slides.map((slide, index) => (
-          <Slide
-            key={`${slide.title}-${slide.src}-${index}`}
-            slide={slide}
-            index={index}
-            current={current}
-            handleSlideClick={handleSlideClick}
-          />
-        ))}
-      </ul>
+        <ul
+          className="absolute flex mx-[-4vmin] md:mx-[-1vmin] transition-transform duration-1000 ease-in-out"
+          style={{
+            transform: `translateX(-${current * (100 / length)}%)`,
+          }}
+        >
+          {slides.map((slide, index) => (
+            <Slide
+              key={`${slide.title}-${slide.src}-${index}`}
+              slide={slide}
+              index={index}
+              current={current}
+              handleSlideClick={handleSlideClick}
+            />
+          ))}
+        </ul>
+      </div>
 
-      <div className="absolute inset-x-0 bottom-4 flex justify-center w-full">
+      <div className="flex justify-center gap-2">
         <CarouselControl
           type="previous"
           title="Go to previous slide"

@@ -5,5 +5,6 @@ export { About } from "./About";
 export { Programs } from "./Programs";
 export { Impact } from "./Impact";
 export { Team } from "./Team";
+export { TeamWrapper } from "./TeamWrapper";
 export { Contact } from "./Contact";
 export { Footer } from "./Footer";
