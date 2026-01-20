@@ -29,7 +29,7 @@ export function Impact({ stats }: ImpactProps) {
     }
 
     return (
-        <section id="impact" className="section-padding bg-white dark:bg-swahilipot-900">
+        <section id="impact" className="pt-16 md:pt-24 pb-4 md:pb-6 bg-white dark:bg-swahilipot-900">
             <div className="container-custom">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
                     {stats.map((stat) => {

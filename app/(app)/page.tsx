@@ -1,4 +1,4 @@
-import { Hero, About, Programs, Impact, Team, Contact } from "@/components/swahilipot";
+import { Hero, About, Programs, Impact, TeamWrapper, Contact } from "@/components/swahilipot";
 import { client } from "@/sanity/lib/client";
 import { urlFor } from "@/sanity/lib/image";
 
@@ -72,7 +72,7 @@ export default async function HomePage() {
       <About />
       <Programs />
       <Impact stats={impactStats} />
-      <Team />
+      <TeamWrapper />
       <Contact />
     </>
   );

@@ -1,66 +1,55 @@
-import Image from "next/image";
+"use client";
 
-const teamMembers = [
-    {
-        name: "Team Member 1",
-        role: "Executive Director",
-        image: "/images/team/placeholder.jpg",
-    },
-    {
-        name: "Team Member 2",
-        role: "Program Manager",
-        image: "/images/team/placeholder.jpg",
-    },
-    {
-        name: "Team Member 3",
-        role: "Tech Lead",
-        image: "/images/team/placeholder.jpg",
-    },
-    {
-        name: "Team Member 4",
-        role: "Community Manager",
-        image: "/images/team/placeholder.jpg",
-    },
-];
+import Carousel from "@/components/ui/carousel2";
 
-export function Team() {
+type TeamMember = {
+    _id: string;
+    name: string;
+    role: string;
+    bio?: string;
+    imageUrl?: string;
+    linkedin?: string;
+    twitter?: string;
+};
+
+type TeamProps = {
+    members: TeamMember[];
+};
+
+export function Team({ members }: TeamProps) {
+    const slides = members.map((member) => ({
+        title: member.name,
+        src: member.imageUrl || "/images/team/placeholder.jpg",
+        role: member.role,
+        vision: member.bio,
+    }));
+
     return (
-        <section id="team" className="section-padding">
-            <div className="container-custom">
-                <div className="text-center mb-12">
+        <section id="team" className="pt-0 pb-16 md:pb-24 bg-neutral-50 dark:bg-neutral-950 overflow-clip">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="text-center mb-4">
                     <h2 className="text-3xl md:text-4xl font-bold mb-4">
                         Our <span className="text-gradient-blue">Team</span>
                     </h2>
-                    <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                        Meet the dedicated individuals driving change at Swahilipot Hub.
+                    <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+                        Meet the leaders behind the impact. Tap to explore their vision.
                     </p>
                 </div>
-
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                    {teamMembers.map((member) => (
-                        <div
-                            key={member.name}
-                            className="text-center group"
-                        >
-                            <div className="relative w-32 h-32 mx-auto mb-4 rounded-full overflow-hidden bg-swahilipot-100">
-                                <div className="absolute inset-0 flex items-center justify-center">
-                                    <span className="text-swahilipot-400 text-4xl font-bold">
-                                        {member.name.charAt(0)}
-                                    </span>
-                                </div>
-                            </div>
-                            <h3 className="font-semibold text-lg group-hover:text-swahilipot-600 transition-colors">
-                                {member.name}
-                            </h3>
-                            <p className="text-gray-600 text-sm">{member.role}</p>
-                        </div>
-                    ))}
-                </div>
-
-                <p className="text-center text-gray-500 mt-8">
-                    Team members are managed through Sanity Studio
-                </p>
             </div>
+
+            {members.length > 0 ? (
+                <div className="container-custom pt-4 pb-4">
+                    <div className="flex justify-center overflow-x-hidden">
+                        <Carousel slides={slides} />
+                    </div>
+                </div>
+            ) : (
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <p className="text-center text-gray-500">
+                        Team members are managed through Sanity Studio
+                    </p>
+                </div>
+            )}
         </section>
     );
 }

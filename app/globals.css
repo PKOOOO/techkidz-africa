@@ -365,3 +365,27 @@
 .animate-float {
   animation: float 4s ease-in-out infinite;
 }
+
+/* Prevent horizontal scroll on page */
+html,
+body {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+/* Hide horizontal scrollbar specifically */
+html::-webkit-scrollbar:horizontal,
+body::-webkit-scrollbar:horizontal {
+  height: 0;
+  display: none;
+}
+
+/* Remove focus outlines from carousel elements */
+#team button:focus,
+#team button:focus-visible,
+#team li:focus,
+#team li:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+  border-color: transparent !important;
+}
