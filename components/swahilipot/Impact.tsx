@@ -23,6 +23,11 @@ type ImpactProps = {
 };
 
 export function Impact({ stats }: ImpactProps) {
+    // Safety check: if stats is undefined or empty, return early
+    if (!stats || stats.length === 0) {
+        return null;
+    }
+
     return (
         <section id="impact" className="section-padding bg-white dark:bg-swahilipot-900">
             <div className="container-custom">

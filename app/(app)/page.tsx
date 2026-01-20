@@ -23,8 +23,27 @@ async function getHeroImages() {
     .filter((url: string | null): url is string => Boolean(url));
 }
 
+async function getImpactStats() {
+  const query = `*[_type == "impactStat" && isActive == true] | order(order asc) {
+    _id,
+    value,
+    label,
+    iconName,
+    description,
+    order
+  }`;
+  
+  try {
+    return await client.fetch(query);
+  } catch (error) {
+    console.error("Error fetching impact stats:", error);
+    return [];
+  }
+}
+
 export default async function HomePage() {
   let heroImages: string[] = [];
+  let impactStats: any[] = [];
   
   try {
     heroImages = await getHeroImages();
@@ -39,12 +58,20 @@ export default async function HomePage() {
     heroImages = ["/hero1.jpg", "/hero2.jpg"];
   }
 
+  // Fetch impact stats
+  try {
+    impactStats = await getImpactStats();
+  } catch (error) {
+    console.error("Error fetching impact stats:", error);
+    impactStats = [];
+  }
+
   return (
     <>
       <Hero images={heroImages} />
       <About />
       <Programs />
-      <Impact />
+      <Impact stats={impactStats} />
       <Team />
       <Contact />
     </>
