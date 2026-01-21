@@ -1,5 +1,6 @@
 import { Impact } from "@/components/swahilipot";
 import Carousel from "@/components/ui/carousel2";
+import { AnimatedTestimonials } from "@/components/ui/animated-testimonials";
 import { client } from "@/sanity/lib/client";
 import { urlFor } from "@/sanity/lib/image";
 
@@ -44,6 +45,22 @@ async function getTeamMembers() {
     }));
 }
 
+async function getTestimonials() {
+    const query = `*[_type == "testimonial" && (!defined(isActive) || isActive == true)] | order(order asc) {
+        _id,
+        name,
+        designation,
+        quote,
+        image
+    }`;
+
+    const testimonials = await client.fetch(query);
+    return testimonials.map((item: any) => ({
+        ...item,
+        imageUrl: item.image ? urlFor(item.image).width(800).height(800).url() : undefined,
+    }));
+}
+
 export const metadata = {
     title: "Our Impact | Swahilipot Hub Foundation",
     description: "See how Swahilipot Hub is making a difference in the lives of young people across East Africa.",
@@ -53,11 +70,13 @@ export default async function ImpactPage() {
     let heroImageUrl: string | null = null;
     let impactStats: any[] = [];
     let teamMembers: any[] = [];
+    let testimonials: any[] = [];
     
     try {
         heroImageUrl = await getImpactHeroImage();
         impactStats = await getImpactStats();
         teamMembers = await getTeamMembers();
+        testimonials = await getTestimonials();
     } catch (error) {
         console.error("Error fetching impact data:", error);
     }
@@ -127,31 +146,29 @@ export default async function ImpactPage() {
             )}
 
             {/* Success Stories */}
-            <section className="section-padding bg-gray-50">
-                <div className="container-custom">
-                    <div className="text-center mb-12">
-                        <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                            Success <span className="text-gradient-blue">Stories</span>
-                        </h2>
-                        <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                            Real stories of transformation from our community members.
-                        </p>
+            {testimonials.length > 0 && (
+                <section className="section-padding bg-gray-50 dark:bg-neutral-950">
+                    <div className="container-custom">
+                        <div className="text-center mb-10">
+                            <h2 className="text-3xl md:text-4xl font-bold mb-3">
+                                Success <span className="text-gradient-blue">Stories</span>
+                            </h2>
+                            <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+                                Real stories of transformation from our community members.
+                            </p>
+                        </div>
+                        <AnimatedTestimonials
+                            testimonials={testimonials.map((item) => ({
+                                quote: item.quote,
+                                name: item.name,
+                                designation: item.designation,
+                                src: item.imageUrl || "https://via.placeholder.com/500",
+                            }))}
+                            autoplay
+                        />
                     </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        {[1, 2, 3].map((i) => (
-                            <div key={i} className="bg-white rounded-xl p-6 shadow-sm">
-                                <div className="w-16 h-16 rounded-full bg-swahilipot-100 mx-auto mb-4" />
-                                <p className="text-gray-600 text-center mb-4 italic">
-                                    "Swahilipot Hub changed my life. The skills I gained helped me land my dream job."
-                                </p>
-                                <p className="text-center font-semibold">Success Story {i}</p>
-                                <p className="text-center text-sm text-gray-500">Program Graduate</p>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
+                </section>
+            )}
         </>
     );
 }
