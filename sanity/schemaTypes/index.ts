@@ -1,9 +1,9 @@
 import { type SchemaTypeDefinition } from 'sanity'
 
-import { departmentType } from './departmentType'
 import { programType } from './programType'
 import { eventType } from './eventType'
 import { careerType } from './careerType'
+import { careerApplicationType } from './careerApplicationType'
 import { learningInstitutionType } from './learningInstitutionType'
 import { courseType } from './courseType'
 import { industrialAttachmentType } from './industrialAttachmentType'
@@ -17,14 +17,16 @@ import { programItemType } from './programItemType'
 import { impactHeroImageType } from './impactHeroImageType'
 import { impactStatType } from './impactStatType'
 import { testimonialType } from './testimonialType'
+import { projectType } from './projectType'
+import { projectsHeroImageType } from './projectsHeroImageType'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
     // Core content
-    departmentType,
     programType,
     eventType,
     careerType,
+    careerApplicationType,
     // Education
     learningInstitutionType,
     courseType,
@@ -45,5 +47,8 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     impactHeroImageType,
     impactStatType,
     testimonialType,
+    // Projects Page
+    projectType,
+    projectsHeroImageType,
   ],
 }

@@ -19,18 +19,18 @@ type Program = {
     href: string;
 };
 
-type NavbarProps = {
-    programs?: Program[];
+type Project = {
+    _id: string;
+    title: string;
+    slug: string;
 };
 
-const departments = [
-    { name: "Communication", href: "/department/communication", description: "Strategic messaging and media" },
-    { name: "Tech & Engineering", href: "/department/tech-engineering", description: "Innovative tech solutions" },
-    { name: "Creatives", href: "/department/creatives", description: "Arts and creative expression" },
-    { name: "Community & Entrepreneurship", href: "/department/community-entrepreneurship", description: "Business development and community support" },
-];
+type NavbarProps = {
+    programs?: Program[];
+    projects?: Project[];
+};
 
-export function Navbar({ programs = [] }: NavbarProps) {
+export function Navbar({ programs = [], projects = [] }: NavbarProps) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
@@ -42,6 +42,16 @@ export function Navbar({ programs = [] }: NavbarProps) {
             _id: p._id,
             title: p.title,
             href: p.href,
+        })),
+    ];
+
+    // Add "All Projects" as the first item
+    const allProjects = [
+        { _id: "all", title: "All Projects", href: "/projects" },
+        ...projects.map((p) => ({
+            _id: p._id,
+            title: p.title,
+            href: `/projects/${p.slug}`,
         })),
     ];
 
@@ -96,18 +106,17 @@ export function Navbar({ programs = [] }: NavbarProps) {
                         <NavigationMenuList>
                             <NavigationMenuItem>
                                 <NavigationMenuTrigger className="bg-transparent h-auto px-2 py-1 hover:bg-transparent hover:text-swahilipot-600 data-[state=open]:bg-transparent">
-                                    Departments
+                                    Projects
                                 </NavigationMenuTrigger>
                                 <NavigationMenuContent>
                                     <div className="grid grid-cols-2 w-[500px] gap-3 p-4">
-                                        {departments.map((item) => (
+                                        {allProjects.map((item) => (
                                             <Link
-                                                key={item.href}
+                                                key={item._id || item.href}
                                                 href={item.href}
-                                                className="block p-3 space-y-1 rounded-md hover:bg-gray-100"
+                                                className="block p-3 rounded-md hover:bg-gray-100"
                                             >
-                                                <div className="font-medium">{item.name}</div>
-                                                <div className="text-sm text-gray-600">{item.description}</div>
+                                                <div className="font-medium">{item.title}</div>
                                             </Link>
                                         ))}
                                     </div>
@@ -174,17 +183,19 @@ export function Navbar({ programs = [] }: NavbarProps) {
 
                         <div className="py-2">
                             <div className="flex items-center justify-between text-foreground">
-                                <span className="text-foreground">Departments</span>
+                                <Link href="/projects" className="hover:text-swahilipot-600 transition-colors" onClick={toggleMenu}>
+                                    Projects
+                                </Link>
                             </div>
                             <div className="pl-4 mt-2 border-l border-gray-200 space-y-2">
-                                {departments.map((item) => (
+                                {projects.map((item) => (
                                     <Link
-                                        key={item.href}
-                                        href={item.href}
+                                        key={item._id}
+                                        href={`/projects/${item.slug}`}
                                         className="block text-sm text-gray-600 hover:text-swahilipot-600 py-1"
                                         onClick={toggleMenu}
                                     >
-                                        {item.name}
+                                        {item.title}
                                     </Link>
                                 ))}
                             </div>

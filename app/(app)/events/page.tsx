@@ -174,13 +174,13 @@ export default async function EventsPage() {
                                 data={timelineData}
                                 showHeader={false}
                             />
-                        </div>
+                                        </div>
                     ) : (
                         <div className="text-center py-20">
                             <p className="text-gray-500 mb-4">No events found.</p>
                             <p className="text-sm text-gray-400">
-                                Events are managed through Sanity Studio
-                            </p>
+                        Events are managed through Sanity Studio
+                    </p>
                         </div>
                     )}
                 </div>

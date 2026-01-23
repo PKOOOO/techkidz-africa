@@ -7,6 +7,7 @@ const JOB_TYPES = [
     { title: "Contract", value: "contract" },
     { title: "Internship", value: "internship" },
     { title: "Volunteer", value: "volunteer" },
+    { title: "Attachment", value: "attachment" },
 ];
 
 export const careerType = defineType({
@@ -31,28 +32,41 @@ export const careerType = defineType({
             validation: (rule) => rule.required().error("Slug is required"),
         }),
         defineField({
-            name: "department",
-            title: "Department",
-            type: "reference",
-            to: [{ type: "department" }],
-        }),
-        defineField({
             name: "description",
             title: "Job Description",
             type: "array",
             of: [{ type: "block" }],
+            hidden: ({ document }) => document?.type === "attachment",
         }),
         defineField({
             name: "requirements",
             title: "Requirements",
             type: "array",
             of: [{ type: "string" }],
+            hidden: ({ document }) => document?.type === "attachment",
         }),
         defineField({
             name: "responsibilities",
             title: "Responsibilities",
             type: "array",
             of: [{ type: "string" }],
+            hidden: ({ document }) => document?.type === "attachment",
+        }),
+        defineField({
+            name: "openTo",
+            title: "Open To",
+            description: "Who this attachment is open to (shown for Attachment type only)",
+            type: "array",
+            of: [{ type: "string" }],
+            hidden: ({ document }) => document?.type !== "attachment",
+        }),
+        defineField({
+            name: "growthOpportunities",
+            title: "Growth Opportunities",
+            description: "Growth opportunities for this attachment (shown for Attachment type only)",
+            type: "array",
+            of: [{ type: "string" }],
+            hidden: ({ document }) => document?.type !== "attachment",
         }),
         defineField({
             name: "location",
@@ -84,13 +98,12 @@ export const careerType = defineType({
     preview: {
         select: {
             title: "title",
-            department: "department.name",
             type: "type",
         },
-        prepare({ title, department, type }) {
+        prepare({ title, type }) {
             return {
                 title,
-                subtitle: `${department || "No dept"} • ${type || ""}`,
+                subtitle: type || "",
             };
         },
     },

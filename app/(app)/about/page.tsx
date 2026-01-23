@@ -5,8 +5,8 @@ import MissionVisionGlowing from "@/components/mission-vision-glowing";
 import OurStoryMeteors from "@/components/our-story-meteors";
 
 export const metadata = {
-    title: "About Us | Swahilipot Hub Foundation",
-    description: "Learn about Swahilipot Hub Foundation's mission to empower youth through technology, arts, and entrepreneurship.",
+    title: "About Us | Tech kidz Africa",
+    description: "Learn about Tech kidz Africa's mission to empower youth through technology, arts, and entrepreneurship.",
 };
 
 
