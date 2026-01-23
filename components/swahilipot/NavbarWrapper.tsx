@@ -16,8 +16,23 @@ async function getPrograms() {
     }
 }
 
-export async function NavbarWrapper() {
-    const programs = await getPrograms();
+async function getProjects() {
+    const query = `*[_type == "project" && isActive == true] | order(order asc) {
+        _id,
+        title,
+        "slug": slug.current
+    }`;
     
-    return <Navbar programs={programs} />;
+    try {
+        return await client.fetch(query);
+    } catch (error) {
+        console.error("Error fetching projects for navbar:", error);
+        return [];
+    }
+}
+
+export async function NavbarWrapper() {
+    const [programs, projects] = await Promise.all([getPrograms(), getProjects()]);
+    
+    return <Navbar programs={programs} projects={projects} />;
 }

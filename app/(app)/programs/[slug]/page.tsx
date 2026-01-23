@@ -143,12 +143,12 @@ export default async function ProgramDetailPage({ params }: { params: Promise<{ 
                         }}
                     />
                 </div>
-                
-                {/* Text in middle of blur area */}
+                    
+                    {/* Text in middle of blur area */}
                 <div className="absolute bottom-0 z-40 inset-x-0 h-24 md:h-32 w-full flex items-center justify-center translate-y-16 md:translate-y-20 pointer-events-none">
                     <h1 className="text-2xl md:text-3xl font-bold text-gradient-blue drop-shadow-[0_2px_4px_rgba(255,255,255,0.8)]">
-                        {program.title}
-                    </h1>
+                            {program.title}
+                        </h1>
                 </div>
             </section>
 
@@ -186,7 +186,7 @@ export default async function ProgramDetailPage({ params }: { params: Promise<{ 
                                 <p className="text-sm text-neutral-500 dark:text-gray-500">
                                     Check back later for detailed program content.
                                 </p>
-                            </div>
+                                </div>
                         ) : (
                             <div className="text-center py-12">
                                 <p className="text-neutral-600 dark:text-gray-400">

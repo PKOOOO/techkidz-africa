@@ -1,14 +1,18 @@
 import Link from "next/link";
-import { ArrowRight, Code, Shield, Bot, Film, Gamepad2, Monitor } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { BentoGrid, BentoGridItem } from "@/components/ui/bento-grid";
 import { cn } from "@/lib/utils";
 import { client } from "@/sanity/lib/client";
 import { urlFor } from "@/sanity/lib/image";
-import { ProgramSkeleton } from "@/components/app/ProgramSkeleton";
 
-async function getProgramsHeroImage() {
-    const query = `*[_type == "programsHeroImage" && isActive == true][0] {
+export const metadata = {
+    title: "Projects | Swahilipot Hub Foundation",
+    description: "Explore our projects and initiatives making an impact in East Africa.",
+};
+
+async function getProjectsHeroImage() {
+    const query = `*[_type == "projectsHeroImage" && isActive == true][0] {
         image
     }`;
     
@@ -19,38 +23,47 @@ async function getProgramsHeroImage() {
     return null;
 }
 
-async function getPrograms() {
-    const query = `*[_type == "programsPage" && isActive == true] | order(order asc) {
+async function getProjects() {
+    const query = `*[_type == "project" && isActive == true] | order(order asc) {
         _id,
         title,
         description,
-        href,
-        iconName,
-        isAnimationTraining,
-        svgImages[] {
-            asset-> {
-                _id,
-                url,
-                metadata {
-                    dimensions
-                }
-            }
-        },
-        order
+        "slug": slug.current,
+        cardImage
     }`;
     
     return await client.fetch(query);
 }
 
-export default async function ProgramsPage() {
+function ProjectSkeleton({ project }: { project: { cardImage?: unknown; title: string } }) {
+    const imageUrl = project.cardImage ? urlFor(project.cardImage).width(600).height(400).url() : null;
+    
+    return (
+        <div className="flex flex-1 w-full h-full min-h-[6rem] rounded-xl overflow-hidden bg-gradient-to-br from-neutral-200 dark:from-neutral-900 dark:to-neutral-800 to-neutral-100">
+            {imageUrl ? (
+                <img
+                    src={imageUrl}
+                    alt={project.title}
+                    className="w-full h-full object-cover"
+                />
+            ) : (
+                <div className="flex items-center justify-center w-full h-full text-neutral-400">
+                    No image
+                </div>
+            )}
+        </div>
+    );
+}
+
+export default async function ProjectsPage() {
     let heroImageUrl: string | null = null;
-    let programs: any[] = [];
+    let projects: any[] = [];
     
     try {
-        heroImageUrl = await getProgramsHeroImage();
-        programs = await getPrograms();
+        heroImageUrl = await getProjectsHeroImage();
+        projects = await getProjects();
     } catch (error) {
-        console.error("Error fetching programs data:", error);
+        console.error("Error fetching projects data:", error);
     }
 
     return (
@@ -81,31 +94,31 @@ export default async function ProgramsPage() {
                     {/* Text in middle of blur area */}
                     <div className="absolute inset-0 flex items-end justify-center pb-2 md:pb-4 z-10">
                         <h1 className="text-2xl md:text-3xl font-bold text-gradient-blue drop-shadow-[0_2px_4px_rgba(255,255,255,0.8)]">
-                            Our <span className="text-gradient-blue">Programs</span>
+                            Our <span className="text-gradient-blue">Projects</span>
                         </h1>
                     </div>
                 </div>
             </section>
 
-            {/* Programs Bento Grid */}
+            {/* Projects Bento Grid */}
             <section className="section-padding">
                 <div className="container-custom">
-                    <BentoGrid className="max-w-7xl mx-auto md:auto-rows-[20rem]">
-                        {programs.map((program, i) => {
-                                            
-                            return (
+                    {projects.length > 0 ? (
+                        <BentoGrid className="max-w-7xl mx-auto md:auto-rows-[20rem]">
+                            {projects.map((project) => (
                                 <BentoGridItem
-                                    key={program._id || program.href}
-                                    title={program.title}
-                                    description={<span className="text-sm">{program.description}</span>}
-                                    header={<ProgramSkeleton program={program} index={i} />}
+                                    key={project._id}
+                                    title={project.title}
+                                    description={<span className="text-sm">{project.description}</span>}
+                                    header={<ProjectSkeleton project={project} />}
                                     className={cn("[&>p:text-lg]", "md:col-span-1")}
-                                   
-                                    href={program.href}
+                                    href={`/projects/${project.slug}`}
                                 />
-                            );
-                        })}
-                    </BentoGrid>
+                            ))}
+                        </BentoGrid>
+                    ) : (
+                        <p className="text-center text-gray-500">No projects found. Add some in Sanity Studio.</p>
+                    )}
                 </div>
             </section>
 
@@ -113,14 +126,14 @@ export default async function ProgramsPage() {
             <section className="section-padding bg-swahilipot-900">
                 <div className="container-custom text-center">
                     <h2 className="text-3xl font-bold text-white mb-4">
-                        Ready to Get Started?
+                        Want to Collaborate?
                     </h2>
                     <p className="text-swahilipot-200 mb-8 max-w-xl mx-auto">
-                        Join our programs and take the first step towards building your future.
+                        Partner with us on impactful projects that transform communities.
                     </p>
                     <Button className="bg-white text-swahilipot-900 hover:bg-swahilipot-100" asChild>
-                        <Link href="/industrial-attachment">
-                            Apply Now <ArrowRight className="ml-2 h-4 w-4" />
+                        <Link href="/contact">
+                            Get in Touch <ArrowRight className="ml-2 h-4 w-4" />
                         </Link>
                     </Button>
                 </div>

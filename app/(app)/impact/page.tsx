@@ -156,7 +156,7 @@ export default async function ImpactPage() {
                             <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
                                 Real stories of transformation from our community members.
                             </p>
-                        </div>
+                            </div>
                         <AnimatedTestimonials
                             testimonials={testimonials.map((item) => ({
                                 quote: item.quote,
@@ -166,8 +166,8 @@ export default async function ImpactPage() {
                             }))}
                             autoplay
                         />
-                    </div>
-                </section>
+                </div>
+            </section>
             )}
         </>
     );
