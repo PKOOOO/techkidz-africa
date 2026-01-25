@@ -56,7 +56,7 @@ export function Navbar({ programs = [], projects = [] }: NavbarProps) {
     ];
 
     return (
-        <nav className="sticky top-0 z-40 w-full bg-white/90 backdrop-blur-sm border-b shadow-sm">
+        <nav className="sticky top-0 z-50 w-full bg-white/90 backdrop-blur-sm border-b shadow-sm">
             <div className="container-custom flex items-center justify-between h-16 md:h-20">
                 <div className="flex items-center">
                     <Link href="/" className="flex items-center">

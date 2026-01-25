@@ -366,18 +366,9 @@
   animation: float 4s ease-in-out infinite;
 }
 
-/* Prevent horizontal scroll on page */
-html,
+/* Prevent horizontal scroll - use clip instead of hidden to preserve sticky */
 body {
-  overflow-x: hidden;
-  overflow-y: auto;
-}
-
-/* Hide horizontal scrollbar specifically */
-html::-webkit-scrollbar:horizontal,
-body::-webkit-scrollbar:horizontal {
-  height: 0;
-  display: none;
+  overflow-x: clip;
 }
 
 /* Remove focus outlines from carousel elements */
