@@ -35,12 +35,6 @@ export const programType = defineType({
             of: [{ type: "block" }],
         }),
         defineField({
-            name: "department",
-            title: "Department",
-            type: "reference",
-            to: [{ type: "department" }],
-        }),
-        defineField({
             name: "image",
             title: "Cover Image",
             type: "image",

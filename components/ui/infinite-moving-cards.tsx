@@ -11,9 +11,10 @@ export const InfiniteMovingCards = ({
   className,
 }: {
   items: {
-    quote: string;
-    name: string;
-    title: string;
+    quote?: string;
+    name?: string;
+    title?: string;
+    imageUrl?: string;
     icon?: React.ComponentType<{ size?: number; className?: string }>;
   }[];
   direction?: "left" | "right";
@@ -88,26 +89,43 @@ export const InfiniteMovingCards = ({
       >
         {items.map((item, idx) => (
           <li
-            className="w-[350px] max-w-full shrink-0 rounded-xl bg-white p-6 shadow-sm border px-8 py-6 md:w-[450px]"
-            key={item.name}
+            className={cn(
+              "shrink-0 rounded-xl bg-white shadow-sm border flex items-center justify-center",
+              item.imageUrl
+                ? "w-[220px] md:w-[280px] h-[130px] md:h-[160px] px-5 py-4"
+                : "w-[350px] md:w-[450px] px-8 py-6"
+            )}
+            key={item.imageUrl || item.name || idx}
           >
-            <blockquote>
-              <div
-                aria-hidden="true"
-                className="user-select-none pointer-events-none absolute -top-0.5 -left-0.5 -z-1 h-[calc(100%_+_4px)] w-[calc(100%_+_4px)]"
-              ></div>
+            {item.imageUrl ? (
+              <img
+                src={item.imageUrl}
+                alt="Partner logo"
+                className="max-h-[80px] md:max-h-[110px] max-w-[85%] object-contain"
+              />
+            ) : (
+              <blockquote className="w-full">
+                <div
+                  aria-hidden="true"
+                  className="user-select-none pointer-events-none absolute -top-0.5 -left-0.5 -z-1 h-[calc(100%_+_4px)] w-[calc(100%_+_4px)]"
+                ></div>
 
-              {item.icon && (
-                <div className="bg-swahilipot-100 text-swahilipot-600 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
-                  <item.icon size={24} />
-                </div>
-              )}
+                {item.icon && (
+                  <div className="bg-swahilipot-100 text-swahilipot-600 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
+                    <item.icon size={24} />
+                  </div>
+                )}
 
-              <h3 className="font-semibold text-lg mb-2 text-gray-900">{item.name}</h3>
-              <p className="text-gray-600 text-sm leading-[1.6]">
-                {item.quote}
-              </p>
-            </blockquote>
+                {item.name && (
+                  <h3 className="font-semibold text-lg mb-2 text-gray-900">{item.name}</h3>
+                )}
+                {item.quote && (
+                  <p className="text-gray-600 text-sm leading-[1.6]">
+                    {item.quote}
+                  </p>
+                )}
+              </blockquote>
+            )}
           </li>
         ))}
       </ul>

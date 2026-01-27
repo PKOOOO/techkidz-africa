@@ -145,13 +145,6 @@ export const industrialAttachmentType = defineType({
 
         // Application
         defineField({
-            name: "department",
-            title: "Preferred Department",
-            type: "reference",
-            to: [{ type: "department" }],
-            group: "application",
-        }),
-        defineField({
             name: "whatMakesYouStandOut",
             title: "What Makes You Stand Out",
             type: "text",

@@ -1,51 +1,18 @@
-import { StarIcon } from "@sanity/icons";
+import { ImageIcon } from "@sanity/icons";
 import { defineField, defineType } from "sanity";
-
-const PARTNER_TIERS = [
-    { title: "Platinum", value: "platinum" },
-    { title: "Gold", value: "gold" },
-    { title: "Silver", value: "silver" },
-    { title: "Bronze", value: "bronze" },
-    { title: "Community", value: "community" },
-];
 
 export const partnerType = defineType({
     name: "partner",
     title: "Partner",
     type: "document",
-    icon: StarIcon,
+    icon: ImageIcon,
     fields: [
-        defineField({
-            name: "name",
-            title: "Partner Name",
-            type: "string",
-            validation: (rule) => rule.required(),
-        }),
         defineField({
             name: "logo",
             title: "Logo",
             type: "image",
             options: { hotspot: true },
-        }),
-        defineField({
-            name: "website",
-            title: "Website",
-            type: "url",
-        }),
-        defineField({
-            name: "tier",
-            title: "Partner Tier",
-            type: "string",
-            options: {
-                list: PARTNER_TIERS,
-                layout: "radio",
-            },
-        }),
-        defineField({
-            name: "description",
-            title: "Description",
-            type: "text",
-            rows: 2,
+            validation: (rule) => rule.required().error("Logo image is required"),
         }),
         defineField({
             name: "order",
@@ -56,14 +23,11 @@ export const partnerType = defineType({
     ],
     preview: {
         select: {
-            title: "name",
-            tier: "tier",
             media: "logo",
         },
-        prepare({ title, tier, media }) {
+        prepare({ media }) {
             return {
-                title,
-                subtitle: tier ? tier.charAt(0).toUpperCase() + tier.slice(1) : "",
+                title: "Partner Logo",
                 media,
             };
         },
