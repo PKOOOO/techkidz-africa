@@ -1,6 +1,7 @@
 import { Impact } from "@/components/swahilipot";
 import Carousel from "@/components/ui/carousel2";
 import { AnimatedTestimonials } from "@/components/ui/animated-testimonials";
+import { InfiniteMovingCards } from "@/components/ui/infinite-moving-cards";
 import { client } from "@/sanity/lib/client";
 import { urlFor } from "@/sanity/lib/image";
 
@@ -61,6 +62,20 @@ async function getTestimonials() {
     }));
 }
 
+async function getPartners() {
+    const query = `*[_type == "partner"] | order(order asc) {
+        _id,
+        logo
+    }`;
+
+    const partners = await client.fetch(query);
+    return partners
+        .filter((partner: any) => partner.logo)
+        .map((partner: any) => ({
+            imageUrl: urlFor(partner.logo).width(400).height(300).fit("max").url(),
+        }));
+}
+
 export const metadata = {
     title: "Our Impact | Swahilipot Hub Foundation",
     description: "See how Swahilipot Hub is making a difference in the lives of young people across East Africa.",
@@ -71,12 +86,14 @@ export default async function ImpactPage() {
     let impactStats: any[] = [];
     let teamMembers: any[] = [];
     let testimonials: any[] = [];
+    let partners: any[] = [];
     
     try {
         heroImageUrl = await getImpactHeroImage();
         impactStats = await getImpactStats();
         teamMembers = await getTeamMembers();
         testimonials = await getTestimonials();
+        partners = await getPartners();
     } catch (error) {
         console.error("Error fetching impact data:", error);
     }
@@ -156,7 +173,7 @@ export default async function ImpactPage() {
                             <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
                                 Real stories of transformation from our community members.
                             </p>
-                            </div>
+                        </div>
                         <AnimatedTestimonials
                             testimonials={testimonials.map((item) => ({
                                 quote: item.quote,
@@ -166,8 +183,31 @@ export default async function ImpactPage() {
                             }))}
                             autoplay
                         />
-                </div>
-            </section>
+                    </div>
+                </section>
+            )}
+
+            {/* Partnerships (Infinite Moving Cards) */}
+            {partners.length > 0 && (
+                <section className="section-padding bg-white dark:bg-neutral-950">
+                    <div className="container-custom">
+                        <div className="text-center mb-8">
+                            <h2 className="text-3xl md:text-4xl font-bold mb-3">
+                                Our <span className="text-gradient-blue">Partnerships</span>
+                            </h2>
+                            <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+                                Organizations that walk with us to create lasting impact.
+                            </p>
+                        </div>
+                        <div className="h-[160px] md:h-[190px] rounded-md flex items-center justify-center relative overflow-hidden">
+                            <InfiniteMovingCards
+                                items={partners}
+                                direction="right"
+                                speed="normal"
+                            />
+                        </div>
+                    </div>
+                </section>
             )}
         </>
     );
