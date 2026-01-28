@@ -25,7 +25,15 @@ export function getToolParts(message: UIMessage): ToolCallPart[] {
 // Get human-readable tool name
 export function getToolDisplayName(toolName: string): string {
   const toolNames: Record<string, string> = {
-    // Add Hub-specific tools here if needed
+    // Sanity database query tools
+    getPrograms: "Fetching programs",
+    getProgramDetails: "Looking up program details",
+    getEvents: "Checking upcoming events",
+    getTeamMembers: "Finding team information",
+    getCareers: "Searching job opportunities",
+    getImpactStats: "Getting impact statistics",
+    getProjects: "Loading projects",
+    getProjectDetails: "Getting project details",
   };
   return toolNames[toolName] || toolName;
 }
