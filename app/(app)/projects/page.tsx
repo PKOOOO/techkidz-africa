@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { BentoGrid, BentoGridItem } from "@/components/ui/bento-grid";
+import { NoiseBackground } from "@/components/ui/noise-background";
 import { cn } from "@/lib/utils";
 import { client } from "@/sanity/lib/client";
 import { urlFor } from "@/sanity/lib/image";
@@ -69,12 +70,12 @@ export default async function ProjectsPage() {
     return (
         <>
             {/* Hero Section */}
-            <section className="relative overflow-hidden h-[300px] md:h-[400px] z-0">
+            <section className="relative overflow-hidden h-[300px] md:h-[560px] z-0">
                 {/* Background Image */}
                 {heroImageUrl && (
                     <div className="absolute inset-0 z-0 h-full w-full">
                         <div
-                            className="h-[300px] md:h-[400px] w-full bg-cover bg-center bg-no-repeat"
+                            className="h-[300px] md:h-[560px] w-full bg-cover bg-center md:bg-[position:50%_20%] bg-no-repeat"
                             style={{
                                 backgroundImage: `url(${heroImageUrl})`,
                                 opacity: 0.8,
@@ -84,7 +85,7 @@ export default async function ProjectsPage() {
                 )}
                 
                 {/* Overlay */}
-                <div className="absolute inset-0 bg-[#6A1383]/5 z-0 h-[300px] md:h-[400px]" />
+                <div className="absolute inset-0 bg-[#6A1383]/5 z-0 h-[300px] md:h-[560px]" />
                 
                 {/* Bottom blur gradient */}
                 <div className="absolute bottom-0 z-30 inset-x-0 h-24 md:h-32 w-full pointer-events-none">
@@ -100,16 +101,37 @@ export default async function ProjectsPage() {
                 </div>
             </section>
 
+            {/* Spacer below hero */}
+            <div className="h-4 md:h-6" />
+
             {/* Projects Bento Grid */}
             <section className="section-padding">
                 <div className="container-custom">
                     {projects.length > 0 ? (
-                        <BentoGrid className="max-w-7xl mx-auto md:auto-rows-[20rem]">
+                        <BentoGrid className="max-w-7xl mx-auto md:auto-rows-[24rem]">
                             {projects.map((project) => (
                                 <BentoGridItem
                                     key={project._id}
                                     title={project.title}
-                                    description={<span className="text-sm">{project.description}</span>}
+                                    description={(
+                                        <div className="flex flex-col gap-3">
+                                            <span className="text-sm">{project.description}</span>
+                                            <div className="flex">
+                                                <NoiseBackground
+                                                    containerClassName="w-fit p-1.5 rounded-full"
+                                                    gradientColors={[
+                                                        "rgb(255, 100, 150)",
+                                                        "rgb(100, 150, 255)",
+                                                        "rgb(255, 200, 100)",
+                                                    ]}
+                                                >
+                                                    <span className="inline-flex items-center justify-center h-full w-full cursor-pointer rounded-full bg-linear-to-r from-neutral-100 via-neutral-100 to-white px-3 py-1.5 text-xs font-medium text-black shadow-[0px_2px_0px_0px_var(--color-neutral-50)_inset,0px_0.5px_1px_0px_var(--color-neutral-400)] transition-all duration-100 active:scale-98 dark:from-black dark:via-black dark:to-neutral-900 dark:text-white dark:shadow-[0px_1px_0px_0px_var(--color-neutral-950)_inset,0px_1px_0px_0px_var(--color-neutral-800)]">
+                                                        Read more →
+                                                    </span>
+                                                </NoiseBackground>
+                                            </div>
+                                        </div>
+                                    )}
                                     header={<ProjectSkeleton project={project} />}
                                     className={cn("[&>p:text-lg]", "md:col-span-1")}
                                     href={`/projects/${project.slug}`}
