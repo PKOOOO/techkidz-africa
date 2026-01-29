@@ -18,7 +18,7 @@ type ProjectTracingBeamProps = {
 
 export function ProjectTracingBeam({ sections }: ProjectTracingBeamProps) {
     return (
-        <TracingBeam className="px-6">
+        <TracingBeam className="px-6 overflow-x-hidden">
             <div className="max-w-2xl mx-auto antialiased pt-4 relative">
                 {sections.map((section) => (
                     <div key={section._key} className="mb-10">
@@ -32,7 +32,7 @@ export function ProjectTracingBeam({ sections }: ProjectTracingBeamProps) {
                             {section.title}
                         </p>
 
-                        <div className="text-sm prose prose-sm dark:prose-invert max-w-none">
+                        <div className="text-sm prose prose-sm dark:prose-invert max-w-none break-words">
                             {section.imageUrl && (
                                 <img
                                     src={section.imageUrl}
@@ -41,7 +41,7 @@ export function ProjectTracingBeam({ sections }: ProjectTracingBeamProps) {
                                 />
                             )}
                             {section.content && (
-                                <div className="text-gray-700 dark:text-gray-300">
+                                <div className="text-gray-700 dark:text-gray-300 break-words">
                                     <PortableText value={section.content as any} />
                                 </div>
                             )}
