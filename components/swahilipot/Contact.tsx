@@ -22,14 +22,7 @@ export function Contact() {
     return (
         <section id="contact" className="section-padding bg-swahilipot-50">
             <div className="container-custom">
-                <div className="text-center mb-12">
-                    <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                        Get in <span className="text-gradient-blue">Touch</span>
-                    </h2>
-                    <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                        Have questions or want to collaborate? Reach out to us.
-                    </p>
-                </div>
+                
 
                 <div className="grid md:grid-cols-2 gap-12">
                     {/* Contact Info */}
@@ -41,7 +34,7 @@ export function Contact() {
                             <div>
                                 <h3 className="font-semibold text-lg mb-1">Our Location</h3>
                                 <p className="text-gray-600">
-                                    Fort Jesus Road, Old Town<br />
+                                   Ratna Square, Mombasa<br />
                                     Mombasa, Kenya
                                 </p>
                             </div>
@@ -53,7 +46,7 @@ export function Contact() {
                             </div>
                             <div>
                                 <h3 className="font-semibold text-lg mb-1">Phone</h3>
-                                <p className="text-gray-600">+254 700 000 000</p>
+                                <p className="text-gray-600">+254 780 754126</p>
                             </div>
                         </div>
 
@@ -63,7 +56,7 @@ export function Contact() {
                             </div>
                             <div>
                                 <h3 className="font-semibold text-lg mb-1">Email</h3>
-                                <p className="text-gray-600">info@swahilipothub.co.ke</p>
+                                <p className="text-gray-600">info@techkidzafrica.co.ke</p>
                             </div>
                         </div>
                     </div>
