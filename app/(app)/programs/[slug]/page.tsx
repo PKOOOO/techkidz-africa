@@ -107,12 +107,12 @@ export default async function ProgramDetailPage({ params }: { params: Promise<{ 
     return (
         <>
             {/* Hero Section */}
-            <section className="relative overflow-visible h-[300px] md:h-[400px] z-20">
+            <section className="relative overflow-visible h-[300px] md:h-[560px] z-20">
                 {/* Background Image */}
                 {heroImageUrl && (
                     <div className="absolute inset-0 z-0 h-full w-full">
                         <div
-                            className="h-[300px] md:h-[400px] w-full bg-cover bg-center bg-no-repeat"
+                            className="h-[300px] md:h-[560px] w-full bg-cover bg-center md:bg-[position:50%_20%] bg-no-repeat"
                             style={{
                                 backgroundImage: `url(${heroImageUrl})`,
                                 opacity: 0.8,
@@ -122,9 +122,9 @@ export default async function ProgramDetailPage({ params }: { params: Promise<{ 
                 )}
                 
                 {/* Overlay */}
-                <div className="absolute inset-0 bg-[#6A1383]/5 z-0 h-[300px] md:h-[400px]" />
+                <div className="absolute inset-0 bg-[#6A1383]/5 z-0 h-[300px] md:h-[560px]" />
                 
-                {/* Bottom blur gradient - light blend into white content (match Events page) */}
+                {/* Bottom blur gradient - light blend into white content (match Projects page) */}
                 <div className="absolute bottom-0 z-30 inset-x-0 h-24 md:h-32 w-full pointer-events-none">
                     <div
                         className="absolute inset-0 backdrop-blur-lg"
@@ -142,13 +142,13 @@ export default async function ProgramDetailPage({ params }: { params: Promise<{ 
                             WebkitMaskImage: "linear-gradient(to top, black 0%, transparent 70%)",
                         }}
                     />
-                </div>
-                    
+
                     {/* Text in middle of blur area */}
-                <div className="absolute bottom-0 z-40 inset-x-0 h-24 md:h-32 w-full flex items-center justify-center translate-y-16 md:translate-y-20 pointer-events-none">
-                    <h1 className="text-2xl md:text-3xl font-bold text-gradient-blue drop-shadow-[0_2px_4px_rgba(255,255,255,0.8)]">
+                    <div className="absolute inset-0 flex items-end justify-center pb-2 md:pb-4 z-10">
+                        <h1 className="text-2xl md:text-3xl font-bold text-gradient-blue drop-shadow-[0_2px_4px_rgba(255,255,255,0.8)]">
                             {program.title}
                         </h1>
+                    </div>
                 </div>
             </section>
 
