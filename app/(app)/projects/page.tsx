@@ -7,7 +7,7 @@ import { client } from "@/sanity/lib/client";
 import { urlFor } from "@/sanity/lib/image";
 
 export const metadata = {
-    title: "Projects | Swahilipot Hub Foundation",
+    title: "Projects | Tech Kidz Africa",
     description: "Explore our projects and initiatives making an impact in East Africa.",
 };
 

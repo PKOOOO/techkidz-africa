@@ -4,7 +4,7 @@ import { urlFor } from "@/sanity/lib/image";
 import { EventCard3D } from "@/components/app/EventCard3D";
 
 export const metadata = {
-    title: "Events | Swahilipot Hub Foundation",
+    title: "Events | Tech Kidz Africa",
     description: "Discover upcoming events, workshops, and community gatherings at Swahilipot Hub.",
 };
 

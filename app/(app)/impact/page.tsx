@@ -77,8 +77,8 @@ async function getPartners() {
 }
 
 export const metadata = {
-    title: "Our Impact | Swahilipot Hub Foundation",
-    description: "See how Swahilipot Hub is making a difference in the lives of young people across East Africa.",
+    title: "Our Impact | Tech Kidz Africa",
+    description: "See Tech Kidz Africa is making a difference in the lives of young people across East Africa.",
 };
 
 export default async function ImpactPage() {

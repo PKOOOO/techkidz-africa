@@ -5,7 +5,7 @@ import CareersList from "@/components/app/CareersList";
 import { client } from "@/sanity/lib/client";
 
 export const metadata = {
-    title: "Careers | Swahilipot Hub Foundation",
+    title: "Careers | Tech Kidz Africa",
     description: "Join our team and help empower youth across East Africa.",
 };
 
