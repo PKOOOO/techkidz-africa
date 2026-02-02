@@ -69,37 +69,41 @@ export function ProgramExpandableCards({ items }: ProgramExpandableCardsProps) {
             </AnimatePresence>
             <AnimatePresence>
                 {active ? (
-                    <div key={`modal-${active._id}-${id}`} className="fixed inset-0 grid place-items-center z-[100]">
-                        <motion.button
-                            key={`button-${active._id}-${id}`}
-                            layout
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-                            transition={{ duration: 0.05 }}
-                            className="flex absolute top-2 right-2 lg:hidden items-center justify-center bg-white rounded-full h-6 w-6 z-[101]"
-                            onClick={() => setActive(null)}
-                        >
-                            <CloseIcon />
-                        </motion.button>
+                    <div
+                        key={`modal-${active._id}-${id}`}
+                        className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto p-4 md:p-6"
+                    >
                         <motion.div
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
                             transition={{ duration: 0.2 }}
+                            className="relative w-full max-w-[500px]"
                         >
+                            <motion.button
+                                key={`button-${active._id}-${id}`}
+                                layout
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                transition={{ duration: 0.05 }}
+                                className="flex absolute -top-3 -right-3 lg:hidden items-center justify-center bg-white rounded-full h-7 w-7 z-[101] shadow"
+                                onClick={() => setActive(null)}
+                            >
+                                <CloseIcon />
+                            </motion.button>
                             <NoiseBackground
                                 gradientColors={[
                                     "rgb(106, 19, 131)", // #6A1383 - brand purple
                                     "rgb(56, 182, 255)",  // #38B6FF - brand blue
                                     "rgb(138, 43, 226)",  // purple accent
                                 ]}
-                                containerClassName="w-full max-w-[500px] h-full md:h-fit md:max-h-[90%]"
+                                containerClassName="w-full"
                             >
                                 <motion.div
                                     layoutId={`card-${active._id}-${id}`}
                                     ref={ref}
-                                    className="w-full h-full flex flex-col bg-white dark:bg-neutral-900 rounded-xl overflow-hidden"
+                                    className="w-full flex flex-col bg-white dark:bg-neutral-900 rounded-xl overflow-hidden"
                                 >
                                 <motion.div layoutId={`image-${active._id}-${id}`}>
                                     <Image
@@ -107,7 +111,7 @@ export function ProgramExpandableCards({ items }: ProgramExpandableCardsProps) {
                                         alt={active.title}
                                         width={800}
                                         height={450}
-                                        className="w-full aspect-[16/9] sm:aspect-[4/3] rounded-t-lg object-contain object-center bg-black/90"
+                                        className="w-full h-auto rounded-t-lg object-contain object-center bg-black/90"
                                     />
                                 </motion.div>
 
@@ -211,13 +215,16 @@ export function ProgramExpandableCards({ items }: ProgramExpandableCardsProps) {
                             }`}
                         >
                             <div className="flex gap-4 flex-col w-full">
-                                <motion.div layoutId={`image-${item._id}-${id}`}>
+                                <motion.div
+                                    layoutId={`image-${item._id}-${id}`}
+                                    className="relative w-full aspect-[4/3] rounded-lg overflow-hidden bg-neutral-100 dark:bg-neutral-900"
+                                >
                                     <Image
                                         src={item.imageUrl}
                                         alt={item.title}
-                                        width={600}
-                                        height={400}
-                                        className="w-full aspect-[4/3] rounded-lg object-contain object-center bg-neutral-100 dark:bg-neutral-900"
+                                        fill
+                                        sizes="(min-width: 768px) 50vw, 100vw"
+                                        className="object-cover object-center"
                                     />
                                 </motion.div>
                                 <div className="flex justify-center items-center flex-col p-4">

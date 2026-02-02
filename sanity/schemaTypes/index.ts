@@ -1,4 +1,4 @@
-import { type SchemaTypeDefinition } from 'sanity'
+import type { SchemaTypeDefinition } from "sanity";
 
 import { programType } from './programType'
 import { eventType } from './eventType'
@@ -19,6 +19,7 @@ import { impactStatType } from './impactStatType'
 import { testimonialType } from './testimonialType'
 import { projectType } from './projectType'
 import { projectsHeroImageType } from './projectsHeroImageType'
+import { contactHeroImageType } from './contactHeroImageType'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -50,5 +51,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     // Projects Page
     projectType,
     projectsHeroImageType,
+    // Contact Page
+    contactHeroImageType,
   ],
 }

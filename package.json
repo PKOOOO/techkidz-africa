@@ -51,6 +51,7 @@
     "embla-carousel-autoplay": "^8.6.0",
     "embla-carousel-react": "^8.6.0",
     "lucide-react": "^0.556.0",
+    "mapbox-gl": "^3.18.1",
     "motion": "^12.26.2",
     "next": "16.1.0",
     "next-sanity": "^11.6.10",
