@@ -3,8 +3,8 @@ import { ArrowRight, CheckCircle, Clock, Users, Briefcase } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export const metadata = {
-    title: "Industrial Attachment | Swahilipot Hub Foundation",
-    description: "Apply for industrial attachment at Swahilipot Hub and gain hands-on experience.",
+    title: "Industrial Attachment | Tech Kidz Africa",
+    description: "Apply for industrial attachment at Tech Kidz Africa and gain hands-on experience.",
 };
 
 const benefits = [

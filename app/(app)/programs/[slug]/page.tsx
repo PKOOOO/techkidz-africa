@@ -80,7 +80,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     }
     
     return {
-        title: `${program.title} | Swahilipot Hub Foundation`,
+        title: `${program.title} | Tech Kidz Africa`,
         description: program.description,
     };
 }

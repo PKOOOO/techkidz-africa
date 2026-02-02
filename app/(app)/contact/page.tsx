@@ -1,8 +1,8 @@
 import { Contact } from "@/components/swahilipot";
 
 export const metadata = {
-    title: "Contact Us | Swahilipot Hub Foundation",
-    description: "Get in touch with Swahilipot Hub Foundation. We're here to help.",
+    title: "Contact Us | Tech Kidz Africa",
+    description: "Get in touch with Tech Kidz Africa. We're here to help.",
 };
 
 export default function ContactPage() {
