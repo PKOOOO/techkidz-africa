@@ -105,26 +105,26 @@ export const InfiniteMovingCards = ({
               />
             ) : (
               <blockquote className="w-full">
-                <div
-                  aria-hidden="true"
-                  className="user-select-none pointer-events-none absolute -top-0.5 -left-0.5 -z-1 h-[calc(100%_+_4px)] w-[calc(100%_+_4px)]"
-                ></div>
+              <div
+                aria-hidden="true"
+                className="user-select-none pointer-events-none absolute -top-0.5 -left-0.5 -z-1 h-[calc(100%_+_4px)] w-[calc(100%_+_4px)]"
+              ></div>
 
-                {item.icon && (
-                  <div className="bg-swahilipot-100 text-swahilipot-600 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
-                    <item.icon size={24} />
-                  </div>
-                )}
+              {item.icon && (
+                <div className="bg-swahilipot-100 text-swahilipot-600 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
+                  <item.icon size={24} />
+                </div>
+              )}
 
                 {item.name && (
-                  <h3 className="font-semibold text-lg mb-2 text-gray-900">{item.name}</h3>
+              <h3 className="font-semibold text-lg mb-2 text-gray-900">{item.name}</h3>
                 )}
                 {item.quote && (
-                  <p className="text-gray-600 text-sm leading-[1.6]">
-                    {item.quote}
-                  </p>
+              <p className="text-gray-600 text-sm leading-[1.6]">
+                {item.quote}
+              </p>
                 )}
-              </blockquote>
+            </blockquote>
             )}
           </li>
         ))}
