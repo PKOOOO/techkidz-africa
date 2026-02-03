@@ -72,15 +72,15 @@ export default async function ContactPage() {
                             WebkitMaskImage: "linear-gradient(to top, black 0%, transparent 70%)",
                         }}
                     />
-
-                    {/* Text in middle of blur area */}
-                    <div className="absolute inset-0 flex items-end justify-center pb-2 md:pb-4 z-10">
-                        <h1 className="text-2xl md:text-3xl font-bold text-gradient-blue drop-shadow-[0_2px_4px_rgba(255,255,255,0.8)]">
-                            Contact <span className="text-gradient-blue">Us</span>
-                        </h1>
-                    </div>
                 </div>
             </section>
+
+            {/* Title overlapping blur, above the intro text */}
+            <div className="relative -mt-4 md:-mt-6 flex justify-center z-20">
+                <h1 className="text-3xl md:text-3xl font-bold text-gradient-blue drop-shadow-[0_2px_4px_rgba(255,255,255,0.8)]">
+                    Contact <span className="text-gradient-blue">Us</span>
+                </h1>
+            </div>
 
             <section className="section-padding pt-8 md:pt-10">
                 <div className="container-custom">

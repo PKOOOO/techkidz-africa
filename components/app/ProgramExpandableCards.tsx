@@ -69,41 +69,37 @@ export function ProgramExpandableCards({ items }: ProgramExpandableCardsProps) {
             </AnimatePresence>
             <AnimatePresence>
                 {active ? (
-                    <div
-                        key={`modal-${active._id}-${id}`}
-                        className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto p-4 md:p-6"
-                    >
+                    <div key={`modal-${active._id}-${id}`} className="fixed inset-0 grid place-items-center z-[100]">
+                        <motion.button
+                            key={`button-${active._id}-${id}`}
+                            layout
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 0.05 }}
+                            className="flex absolute top-2 right-2 lg:hidden items-center justify-center bg-white rounded-full h-6 w-6 z-[101]"
+                            onClick={() => setActive(null)}
+                        >
+                            <CloseIcon />
+                        </motion.button>
                         <motion.div
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
                             transition={{ duration: 0.2 }}
-                            className="relative w-full max-w-[500px]"
                         >
-                            <motion.button
-                                key={`button-${active._id}-${id}`}
-                                layout
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                exit={{ opacity: 0 }}
-                                transition={{ duration: 0.05 }}
-                                className="flex absolute -top-3 -right-3 lg:hidden items-center justify-center bg-white rounded-full h-7 w-7 z-[101] shadow"
-                                onClick={() => setActive(null)}
-                            >
-                                <CloseIcon />
-                            </motion.button>
                             <NoiseBackground
                                 gradientColors={[
                                     "rgb(106, 19, 131)", // #6A1383 - brand purple
                                     "rgb(56, 182, 255)",  // #38B6FF - brand blue
                                     "rgb(138, 43, 226)",  // purple accent
                                 ]}
-                                containerClassName="w-full"
+                                containerClassName="w-full max-w-[500px] h-full md:h-fit md:max-h-[90%]"
                             >
                                 <motion.div
                                     layoutId={`card-${active._id}-${id}`}
                                     ref={ref}
-                                    className="w-full flex flex-col bg-white dark:bg-neutral-900 rounded-xl overflow-hidden"
+                                    className="w-full h-full flex flex-col bg-white dark:bg-neutral-900 rounded-xl overflow-hidden"
                                 >
                                 <motion.div layoutId={`image-${active._id}-${id}`}>
                                     <Image

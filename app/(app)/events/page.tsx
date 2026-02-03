@@ -152,18 +152,15 @@ export default async function EventsPage() {
                 <div className="absolute bottom-0 z-30 inset-x-0 h-24 md:h-32 w-full pointer-events-none">
                     <div className="absolute inset-0 backdrop-blur-lg" style={{ maskImage: 'linear-gradient(to top, black 0%, black 40%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to top, black 0%, black 40%, transparent 100%)' }} />
                     <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgb(255,255,255) 0%, rgb(255,255,255) 5%, rgba(255,255,255,0.98) 10%, rgba(255,255,255,0.9) 20%, rgba(255,255,255,0.75) 35%, rgba(255,255,255,0.5) 55%, rgba(255,255,255,0.25) 75%, rgba(255,255,255,0.1) 90%, transparent 100%)', maskImage: 'linear-gradient(to top, black 0%, transparent 70%)', WebkitMaskImage: 'linear-gradient(to top, black 0%, transparent 70%)' }} />
-                    
-                    {/* Text in middle of blur area */}
-                    <div className="absolute inset-0 flex items-end justify-center pb-2 md:pb-4 z-10">
-                        <h2 className="text-2xl md:text-3xl font-bold text-gradient-blue drop-shadow-[0_2px_4px_rgba(255,255,255,0.8)]">
-                            Upcoming Events
-                        </h2>
-                    </div>
                 </div>
-                
-                {/* Content */}
-                
             </section>
+
+            {/* Title overlapping blur, above the timeline */}
+            <div className="relative -mt-4 md:-mt-6 flex justify-center z-20">
+                <h2 className="text-3xl md:text-3xl font-bold text-gradient-blue drop-shadow-[0_2px_4px_rgba(255,255,255,0.8)]">
+                    Upcoming Events
+                </h2>
+            </div>
 
             {/* Timeline Section */}
             <section className="pt-8 md:pt-12 pb-16">
