@@ -142,15 +142,15 @@ export default async function ProgramDetailPage({ params }: { params: Promise<{ 
                             WebkitMaskImage: "linear-gradient(to top, black 0%, transparent 70%)",
                         }}
                     />
-
-                    {/* Text in middle of blur area */}
-                    <div className="absolute inset-0 flex items-end justify-center pb-2 md:pb-4 z-10">
-                        <h1 className="text-2xl md:text-3xl font-bold text-gradient-blue drop-shadow-[0_2px_4px_rgba(255,255,255,0.8)]">
-                            {program.title}
-                        </h1>
-                    </div>
                 </div>
             </section>
+
+            {/* Title overlapping blur, above the content */}
+            <div className="relative -mt-4 md:-mt-6 flex justify-center z-20">
+                <h1 className="text-3xl md:text-3xl font-bold text-gradient-blue drop-shadow-[0_2px_4px_rgba(255,255,255,0.8)]">
+                    {program.title}
+                </h1>
+            </div>
 
             {/* Content Section */}
             <section className="section-padding bg-white dark:bg-neutral-950 relative pt-20 md:pt-24">
@@ -165,9 +165,7 @@ export default async function ProgramDetailPage({ params }: { params: Promise<{ 
                     <div className="max-w-4xl mx-auto">
                         {/* Program Icon and Short Description */}
                         <div className="mb-12">
-                            <div className="bg-gradient-to-br from-[#6A1383] to-[#38B6FF] text-white w-16 h-16 rounded-xl flex items-center justify-center mb-6">
-                                <Icon size={32} />
-                            </div>
+                        
                             <p className="text-lg md:text-xl text-neutral-700 dark:text-gray-300 leading-relaxed">
                                 {program.description}
                             </p>
