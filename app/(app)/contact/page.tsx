@@ -51,7 +51,7 @@ export default async function ContactPage() {
                     </div>
                 )}
 
-                {/* Overlay */}
+              
                 <div className="absolute inset-0 bg-[#6A1383]/5 z-0 h-[300px] md:h-[560px]" />
 
                 {/* Bottom blur gradient */}
