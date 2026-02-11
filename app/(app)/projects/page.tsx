@@ -56,7 +56,7 @@ function ProjectSkeleton({
         />
       ) : (
         <div className="flex items-center justify-center w-full h-full text-neutral-400">
-          No image
+          No image added
         </div>
       )}
     </div>
