@@ -1,10 +1,4 @@
-export interface SearchProduct {
-  id: string;
-  name: string;
-  slug: string;
-}
-
-export interface SearchProductsResult {
-  found: boolean;
-  products?: SearchProduct[];
-}
+/**
+ * Shared types for Tech Kidz Africa AI assistant
+ * Currently tools return Sanity data directly, no custom types needed.
+ */

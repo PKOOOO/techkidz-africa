@@ -1,7 +1,9 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PortableText } from "@portabletext/react";
+
 import { client } from "@/sanity/lib/client";
+
 import CareerApplicationForm from "@/components/app/CareerApplicationForm";
 
 type Career = {
@@ -83,7 +85,7 @@ export default async function CareerDetailPage({ params }: { params: Promise<{ s
                             <div>
                                 <h2 className="text-2xl font-bold mb-4">About the role</h2>
                                 <div className="prose max-w-[60ch] text-gray-800 text-base md:text-lg leading-relaxed text-justify">
-                                    <PortableText value={career.description} />
+                                    <PortableText value={career.description as Parameters<typeof PortableText>[0]["value"]} />
                                 </div>
                             </div>
                         ) : null}

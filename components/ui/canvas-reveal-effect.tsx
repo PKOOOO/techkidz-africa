@@ -140,16 +140,14 @@ const DotMatrix: React.FC<DotMatrixProps> = ({
         }
         void main() {
             vec2 st = fragCoord.xy;
-            ${
-              center.includes("x")
-                ? "st.x -= abs(floor((mod(u_resolution.x, u_total_size) - u_dot_size) * 0.5));"
-                : ""
-            }
-            ${
-              center.includes("y")
-                ? "st.y -= abs(floor((mod(u_resolution.y, u_total_size) - u_dot_size) * 0.5));"
-                : ""
-            }
+            ${center.includes("x")
+          ? "st.x -= abs(floor((mod(u_resolution.x, u_total_size) - u_dot_size) * 0.5));"
+          : ""
+        }
+            ${center.includes("y")
+          ? "st.y -= abs(floor((mod(u_resolution.y, u_total_size) - u_dot_size) * 0.5));"
+          : ""
+        }
       float opacity = step(0.0, st.x);
       opacity *= step(0.0, st.y);
 
@@ -191,13 +189,13 @@ const ShaderMaterial = ({
   maxFps?: number;
   uniforms: Uniforms;
 }) => {
-  const { size, clock } = useThree();
-  const ref = useRef<THREE.Mesh>();
+  const { size } = useThree();
+  const ref = useRef<THREE.Mesh>(null);
   const lastFrameTimeRef = useRef(0);
 
-  useFrame(() => {
-    if (!ref.current || !clock) return;
-    const timestamp = clock.getElapsedTime();
+  useFrame((state) => {
+    if (!ref.current) return;
+    const timestamp = state.elapsed;
     if (timestamp - lastFrameTimeRef.current < 1 / maxFps) {
       return;
     }

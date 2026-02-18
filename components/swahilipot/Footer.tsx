@@ -19,13 +19,13 @@ const socialLinks = [
     { name: "YouTube", icon: Youtube, href: "https://youtube.com/@techkidzafrica" },
 ];
 
-async function getPrograms() {
+async function getPrograms(): Promise<{ _id: string; title: string; href: string }[]> {
     const query = `*[_type == "programsPage" && isActive == true] | order(order asc) {
         _id,
         title,
         href
     }`;
-    
+
     try {
         return await client.fetch(query);
     } catch (error) {

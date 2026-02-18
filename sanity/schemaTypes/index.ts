@@ -20,6 +20,8 @@ import { testimonialType } from './testimonialType'
 import { projectType } from './projectType'
 import { projectsHeroImageType } from './projectsHeroImageType'
 import { contactHeroImageType } from './contactHeroImageType'
+import { pageViewType } from './pageViewType'
+import { chatSessionType } from './chatSessionType'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -53,5 +55,8 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     projectsHeroImageType,
     // Contact Page
     contactHeroImageType,
+    // Analytics
+    pageViewType,
+    chatSessionType,
   ],
 }

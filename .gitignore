@@ -50,3 +50,4 @@ coverage/
 
 # Sanity
 .sanity/
+node_modules
