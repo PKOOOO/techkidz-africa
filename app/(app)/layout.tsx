@@ -9,11 +9,13 @@ import { ChatSheet } from "@/components/app/ChatSheet";
 import { FloatingChatTrigger } from "@/components/app/FloatingChatTrigger";
 import { MainContentWrapper } from "@/components/app/MainContentWrapper";
 import { NavbarWrapper, Footer } from "@/components/swahilipot";
+import { PageTracker } from "@/components/app/PageTracker";
 
 function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <ClerkProvider>
       <ChatStoreProvider>
+        <PageTracker />
         <MainContentWrapper>
           <NavbarWrapper />
           <main className="flex-grow">{children}</main>

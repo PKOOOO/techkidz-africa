@@ -31,6 +31,58 @@ export function ChatSheet() {
 
   const { messages, sendMessage, status } = useChat();
   const isLoading = status === "streaming" || status === "submitted";
+  const lastTrackedCount = useRef(0);
+  const chatIdRef = useRef<string | null>(null);
+
+  // Generate a stable chat ID per conversation
+  useEffect(() => {
+    if (messages.length > 0 && !chatIdRef.current) {
+      chatIdRef.current = `chat-${crypto.randomUUID()}`;
+    }
+    if (messages.length === 0) {
+      chatIdRef.current = null;
+      lastTrackedCount.current = 0;
+    }
+  }, [messages.length]);
+
+  // Track chat sessions when AI finishes responding
+  // biome-ignore lint/correctness/useExhaustiveDependencies: track only when loading ends
+  useEffect(() => {
+    if (isLoading || messages.length === 0 || !chatIdRef.current) return;
+    if (messages.length <= lastTrackedCount.current) return;
+    lastTrackedCount.current = messages.length;
+
+    const firstUserMsg = messages.find((m) => m.role === "user");
+    const firstMessage = firstUserMsg ? getMessageText(firstUserMsg) : "";
+
+    const toolsUsed = new Set<string>();
+    for (const m of messages) {
+      for (const part of getToolParts(m)) {
+        if (part.toolName) toolsUsed.add(part.toolName);
+      }
+    }
+
+    let sessionId = "";
+    try {
+      sessionId = sessionStorage.getItem("analytics_session_id") || crypto.randomUUID();
+    } catch { sessionId = crypto.randomUUID(); }
+
+    fetch("/api/analytics/chat-session", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        chatId: chatIdRef.current,
+        sessionId,
+        messageCount: messages.length,
+        toolsUsed: Array.from(toolsUsed),
+        firstMessage,
+        messages: messages.map((m) => ({
+          role: m.role,
+          content: getMessageText(m),
+        })),
+      }),
+    }).catch(() => { });
+  }, [isLoading, messages]);
 
   // Auto-scroll to bottom when new messages arrive or streaming updates
   // biome-ignore lint/correctness/useExhaustiveDependencies: trigger scroll on message/loading changes
