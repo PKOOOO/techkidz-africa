@@ -3,15 +3,58 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Menu, X, ExternalLink, ArrowLeft } from "lucide-react";
+import { LayoutDashboard, Menu, X, ExternalLink, ArrowLeft, Shield, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useSanityAuth } from "@/hooks/useSanityAuth";
 
 const navItems = [{ label: "Dashboard", href: "/admin", icon: LayoutDashboard }];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
     const pathname = usePathname();
     const [sidebarOpen, setSidebarOpen] = useState(false);
+    const { user, loading, isAuthenticated } = useSanityAuth();
 
+    // Loading state while checking authentication
+    if (loading) {
+        return (
+            <div className="flex min-h-screen items-center justify-center bg-zinc-50 dark:bg-zinc-950">
+                <div className="flex flex-col items-center gap-4">
+                    <Loader2 className="h-8 w-8 animate-spin text-purple-600" />
+                    <p className="text-sm text-zinc-500 dark:text-zinc-400">Checking authentication...</p>
+                </div>
+            </div>
+        );
+    }
+
+    // Not authenticated — show sign-in prompt
+    if (!isAuthenticated) {
+        return (
+            <div className="flex min-h-screen items-center justify-center bg-zinc-50 dark:bg-zinc-950 p-4">
+                <div className="w-full max-w-md rounded-2xl border border-zinc-200 bg-white p-8 shadow-lg dark:border-zinc-800 dark:bg-zinc-900">
+                    <div className="flex flex-col items-center text-center">
+                        <div className="flex h-16 w-16 items-center justify-center rounded-full bg-purple-100 dark:bg-purple-950/50">
+                            <Shield className="h-8 w-8 text-purple-600 dark:text-purple-400" />
+                        </div>
+                        <h1 className="mt-6 text-2xl font-bold text-zinc-900 dark:text-zinc-100">Sign in required</h1>
+                        <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">
+                            You need to be signed into Sanity Studio to access the admin dashboard.
+                        </p>
+                        <Link
+                            href="/studio"
+                            className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-purple-600 to-blue-500 px-6 py-3 text-sm font-medium text-white transition-opacity hover:opacity-90"
+                        >
+                            Sign in via Studio <ExternalLink className="h-4 w-4" />
+                        </Link>
+                        <Link href="/" className="mt-4 text-sm text-zinc-500 hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-200">
+                            ← Back to Site
+                        </Link>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    // Authenticated — render the admin layout
     return (
         <div className="flex min-h-screen bg-zinc-50 dark:bg-zinc-950">
             {/* Mobile Header */}
@@ -40,6 +83,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                             <span className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">Analytics</span>
                         </Link>
                     </div>
+                    {/* Logged-in user indicator */}
+                    {user && (
+                        <div className="border-b border-zinc-200 px-6 py-3 dark:border-zinc-800">
+                            <p className="truncate text-xs text-zinc-500 dark:text-zinc-400">Signed in as</p>
+                            <p className="truncate text-sm font-medium text-zinc-900 dark:text-zinc-100">{user.name || user.email}</p>
+                        </div>
+                    )}
                     <nav className="flex-1 space-y-1 px-3 py-4">
                         {navItems.map((item) => {
                             const isActive = item.href === "/admin" ? pathname === "/admin" : pathname.startsWith(item.href);
