@@ -1,12 +1,25 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import CareersList from "@/components/app/CareersList";
 import { client } from "@/sanity/lib/client";
 
-export const metadata = {
-    title: "Careers | Tech Kidz Africa",
-    description: "Join our team and help empower youth across East Africa.",
+export const metadata: Metadata = {
+    title: "Careers | TechKidz Africa",
+    description: "Join the TechKidz Africa team. Explore career opportunities at one of Kenya's leading edtech academies and innovation hubs.",
+    openGraph: {
+        title: "Careers | TechKidz Africa",
+        description: "Join the TechKidz Africa team. Explore career opportunities at one of Kenya's leading edtech academies and innovation hubs.",
+        url: "https://techkidzafrica.co.ke/careers",
+        siteName: "TechKidz Africa",
+        type: "website",
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "Careers | TechKidz Africa",
+        description: "Join the TechKidz Africa team. Explore career opportunities at one of Kenya's leading edtech academies and innovation hubs.",
+    },
 };
 
 const getCareers = async () => {

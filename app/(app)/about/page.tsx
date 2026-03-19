@@ -1,12 +1,25 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import { Briefcase, Star, Lightbulb, ShieldCheck } from "lucide-react";
 import InfiniteMovingCardsDemo from "@/components/infinite-moving-cards-demo";
 import MissionVisionGlowing from "@/components/mission-vision-glowing";
 import OurStoryMeteors from "@/components/our-story-meteors";
 
-export const metadata = {
-    title: "About Us | Tech kidz Africa",
-    description: "Learn about Tech kidz Africa's mission to empower youth through technology, arts, and entrepreneurship.",
+export const metadata: Metadata = {
+    title: "About Us | TechKidz Africa",
+    description: "Learn about TechKidz Africa — a leading technology academy empowering kids, teenagers and youths in Mombasa, Kenya through innovation and digital skills.",
+    openGraph: {
+        title: "About Us | TechKidz Africa",
+        description: "Learn about TechKidz Africa — a leading technology academy empowering kids, teenagers and youths in Mombasa, Kenya through innovation and digital skills.",
+        url: "https://techkidzafrica.co.ke/about",
+        siteName: "TechKidz Africa",
+        type: "website",
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "About Us | TechKidz Africa",
+        description: "Learn about TechKidz Africa — a leading technology academy empowering kids, teenagers and youths in Mombasa, Kenya through innovation and digital skills.",
+    },
 };
 
 

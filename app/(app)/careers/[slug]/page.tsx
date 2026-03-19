@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PortableText } from "@portabletext/react";
@@ -43,6 +44,37 @@ const getCareer = async (slug: string): Promise<Career | null> => {
 
     return client.fetch(query, { slug });
 };
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+    const { slug } = await params;
+    const career = await getCareer(slug);
+
+    if (!career) {
+        return {
+            title: "Career Opportunity | TechKidz Africa",
+        };
+    }
+
+    const title = `${career.title} | TechKidz Africa`;
+    const description = `Apply for ${career.title} at TechKidz Africa${career.location ? ` in ${career.location}` : ""}.`;
+
+    return {
+        title,
+        description,
+        openGraph: {
+            title,
+            description,
+            url: `https://techkidzafrica.co.ke/careers/${slug}`,
+            siteName: "TechKidz Africa",
+            type: "website",
+        },
+        twitter: {
+            card: "summary_large_image",
+            title,
+            description,
+        },
+    };
+}
 
 export default async function CareerDetailPage({ params }: { params: Promise<{ slug: string }> }) {
     const { slug } = await params;

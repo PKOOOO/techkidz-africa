@@ -1,11 +1,24 @@
+import type { Metadata } from "next";
 import { Contact } from "@/components/swahilipot";
 import { ContactMap } from "@/components/app/ContactMap";
 import { client } from "@/sanity/lib/client";
 import { urlFor } from "@/sanity/lib/image";
 
-export const metadata = {
-    title: "Contact Us | Tech Kidz Africa",
-    description: "Get in touch with Tech Kidz Africa. We're here to help.",
+export const metadata: Metadata = {
+    title: "Contact Us | TechKidz Africa",
+    description: "Get in touch with TechKidz Africa. Located at Ratna Square Shopping Centre, Mombasa. Call 0780 754126 or email info@techkidzafrica.co.ke",
+    openGraph: {
+        title: "Contact Us | TechKidz Africa",
+        description: "Get in touch with TechKidz Africa. Located at Ratna Square Shopping Centre, Mombasa. Call 0780 754126 or email info@techkidzafrica.co.ke",
+        url: "https://techkidzafrica.co.ke/contact",
+        siteName: "TechKidz Africa",
+        type: "website",
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "Contact Us | TechKidz Africa",
+        description: "Get in touch with TechKidz Africa. Located at Ratna Square Shopping Centre, Mombasa. Call 0780 754126 or email info@techkidzafrica.co.ke",
+    },
 };
 
 const ADDRESS = "Tech Kidz Africa, XM3M+7X8, Mombasa";
@@ -51,7 +64,7 @@ export default async function ContactPage() {
                     </div>
                 )}
 
-              
+
                 <div className="absolute inset-0 bg-[#6A1383]/5 z-0 h-[300px] md:h-[560px]" />
 
                 {/* Bottom blur gradient */}
@@ -99,7 +112,7 @@ export default async function ContactPage() {
                     <div className="rounded-xl overflow-hidden border border-gray-200 bg-gray-100">
                         <ContactMap accessToken={token} lat={LAT} lng={LNG} zoom={17} />
                     </div>
-                    
+
                 </div>
             </section>
         </>

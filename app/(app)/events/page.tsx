@@ -1,11 +1,24 @@
+import type { Metadata } from "next";
 import { Timeline } from "@/components/ui/timeline";
 import { client } from "@/sanity/lib/client";
 import { urlFor } from "@/sanity/lib/image";
 import { EventCard3D } from "@/components/app/EventCard3D";
 
-export const metadata = {
-    title: "Events | Tech Kidz Africa",
-    description: "Discover upcoming events, workshops, and community gatherings at Swahilipot Hub.",
+export const metadata: Metadata = {
+    title: "Events | TechKidz Africa",
+    description: "Stay updated on upcoming events, workshops, hackathons and community activities at TechKidz Africa in Mombasa, Kenya.",
+    openGraph: {
+        title: "Events | TechKidz Africa",
+        description: "Stay updated on upcoming events, workshops, hackathons and community activities at TechKidz Africa in Mombasa, Kenya.",
+        url: "https://techkidzafrica.co.ke/events",
+        siteName: "TechKidz Africa",
+        type: "website",
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "Events | TechKidz Africa",
+        description: "Stay updated on upcoming events, workshops, hackathons and community activities at TechKidz Africa in Mombasa, Kenya.",
+    },
 };
 
 // Helper function to convert portable text blocks to plain text
@@ -55,7 +68,7 @@ async function getEvents() {
         registrationLink,
         isFeatured
     }`;
-    
+
     return await client.fetch(query);
 }
 
@@ -63,7 +76,7 @@ async function getEventsHeroImage() {
     const query = `*[_type == "eventsHeroImage" && isActive == true][0] {
         image
     }`;
-    
+
     const result = await client.fetch(query);
     if (result?.image) {
         return urlFor(result.image).url();
@@ -74,7 +87,7 @@ async function getEventsHeroImage() {
 export default async function EventsPage() {
     let events: any[] = [];
     let heroImageUrl: string | null = null;
-    
+
     try {
         events = await getEvents();
         heroImageUrl = await getEventsHeroImage();
@@ -88,7 +101,7 @@ export default async function EventsPage() {
 
     // Format data for Timeline component
     const timelineData = years.map((year) => {
-        const yearEvents = eventsByYear[year].sort((a, b) => 
+        const yearEvents = eventsByYear[year].sort((a, b) =>
             new Date(b.date).getTime() - new Date(a.date).getTime()
         );
 
@@ -114,7 +127,7 @@ export default async function EventsPage() {
                                 registrationLink: event.registrationLink,
                                 isFeatured: event.isFeatured,
                             };
-                            
+
                             return (
                                 <EventCard3D
                                     key={event._id}
@@ -144,10 +157,10 @@ export default async function EventsPage() {
                         />
                     </div>
                 )}
-                
+
                 {/* Overlay */}
                 <div className="absolute inset-0 bg-[#6A1383]/5 z-0 h-[300px] md:h-[400px]" />
-                
+
                 {/* Bottom blur gradient */}
                 <div className="absolute bottom-0 z-30 inset-x-0 h-24 md:h-32 w-full pointer-events-none">
                     <div className="absolute inset-0 backdrop-blur-lg" style={{ maskImage: 'linear-gradient(to top, black 0%, black 40%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to top, black 0%, black 40%, transparent 100%)' }} />
@@ -167,17 +180,17 @@ export default async function EventsPage() {
                 <div className="container-custom">
                     {timelineData.length > 0 ? (
                         <div className="relative w-full overflow-clip">
-                            <Timeline 
+                            <Timeline
                                 data={timelineData}
                                 showHeader={false}
                             />
-                                        </div>
+                        </div>
                     ) : (
                         <div className="text-center py-20">
                             <p className="text-gray-500 mb-4">No events found.</p>
                             <p className="text-sm text-gray-400">
-                        Events are managed through Sanity Studio
-                    </p>
+                                Events are managed through Sanity Studio
+                            </p>
                         </div>
                     )}
                 </div>

@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Code, Shield, Bot, Film, Gamepad2, Monitor } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -7,11 +8,28 @@ import { client } from "@/sanity/lib/client";
 import { urlFor } from "@/sanity/lib/image";
 import { ProgramSkeleton } from "@/components/app/ProgramSkeleton";
 
+export const metadata: Metadata = {
+    title: "Programs | TechKidz Africa",
+    description: "Explore TechKidz Africa's technology programs designed to empower learners with hands-on digital, coding, and innovation skills.",
+    openGraph: {
+        title: "Programs | TechKidz Africa",
+        description: "Explore TechKidz Africa's technology programs designed to empower learners with hands-on digital, coding, and innovation skills.",
+        url: "https://techkidzafrica.co.ke/programs",
+        siteName: "TechKidz Africa",
+        type: "website",
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "Programs | TechKidz Africa",
+        description: "Explore TechKidz Africa's technology programs designed to empower learners with hands-on digital, coding, and innovation skills.",
+    },
+};
+
 async function getProgramsHeroImage() {
     const query = `*[_type == "programsHeroImage" && isActive == true][0] {
         image
     }`;
-    
+
     const result = await client.fetch(query);
     if (result?.image) {
         return urlFor(result.image).url();
@@ -38,14 +56,14 @@ async function getPrograms() {
         },
         order
     }`;
-    
+
     return await client.fetch(query);
 }
 
 export default async function ProgramsPage() {
     let heroImageUrl: string | null = null;
     let programs: any[] = [];
-    
+
     try {
         heroImageUrl = await getProgramsHeroImage();
         programs = await getPrograms();
@@ -69,10 +87,10 @@ export default async function ProgramsPage() {
                         />
                     </div>
                 )}
-                
+
                 {/* Overlay */}
                 <div className="absolute inset-0 bg-[#6A1383]/5 z-0 h-[300px] md:h-[400px]" />
-                
+
                 {/* Bottom blur gradient */}
                 <div className="absolute bottom-0 z-30 inset-x-0 h-24 md:h-32 w-full pointer-events-none">
                     <div className="absolute inset-0 backdrop-blur-lg" style={{ maskImage: 'linear-gradient(to top, black 0%, black 40%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to top, black 0%, black 40%, transparent 100%)' }} />
@@ -87,14 +105,14 @@ export default async function ProgramsPage() {
                 </h1>
             </div>
 
-           
+
 
             {/* Programs Bento Grid */}
             <section className="section-padding">
                 <div className="container-custom">
                     <BentoGrid className="max-w-7xl mx-auto md:auto-rows-[20rem]">
                         {programs.map((program, i) => {
-                                            
+
                             return (
                                 <BentoGridItem
                                     key={program._id || program.href}
@@ -102,7 +120,7 @@ export default async function ProgramsPage() {
                                     description={<span className="text-sm">{program.description}</span>}
                                     header={<ProgramSkeleton program={program} index={i} />}
                                     className={cn("[&>p:text-lg]", "md:col-span-1")}
-                                   
+
                                     href={program.href}
                                 />
                             );

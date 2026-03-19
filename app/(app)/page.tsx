@@ -1,14 +1,35 @@
+import type { Metadata } from "next";
 import { Hero, About, Programs, Impact, TeamWrapper, Contact } from "@/components/swahilipot";
 import { client } from "@/sanity/lib/client";
 import { urlFor } from "@/sanity/lib/image";
+
+export const metadata: Metadata = {
+  title: "TechKidz Africa | Edtech Academy & Innovation Hub in Mombasa",
+  description:
+    "Tech Kidz Africa is an edtech Academy, innovation hub and social enterprise that nurtures the spirit of innovativeness through empowering learners.",
+  openGraph: {
+    title: "TechKidz Africa | Edtech Academy & Innovation Hub in Mombasa",
+    description:
+      "Tech Kidz Africa is an edtech Academy, innovation hub and social enterprise that nurtures the spirit of innovativeness through empowering learners.",
+    url: "https://techkidzafrica.co.ke",
+    siteName: "TechKidz Africa",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "TechKidz Africa | Edtech Academy & Innovation Hub in Mombasa",
+    description:
+      "Tech Kidz Africa is an edtech Academy, innovation hub and social enterprise that nurtures the spirit of innovativeness through empowering learners.",
+  },
+};
 
 async function getHeroImages() {
   const query = `*[_type == "heroImage" && isActive == true && defined(image)] | order(order asc) {
     image
   }`;
-  
+
   const images = await client.fetch(query);
-  
+
   // Convert Sanity image references to URLs (preserving original aspect ratio)
   return images
     .map((item: { image?: any }) => {
@@ -32,7 +53,7 @@ async function getImpactStats() {
     description,
     order
   }`;
-  
+
   try {
     return await client.fetch(query);
   } catch (error) {
@@ -44,7 +65,7 @@ async function getImpactStats() {
 export default async function HomePage() {
   let heroImages: string[] = [];
   let impactStats: any[] = [];
-  
+
   try {
     heroImages = await getHeroImages();
   } catch (error) {

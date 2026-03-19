@@ -1,10 +1,23 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, CheckCircle, Clock, Users, Briefcase } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-export const metadata = {
-    title: "Industrial Attachment | Tech Kidz Africa",
-    description: "Apply for industrial attachment at Tech Kidz Africa and gain hands-on experience.",
+export const metadata: Metadata = {
+    title: "Industrial Attachment | TechKidz Africa",
+    description: "Apply for industrial attachment at TechKidz Africa. Gain real-world tech experience and mentorship in Mombasa, Kenya.",
+    openGraph: {
+        title: "Industrial Attachment | TechKidz Africa",
+        description: "Apply for industrial attachment at TechKidz Africa. Gain real-world tech experience and mentorship in Mombasa, Kenya.",
+        url: "https://techkidzafrica.co.ke/industrial-attachment",
+        siteName: "TechKidz Africa",
+        type: "website",
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "Industrial Attachment | TechKidz Africa",
+        description: "Apply for industrial attachment at TechKidz Africa. Gain real-world tech experience and mentorship in Mombasa, Kenya.",
+    },
 };
 
 const benefits = [

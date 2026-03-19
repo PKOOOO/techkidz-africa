@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -7,10 +8,24 @@ import { cn } from "@/lib/utils";
 import { client } from "@/sanity/lib/client";
 import { urlFor } from "@/sanity/lib/image";
 
-export const metadata = {
-  title: "Projects | Tech Kidz Africa",
+export const metadata: Metadata = {
+  title: "Projects | TechKidz Africa",
   description:
-    "Explore our projects and initiatives making an impact in East Africa.",
+    "Discover innovative projects built by students and teams at TechKidz Africa — real solutions from young innovators in Mombasa.",
+  openGraph: {
+    title: "Projects | TechKidz Africa",
+    description:
+      "Discover innovative projects built by students and teams at TechKidz Africa — real solutions from young innovators in Mombasa.",
+    url: "https://techkidzafrica.co.ke/projects",
+    siteName: "TechKidz Africa",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Projects | TechKidz Africa",
+    description:
+      "Discover innovative projects built by students and teams at TechKidz Africa — real solutions from young innovators in Mombasa.",
+  },
 };
 
 async function getProjectsHeroImage() {

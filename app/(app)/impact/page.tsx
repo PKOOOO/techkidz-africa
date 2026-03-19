@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { Impact } from "@/components/swahilipot";
 import Carousel from "@/components/ui/carousel2";
 import { AnimatedTestimonials } from "@/components/ui/animated-testimonials";
@@ -5,11 +6,28 @@ import { InfiniteMovingCards } from "@/components/ui/infinite-moving-cards";
 import { client } from "@/sanity/lib/client";
 import { urlFor } from "@/sanity/lib/image";
 
+export const metadata: Metadata = {
+    title: "Our Impact | TechKidz Africa",
+    description: "See the measurable impact TechKidz Africa has made in empowering young learners and communities across Kenya through technology education.",
+    openGraph: {
+        title: "Our Impact | TechKidz Africa",
+        description: "See the measurable impact TechKidz Africa has made in empowering young learners and communities across Kenya through technology education.",
+        url: "https://techkidzafrica.co.ke/impact",
+        siteName: "TechKidz Africa",
+        type: "website",
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "Our Impact | TechKidz Africa",
+        description: "See the measurable impact TechKidz Africa has made in empowering young learners and communities across Kenya through technology education.",
+    },
+};
+
 async function getImpactHeroImage() {
     const query = `*[_type == "impactHeroImage" && isActive == true][0] {
         image
     }`;
-    
+
     const result = await client.fetch(query);
     if (result?.image) {
         return urlFor(result.image).url();
@@ -26,7 +44,7 @@ async function getImpactStats() {
         description,
         order
     }`;
-    
+
     return await client.fetch(query);
 }
 
@@ -76,18 +94,13 @@ async function getPartners() {
         }));
 }
 
-export const metadata = {
-    title: "Our Impact | Tech Kidz Africa",
-    description: "See Tech Kidz Africa is making a difference in the lives of young people across East Africa.",
-};
-
 export default async function ImpactPage() {
     let heroImageUrl: string | null = null;
     let impactStats: any[] = [];
     let teamMembers: any[] = [];
     let testimonials: any[] = [];
     let partners: any[] = [];
-    
+
     try {
         heroImageUrl = await getImpactHeroImage();
         impactStats = await getImpactStats();
@@ -115,10 +128,10 @@ export default async function ImpactPage() {
                         />
                     </div>
                 )}
-                
+
                 {/* Overlay */}
                 <div className="absolute inset-0 bg-[#6A1383]/5 z-0 h-[300px] md:h-[400px]" />
-                
+
                 {/* Bottom blur gradient */}
                 <div className="absolute bottom-0 z-30 inset-x-0 h-24 md:h-32 w-full pointer-events-none">
                     <div className="absolute inset-0 backdrop-blur-lg" style={{ maskImage: 'linear-gradient(to top, black 0%, black 40%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to top, black 0%, black 40%, transparent 100%)' }} />
@@ -173,7 +186,7 @@ export default async function ImpactPage() {
                             <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
                                 Real stories of transformation from our community members.
                             </p>
-                            </div>
+                        </div>
                         <AnimatedTestimonials
                             testimonials={testimonials.map((item) => ({
                                 quote: item.quote,
@@ -205,9 +218,9 @@ export default async function ImpactPage() {
                                 direction="right"
                                 speed="normal"
                             />
+                        </div>
                     </div>
-                </div>
-            </section>
+                </section>
             )}
         </>
     );

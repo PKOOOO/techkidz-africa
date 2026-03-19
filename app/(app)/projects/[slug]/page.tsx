@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PortableText } from "@portabletext/react";
@@ -43,19 +44,34 @@ export async function generateMetadata({
   params,
 }: {
   params: Promise<{ slug: string }>;
-}) {
+}): Promise<Metadata> {
   const { slug } = await params;
   const project = await getProject(slug);
 
   if (!project) {
     return {
-      title: "Project Not Found",
+      title: "Project | TechKidz Africa",
     };
   }
 
+  const title = `${project.title} | TechKidz Africa`;
+  const description = project.description || "Discover this project at TechKidz Africa.";
+
   return {
-    title: `${project.title} | Tech Kidz Africa`,
-    description: project.description,
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      url: `https://techkidzafrica.co.ke/projects/${slug}`,
+      siteName: "TechKidz Africa",
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+    },
   };
 }
 

@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { client } from "@/sanity/lib/client";
@@ -18,7 +19,7 @@ const iconMap: Record<string, LucideIcon> = {
 async function getProgramBySlug(slug: string) {
     // Match the href format stored in Sanity (e.g., "/programs/web-development")
     const href = `/programs/${slug}`;
-    
+
     const query = `*[_type == "programsPage" && href == $href && isActive == true][0] {
         _id,
         title,
@@ -38,13 +39,13 @@ async function getProgramBySlug(slug: string) {
             }
         }
     }`;
-    
+
     const result = await client.fetch(query, { href });
-    
+
     if (result?.heroImage) {
         result.heroImageUrl = urlFor(result.heroImage).url();
     }
-    
+
     return result;
 }
 
@@ -59,9 +60,9 @@ async function getProgramItems(programId: string) {
         ctaLink,
         order
     }`;
-    
+
     const items = await client.fetch(query, { programId });
-    
+
     // Process items: convert images to URLs
     return items.map((item: any) => ({
         ...item,
@@ -69,33 +70,48 @@ async function getProgramItems(programId: string) {
     }));
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
     const { slug } = await params;
     const program = await getProgramBySlug(slug);
-    
+
     if (!program) {
         return {
-            title: "Program Not Found",
+            title: "Program | TechKidz Africa",
         };
     }
-    
+
+    const title = `${program.title} | TechKidz Africa`;
+    const description = program.description || "Explore this program at TechKidz Africa.";
+
     return {
-        title: `${program.title} | Tech Kidz Africa`,
-        description: program.description,
+        title,
+        description,
+        openGraph: {
+            title,
+            description,
+            url: `https://techkidzafrica.co.ke/programs/${slug}`,
+            siteName: "TechKidz Africa",
+            type: "website",
+        },
+        twitter: {
+            card: "summary_large_image",
+            title,
+            description,
+        },
     };
 }
 
 export default async function ProgramDetailPage({ params }: { params: Promise<{ slug: string }> }) {
     const { slug } = await params;
     const program = await getProgramBySlug(slug);
-    
+
     if (!program) {
         notFound();
     }
-    
+
     const Icon = iconMap[program.iconName] || Code;
     const heroImageUrl = program.heroImageUrl;
-    
+
     // Fetch program items/modules
     let programItems: any[] = [];
     try {
@@ -120,10 +136,10 @@ export default async function ProgramDetailPage({ params }: { params: Promise<{ 
                         />
                     </div>
                 )}
-                
+
                 {/* Overlay */}
                 <div className="absolute inset-0 bg-[#6A1383]/5 z-0 h-[300px] md:h-[560px]" />
-                
+
                 {/* Bottom blur gradient - light blend into white content (match Projects page) */}
                 <div className="absolute bottom-0 z-30 inset-x-0 h-24 md:h-32 w-full pointer-events-none">
                     <div
@@ -155,8 +171,8 @@ export default async function ProgramDetailPage({ params }: { params: Promise<{ 
             {/* Content Section */}
             <section className="section-padding bg-white dark:bg-neutral-950 relative pt-20 md:pt-24">
                 <div className="container-custom">
-                    <Link 
-                        href="/programs" 
+                    <Link
+                        href="/programs"
                         className="inline-flex items-center text-[#6A1383] hover:text-[#38B6FF] mb-8 transition-colors"
                     >
                         <ArrowLeft className="mr-2 h-4 w-4" /> Back to Programs
@@ -165,7 +181,7 @@ export default async function ProgramDetailPage({ params }: { params: Promise<{ 
                     <div className="max-w-4xl mx-auto">
                         {/* Program Icon and Short Description */}
                         <div className="mb-12">
-                        
+
                             <p className="text-lg md:text-xl text-neutral-700 dark:text-gray-300 leading-relaxed">
                                 {program.description}
                             </p>
@@ -184,7 +200,7 @@ export default async function ProgramDetailPage({ params }: { params: Promise<{ 
                                 <p className="text-sm text-neutral-500 dark:text-gray-500">
                                     Check back later for detailed program content.
                                 </p>
-                                </div>
+                            </div>
                         ) : (
                             <div className="text-center py-12">
                                 <p className="text-neutral-600 dark:text-gray-400">
