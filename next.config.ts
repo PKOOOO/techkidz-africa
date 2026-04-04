@@ -70,12 +70,6 @@ const nextConfig: NextConfig = {
         destination: "/programs",
         permanent: true,
       },
-      // Wildcard catch-all — must be last
-      {
-        source: "/:path*",
-        destination: "/",
-        permanent: false,
-      },
     ];
   },
 };
