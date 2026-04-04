@@ -70,6 +70,16 @@ const nextConfig: NextConfig = {
         destination: "/programs",
         permanent: true,
       },
+      {
+        source: "/faq_page",
+        destination: "/about",
+        permanent: true,
+      },
+      {
+        source: "/public/about_main_page",
+        destination: "/about",
+        permanent: true,
+      },
     ];
   },
 };
