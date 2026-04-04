@@ -45,6 +45,37 @@ const nextConfig: NextConfig = {
         destination: "/programs",
         permanent: true,
       },
+      {
+        source: "/all_events_view",
+        destination: "/events",
+        permanent: true,
+      },
+      {
+        source: "/Faq",
+        destination: "/about",
+        permanent: true,
+      },
+      {
+        source: "/all_blogs",
+        destination: "/",
+        permanent: true,
+      },
+      {
+        source: "/contactus_page",
+        destination: "/contact",
+        permanent: true,
+      },
+      {
+        source: "/programs_page",
+        destination: "/programs",
+        permanent: true,
+      },
+      // Wildcard catch-all — must be last
+      {
+        source: "/:path*",
+        destination: "/",
+        permanent: false,
+      },
     ];
   },
 };
