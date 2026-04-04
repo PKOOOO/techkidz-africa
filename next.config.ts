@@ -80,6 +80,56 @@ const nextConfig: NextConfig = {
         destination: "/about",
         permanent: true,
       },
+      {
+        source: "/home",
+        destination: "/",
+        permanent: true,
+      },
+      {
+        source: "/about_main_page",
+        destination: "/about",
+        permanent: true,
+      },
+      {
+        source: "/news_page",
+        destination: "/",
+        permanent: true,
+      },
+      {
+        source: "/show_all_news",
+        destination: "/",
+        permanent: true,
+      },
+      {
+        source: "/main_news_view/:id",
+        destination: "/",
+        permanent: true,
+      },
+      {
+        source: "/post_details/:id",
+        destination: "/",
+        permanent: true,
+      },
+      {
+        source: "/single_program/:id",
+        destination: "/programs",
+        permanent: true,
+      },
+      {
+        source: "/single_event/:id",
+        destination: "/events",
+        permanent: true,
+      },
+      {
+        source: "/view_program",
+        destination: "/programs",
+        permanent: true,
+      },
+      {
+        source: "/donate",
+        destination: "/",
+        permanent: true,
+      },
     ];
   },
 };
