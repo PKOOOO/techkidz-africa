@@ -13,8 +13,28 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Tech Kidz Africa",
-  description: "Tech Kidz Africa is an edtech Academy, innovation hub and social enterprise that nurtures the spirit of innovativeness through empowering learners,capacity building educators, digital learning resources development and offering digital literacy employability skills.",
+  metadataBase: new URL("https://techkidzafrica.co.ke"),
+  title: {
+    default: "Tech Kidz Africa | Technology Academy for Children & Youth in Kenya",
+    template: "%s | Tech Kidz Africa",
+  },
+  description:
+    "Tech Kidz Africa is a leading technology academy and innovation hub in Mombasa, Kenya. We empower children and youth (ages 4-19) through robotics, coding, graphic design, and creative technology programs.",
+  keywords: [
+    "Tech Kidz Africa",
+    "TechKidz Africa",
+    "technology academy Kenya",
+    "coding for kids Mombasa",
+    "robotics for children Kenya",
+    "STEM education Kenya",
+    "kids coding classes",
+    "youth technology programs",
+    "innovation hub Mombasa",
+    "edtech Africa",
+  ],
+  alternates: {
+    canonical: "https://techkidzafrica.co.ke",
+  },
 };
 
 export default function RootLayout({
