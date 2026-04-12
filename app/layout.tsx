@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     canonical: "https://techkidzafrica.co.ke",
   },
   icons: {
-    icon: "/icon.svg",
+    icon: "/icon.png",
     apple: "/apple-icon.png",
   },
 };
