@@ -2,7 +2,6 @@
 
 import { useState, useRef, useEffect } from "react";
 import { useChat } from "@ai-sdk/react";
-import { useAuth } from "@clerk/nextjs";
 import { Sparkles, Send, Loader2, X, Bot } from "lucide-react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
@@ -25,13 +24,13 @@ export function ChatSheet() {
   const isOpen = useIsChatOpen();
   const { closeChat, clearPendingMessage } = useChatActions();
   const pendingMessage = usePendingMessage();
-  const { isSignedIn } = useAuth();
   const [input, setInput] = useState("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const { messages, sendMessage, status } = useChat();
   const isLoading = status === "streaming" || status === "submitted";
   const lastTrackedCount = useRef(0);
+  const isSignedIn = false;
   const chatIdRef = useRef<string | null>(null);
 
   // Generate a stable chat ID per conversation
@@ -136,7 +135,7 @@ export function ChatSheet() {
           {messages.length === 0 ? (
             <WelcomeScreen
               onSuggestionClick={sendMessage}
-              isSignedIn={isSignedIn ?? false}
+              isSignedIn={false}
             />
           ) : (
             <div className="space-y-4">

@@ -1,5 +1,4 @@
 import { createAgentUIStreamResponse, type UIMessage } from "ai";
-import { auth } from "@clerk/nextjs/server";
 import { createHubAgent } from "@/lib/ai/shopping-agent";
 
 export async function POST(request: Request) {
@@ -18,8 +17,7 @@ export async function POST(request: Request) {
     });
   }
 
-  // Get the user's session - userId will be null if not authenticated
-  const { userId } = await auth();
+  const userId = null;
 
   // Create agent with user context
   const agent = createHubAgent({ userId });

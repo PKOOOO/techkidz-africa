@@ -1,4 +1,3 @@
-import { ClerkProvider } from "@clerk/nextjs";
 import { SanityLive } from "@/sanity/lib/live";
 
 import { Toaster } from "@/components/ui/sonner";
@@ -13,10 +12,9 @@ import { PageTracker } from "@/components/app/PageTracker";
 
 function AppLayout({ children }: { children: React.ReactNode }) {
   return (
-    <ClerkProvider>
-      <ChatStoreProvider>
-        <PageTracker />
-        <MainContentWrapper>
+    <ChatStoreProvider>
+      <PageTracker />
+      <MainContentWrapper>
           <NavbarWrapper />
           <main className="flex-grow">{children}</main>
           <Footer />
@@ -28,7 +26,6 @@ function AppLayout({ children }: { children: React.ReactNode }) {
 
         <SanityLive />
       </ChatStoreProvider>
-    </ClerkProvider>
   );
 }
 
