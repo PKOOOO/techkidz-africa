@@ -91,6 +91,16 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
+        source: "/about-tech-kidz-africa",
+        destination: "/about",
+        permanent: true,
+      },
+      {
+        source: "/index.html",
+        destination: "/",
+        permanent: true,
+      },
+      {
         source: "/news_page",
         destination: "/",
         permanent: true,
