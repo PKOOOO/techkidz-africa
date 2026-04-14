@@ -11,6 +11,9 @@ import { ProgramSkeleton } from "@/components/app/ProgramSkeleton";
 export const metadata: Metadata = {
     title: "Programs | TechKidz Africa",
     description: "Explore TechKidz Africa's technology programs designed to empower learners with hands-on digital, coding, and innovation skills.",
+    alternates: {
+        canonical: "https://techkidzafrica.co.ke/programs",
+    },
     openGraph: {
         title: "Programs | TechKidz Africa",
         description: "Explore TechKidz Africa's technology programs designed to empower learners with hands-on digital, coding, and innovation skills.",

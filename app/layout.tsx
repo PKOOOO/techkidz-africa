@@ -32,12 +32,22 @@ export const metadata: Metadata = {
     "innovation hub Mombasa",
     "edtech Africa",
   ],
-  alternates: {
-    canonical: "https://techkidzafrica.co.ke",
+  openGraph: {
+    siteName: "TechKidz Africa",
+    locale: "en_US",
+    type: "website",
+    images: [
+      {
+        url: "/tka_logo.png",
+        width: 226,
+        height: 225,
+        alt: "TechKidz Africa Logo",
+      },
+    ],
   },
-  icons: {
-    icon: "/icon.png",
-    apple: "/apple-icon.png",
+  twitter: {
+    card: "summary_large_image",
+    site: "@techkidzafrica",
   },
 };
 

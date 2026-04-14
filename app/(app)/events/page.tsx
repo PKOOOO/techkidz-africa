@@ -7,6 +7,9 @@ import { EventCard3D } from "@/components/app/EventCard3D";
 export const metadata: Metadata = {
     title: "Events | TechKidz Africa",
     description: "Stay updated on upcoming events, workshops, hackathons and community activities at TechKidz Africa in Mombasa, Kenya.",
+    alternates: {
+        canonical: "https://techkidzafrica.co.ke/events",
+    },
     openGraph: {
         title: "Events | TechKidz Africa",
         description: "Stay updated on upcoming events, workshops, hackathons and community activities at TechKidz Africa in Mombasa, Kenya.",

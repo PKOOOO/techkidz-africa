@@ -12,6 +12,9 @@ export const metadata: Metadata = {
   title: "Projects | TechKidz Africa",
   description:
     "Discover innovative projects built by students and teams at TechKidz Africa — real solutions from young innovators in Mombasa.",
+  alternates: {
+    canonical: "https://techkidzafrica.co.ke/projects",
+  },
   openGraph: {
     title: "Projects | TechKidz Africa",
     description:

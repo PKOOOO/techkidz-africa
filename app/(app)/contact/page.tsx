@@ -7,6 +7,9 @@ import { urlFor } from "@/sanity/lib/image";
 export const metadata: Metadata = {
     title: "Contact Us | TechKidz Africa",
     description: "Get in touch with TechKidz Africa. Located at Ratna Square Shopping Centre, Mombasa. Call 0780 754126 or email info@techkidzafrica.co.ke",
+    alternates: {
+        canonical: "https://techkidzafrica.co.ke/contact",
+    },
     openGraph: {
         title: "Contact Us | TechKidz Africa",
         description: "Get in touch with TechKidz Africa. Located at Ratna Square Shopping Centre, Mombasa. Call 0780 754126 or email info@techkidzafrica.co.ke",

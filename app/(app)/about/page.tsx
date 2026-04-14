@@ -8,6 +8,9 @@ import OurStoryMeteors from "@/components/our-story-meteors";
 export const metadata: Metadata = {
     title: "About Us | TechKidz Africa",
     description: "Learn about TechKidz Africa — a leading technology academy empowering kids, teenagers and youths in Mombasa, Kenya through innovation and digital skills.",
+    alternates: {
+        canonical: "https://techkidzafrica.co.ke/about",
+    },
     openGraph: {
         title: "About Us | TechKidz Africa",
         description: "Learn about TechKidz Africa — a leading technology academy empowering kids, teenagers and youths in Mombasa, Kenya through innovation and digital skills.",

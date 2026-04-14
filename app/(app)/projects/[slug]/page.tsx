@@ -60,6 +60,9 @@ export async function generateMetadata({
   return {
     title,
     description,
+    alternates: {
+      canonical: `https://techkidzafrica.co.ke/projects/${slug}`,
+    },
     openGraph: {
       title,
       description,

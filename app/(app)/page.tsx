@@ -7,6 +7,9 @@ export const metadata: Metadata = {
   title: "TechKidz Africa | Edtech Academy & Innovation Hub in Mombasa",
   description:
     "Tech Kidz Africa is an edtech Academy, innovation hub and social enterprise that nurtures the spirit of innovativeness through empowering learners.",
+  alternates: {
+    canonical: "https://techkidzafrica.co.ke",
+  },
   openGraph: {
     title: "TechKidz Africa | Edtech Academy & Innovation Hub in Mombasa",
     description:

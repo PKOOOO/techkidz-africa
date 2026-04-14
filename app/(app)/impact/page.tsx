@@ -9,6 +9,9 @@ import { urlFor } from "@/sanity/lib/image";
 export const metadata: Metadata = {
     title: "Our Impact | TechKidz Africa",
     description: "See the measurable impact TechKidz Africa has made in empowering young learners and communities across Kenya through technology education.",
+    alternates: {
+        canonical: "https://techkidzafrica.co.ke/impact",
+    },
     openGraph: {
         title: "Our Impact | TechKidz Africa",
         description: "See the measurable impact TechKidz Africa has made in empowering young learners and communities across Kenya through technology education.",

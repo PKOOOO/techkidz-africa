@@ -8,6 +8,9 @@ import { client } from "@/sanity/lib/client";
 export const metadata: Metadata = {
     title: "Careers | TechKidz Africa",
     description: "Join the TechKidz Africa team. Explore career opportunities at one of Kenya's leading edtech academies and innovation hubs.",
+    alternates: {
+        canonical: "https://techkidzafrica.co.ke/careers",
+    },
     openGraph: {
         title: "Careers | TechKidz Africa",
         description: "Join the TechKidz Africa team. Explore career opportunities at one of Kenya's leading edtech academies and innovation hubs.",
