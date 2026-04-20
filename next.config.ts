@@ -140,6 +140,66 @@ const nextConfig: NextConfig = {
         destination: "/",
         permanent: true,
       },
+      {
+        source: "/public/index.php/main_news_view/:id",
+        destination: "/",
+        permanent: true,
+      },
+      {
+        source: "/public/index.php/single_event/:id",
+        destination: "/events",
+        permanent: true,
+      },
+      {
+        source: "/public/index.php/single_program/:id",
+        destination: "/programs",
+        permanent: true,
+      },
+      {
+        source: "/public/index.php/show_all_news",
+        destination: "/",
+        permanent: true,
+      },
+      {
+        source: "/public/index.php/Enrolment_page",
+        destination: "/programs",
+        permanent: true,
+      },
+      {
+        source: "/public/index.php/all_blogs",
+        destination: "/",
+        permanent: true,
+      },
+      {
+        source: "/public/index.php/:path*",
+        destination: "/",
+        permanent: true,
+      },
+      {
+        source: "/public/post_details/:id",
+        destination: "/projects",
+        permanent: true,
+      },
+      {
+        source: "/public/faq_page",
+        destination: "/about",
+        permanent: true,
+      },
+      {
+        source: "/public/all_events_view",
+        destination: "/events",
+        permanent: true,
+      },
+      {
+        source: "/public/programs_page",
+        destination: "/programs",
+        permanent: true,
+      },
+      {
+        source: "/index.php",
+        destination: "/",
+        permanent: true,
+      },
     ];
   },
 };
