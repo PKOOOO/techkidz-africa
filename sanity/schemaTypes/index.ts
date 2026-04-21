@@ -1,5 +1,6 @@
 import type { SchemaTypeDefinition } from "sanity";
 
+import { postType } from './postType'
 import { programType } from './programType'
 import { eventType } from './eventType'
 import { careerType } from './careerType'
@@ -25,6 +26,8 @@ import { chatSessionType } from './chatSessionType'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
+    // Blog
+    postType,
     // Core content
     programType,
     eventType,

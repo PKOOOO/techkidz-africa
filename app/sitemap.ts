@@ -62,13 +62,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
             changeFrequency: 'weekly',
             priority: 0.8,
         },
+        {
+            url: `${BASE_URL}/blogs`,
+            lastModified: new Date(),
+            changeFrequency: 'weekly',
+            priority: 0.8,
+        },
     ]
 
     // Dynamic routes from Sanity
-    const [programSlugs, projectSlugs, careerSlugs] = await Promise.all([
+    const [programSlugs, projectSlugs, careerSlugs, postSlugs] = await Promise.all([
         fetchSlugs('program'),
         fetchSlugs('project'),
         fetchSlugs('career'),
+        fetchSlugs('post'),
     ])
 
     const programRoutes: MetadataRoute.Sitemap = programSlugs.map((slug) => ({
@@ -92,5 +99,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         priority: 0.6,
     }))
 
-    return [...staticRoutes, ...programRoutes, ...projectRoutes, ...careerRoutes]
+    const postRoutes: MetadataRoute.Sitemap = postSlugs.map((slug) => ({
+        url: `${BASE_URL}/blogs/${slug}`,
+        lastModified: new Date(),
+        changeFrequency: 'weekly',
+        priority: 0.7,
+    }))
+
+    return [...staticRoutes, ...programRoutes, ...projectRoutes, ...careerRoutes, ...postRoutes]
 }

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Menu, X, Heart, ChevronDown } from "lucide-react";
+import { Menu, X, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
     NavigationMenu,
@@ -128,6 +128,9 @@ export function Navbar({ programs = [], projects = [] }: NavbarProps) {
                     <Link href="/impact" className="px-2 py-1 text-foreground hover:text-swahilipot-600 transition-colors">
                         Impact
                     </Link>
+                    <Link href="/blogs" className="px-2 py-1 text-foreground hover:text-swahilipot-600 transition-colors">
+                        Blogs
+                    </Link>
                     <Link href="/contact" className="px-2 py-1 text-foreground hover:text-swahilipot-600 transition-colors">
                         Contact
                     </Link>
@@ -203,6 +206,9 @@ export function Navbar({ programs = [], projects = [] }: NavbarProps) {
 
                         <Link href="/impact" className="text-foreground hover:text-swahilipot-600 transition-colors py-2" onClick={toggleMenu}>
                             Impact
+                        </Link>
+                        <Link href="/blogs" className="text-foreground hover:text-swahilipot-600 transition-colors py-2" onClick={toggleMenu}>
+                            Blogs
                         </Link>
                         <Link href="/contact" className="text-foreground hover:text-swahilipot-600 transition-colors py-2" onClick={toggleMenu}>
                             Contact
