@@ -6,6 +6,8 @@ import { client } from "@/sanity/lib/client";
 import { postBySlugQuery } from "@/sanity/queries";
 import type { Post } from "@/types/blog";
 
+export const revalidate = 60;
+
 function formatDate(publishedAt: string) {
   return new Date(publishedAt).toLocaleDateString("en-US", {
     year: "numeric",

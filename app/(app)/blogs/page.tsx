@@ -4,6 +4,8 @@ import { allPostsQuery } from "@/sanity/queries";
 import type { Post } from "@/types/blog";
 import { BlogsClientWrapper } from "@/components/blog/BlogsClientWrapper";
 
+export const revalidate = 60;
+
 export const metadata: Metadata = {
   title: "Blog | TechKidz Africa",
   description:
