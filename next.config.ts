@@ -200,6 +200,11 @@ const nextConfig: NextConfig = {
         destination: "/",
         permanent: true,
       },
+      {
+        source: "/webmail",
+        destination: "https://mail.techkidzafrica.co.ke:2096",
+        permanent: false,
+      },
     ];
   },
 };
