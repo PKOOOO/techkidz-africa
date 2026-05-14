@@ -26,12 +26,13 @@ export const metadata: Metadata = {
 };
 
 const getCareers = async () => {
-    const query = `*[_type == "career" && (!defined(isActive) || isActive == true)] | order(_createdAt desc) {
+    const query = `*[_type == "career"] | order(_createdAt desc) {
         _id,
         title,
         "slug": slug.current,
         type,
         location,
+        "isActive": coalesce(isActive, true),
     }`;
 
     return client.fetch(query);
