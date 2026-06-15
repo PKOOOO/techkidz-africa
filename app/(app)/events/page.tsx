@@ -1,8 +1,22 @@
 import type { Metadata } from "next";
+import Image from "next/image";
+import { PortableText, type PortableTextBlock } from "@portabletext/react";
 import { Timeline } from "@/components/ui/timeline";
 import { client } from "@/sanity/lib/client";
 import { urlFor } from "@/sanity/lib/image";
-import { EventCard3D } from "@/components/app/EventCard3D";
+
+type SanityEvent = {
+    _id: string;
+    title: string;
+    date: string;
+    endDate?: string;
+    location?: string;
+    description?: PortableTextBlock[];
+    image?: { asset?: { _ref: string } };
+    isVirtual?: boolean;
+    registrationLink?: string;
+    isFeatured?: boolean;
+};
 
 export const metadata: Metadata = {
     title: "Events | TechKidz Africa",
@@ -24,41 +38,35 @@ export const metadata: Metadata = {
     },
 };
 
-// Helper function to convert portable text blocks to plain text
-function portableTextToPlainText(blocks: any[]): string {
-    if (!blocks || !Array.isArray(blocks)) return "";
-    return blocks
-        .map((block) => {
-            if (block._type !== "block" || !block.children) {
-                return "";
-            }
-            return block.children.map((child: any) => child.text || "").join("");
-        })
-        .join("\n\n");
-}
+const formatEventDate = (start: string, end?: string) => {
+    const startDate = new Date(start);
+    const startLabel = startDate.toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+    });
+    if (!end) return startLabel;
+    const endDate = new Date(end);
+    const endLabel = endDate.toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+    });
+    return `${startLabel} — ${endLabel}`;
+};
 
-// Helper function to get year from date
-function getYear(dateString: string): string {
-    const date = new Date(dateString);
-    return date.getFullYear().toString();
-}
-
-// Helper function to group events by year
-function groupEventsByYear(events: any[]) {
-    const grouped: { [key: string]: any[] } = {};
+function groupEventsByYear(events: SanityEvent[]) {
+    const grouped: Record<string, SanityEvent[]> = {};
     events.forEach((event) => {
-        if (event.date) {
-            const year = getYear(event.date);
-            if (!grouped[year]) {
-                grouped[year] = [];
-            }
-            grouped[year].push(event);
-        }
+        if (!event.date) return;
+        const year = new Date(event.date).getFullYear().toString();
+        if (!grouped[year]) grouped[year] = [];
+        grouped[year].push(event);
     });
     return grouped;
 }
 
-async function getEvents() {
+async function getEvents(): Promise<SanityEvent[]> {
     const query = `*[_type == "event"] | order(date desc) {
         _id,
         title,
@@ -71,24 +79,17 @@ async function getEvents() {
         registrationLink,
         isFeatured
     }`;
-
-    return await client.fetch(query);
+    return client.fetch(query);
 }
 
 async function getEventsHeroImage() {
-    const query = `*[_type == "eventsHeroImage" && isActive == true][0] {
-        image
-    }`;
-
+    const query = `*[_type == "eventsHeroImage" && isActive == true][0] { image }`;
     const result = await client.fetch(query);
-    if (result?.image) {
-        return urlFor(result.image).url();
-    }
-    return null;
+    return result?.image ? urlFor(result.image).url() : null;
 }
 
 export default async function EventsPage() {
-    let events: any[] = [];
+    let events: SanityEvent[] = [];
     let heroImageUrl: string | null = null;
 
     try {
@@ -98,14 +99,12 @@ export default async function EventsPage() {
         console.error("Error fetching events:", error);
     }
 
-    // Group events by year
     const eventsByYear = groupEventsByYear(events);
     const years = Object.keys(eventsByYear).sort((a, b) => parseInt(b) - parseInt(a));
 
-    // Format data for Timeline component
     const timelineData = years.map((year) => {
-        const yearEvents = eventsByYear[year].sort((a, b) =>
-            new Date(b.date).getTime() - new Date(a.date).getTime()
+        const yearEvents = eventsByYear[year].sort(
+            (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
         );
 
         return {
@@ -115,27 +114,61 @@ export default async function EventsPage() {
                     <p className="mb-8 text-xs font-normal text-neutral-800 md:text-sm dark:text-neutral-200">
                         {yearEvents.length} {yearEvents.length === 1 ? "event" : "events"} in {year}
                     </p>
-                    <div className="space-y-6 mb-8">
+                    <div className="space-y-10 mb-8">
                         {yearEvents.map((event) => {
-                            // Pre-process event data for client component
-                            const processedEvent = {
-                                _id: event._id,
-                                title: event.title,
-                                date: event.date,
-                                endDate: event.endDate,
-                                location: event.location,
-                                description: event.description ? portableTextToPlainText(event.description) : undefined,
-                                imageUrl: event.image ? urlFor(event.image).url() : undefined,
-                                isVirtual: event.isVirtual,
-                                registrationLink: event.registrationLink,
-                                isFeatured: event.isFeatured,
-                            };
-
+                            const imageUrl = event.image ? urlFor(event.image).url() : null;
                             return (
-                                <EventCard3D
+                                <article
                                     key={event._id}
-                                    event={processedEvent}
-                                />
+                                    className="rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-5 md:p-6 shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04)]"
+                                >
+                                    {imageUrl ? (
+                                        <div className="relative w-full aspect-[16/9] mb-4 overflow-hidden rounded-lg">
+                                            <Image
+                                                src={imageUrl}
+                                                alt={event.title}
+                                                fill
+                                                sizes="(max-width: 768px) 100vw, 700px"
+                                                className="object-cover"
+                                            />
+                                        </div>
+                                    ) : null}
+
+                                    <h3 className="text-lg md:text-xl font-semibold text-neutral-900 dark:text-neutral-100">
+                                        {event.title}
+                                    </h3>
+
+                                    <div className="mt-2 flex flex-wrap gap-2 text-xs md:text-sm text-neutral-600 dark:text-neutral-400">
+                                        <span>{formatEventDate(event.date, event.endDate)}</span>
+                                        {event.location ? (
+                                            <span className="before:content-['•'] before:mx-2">
+                                                {event.location}
+                                            </span>
+                                        ) : null}
+                                        {event.isVirtual ? (
+                                            <span className="before:content-['•'] before:mx-2">Virtual</span>
+                                        ) : null}
+                                    </div>
+
+                                    {event.description ? (
+                                        <div className="prose prose-sm md:prose-base max-w-none mt-4 text-neutral-700 dark:text-neutral-300">
+                                            <PortableText value={event.description} />
+                                        </div>
+                                    ) : null}
+
+                                    {event.registrationLink ? (
+                                        <div className="mt-5">
+                                            <a
+                                                href={event.registrationLink}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="inline-flex items-center px-5 py-2.5 rounded-full text-sm font-semibold bg-swahilipot-600 text-white hover:bg-swahilipot-700 transition-colors"
+                                            >
+                                                Register
+                                            </a>
+                                        </div>
+                                    ) : null}
+                                </article>
                             );
                         })}
                     </div>
@@ -146,9 +179,7 @@ export default async function EventsPage() {
 
     return (
         <>
-            {/* Hero Section */}
             <section className="relative overflow-hidden h-[300px] md:h-[400px] z-0">
-                {/* Background Image */}
                 {heroImageUrl && (
                     <div className="absolute inset-0 z-0 h-full w-full">
                         <div
@@ -161,32 +192,25 @@ export default async function EventsPage() {
                     </div>
                 )}
 
-                {/* Overlay */}
                 <div className="absolute inset-0 bg-[#6A1383]/5 z-0 h-[300px] md:h-[400px]" />
 
-                {/* Bottom blur gradient */}
                 <div className="absolute bottom-0 z-30 inset-x-0 h-24 md:h-32 w-full pointer-events-none">
                     <div className="absolute inset-0 backdrop-blur-lg" style={{ maskImage: 'linear-gradient(to top, black 0%, black 40%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to top, black 0%, black 40%, transparent 100%)' }} />
                     <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgb(255,255,255) 0%, rgb(255,255,255) 5%, rgba(255,255,255,0.98) 10%, rgba(255,255,255,0.9) 20%, rgba(255,255,255,0.75) 35%, rgba(255,255,255,0.5) 55%, rgba(255,255,255,0.25) 75%, rgba(255,255,255,0.1) 90%, transparent 100%)', maskImage: 'linear-gradient(to top, black 0%, transparent 70%)', WebkitMaskImage: 'linear-gradient(to top, black 0%, transparent 70%)' }} />
                 </div>
             </section>
 
-            {/* Title overlapping blur, above the timeline */}
             <div className="relative -mt-4 md:-mt-6 flex justify-center z-20">
                 <h2 className="text-3xl md:text-3xl font-bold text-gradient-blue drop-shadow-[0_2px_4px_rgba(255,255,255,0.8)]">
                     Upcoming Events
                 </h2>
             </div>
 
-            {/* Timeline Section */}
             <section className="pt-8 md:pt-12 pb-16">
                 <div className="container-custom">
                     {timelineData.length > 0 ? (
                         <div className="relative w-full overflow-clip">
-                            <Timeline
-                                data={timelineData}
-                                showHeader={false}
-                            />
+                            <Timeline data={timelineData} showHeader={false} />
                         </div>
                     ) : (
                         <div className="text-center py-20">
