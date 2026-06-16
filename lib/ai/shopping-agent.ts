@@ -60,7 +60,7 @@ When mentioning pages, use these exact links:
  */
 export function createHubAgent(_options: HubAgentOptions) {
   return new ToolLoopAgent({
-    model: gateway("anthropic/claude-sonnet-4.5"),
+    model: gateway("anthropic/claude-haiku-4-5"),
     instructions,
     tools: sanityTools,
   });
