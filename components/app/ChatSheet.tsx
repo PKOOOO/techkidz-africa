@@ -63,8 +63,11 @@ export function ChatSheet() {
 
     let sessionId = "";
     try {
-      sessionId = sessionStorage.getItem("analytics_session_id") || crypto.randomUUID();
-    } catch { sessionId = crypto.randomUUID(); }
+      sessionId =
+        sessionStorage.getItem("analytics_session_id") || crypto.randomUUID();
+    } catch {
+      sessionId = crypto.randomUUID();
+    }
 
     fetch("/api/analytics/chat-session", {
       method: "POST",
@@ -80,7 +83,7 @@ export function ChatSheet() {
           content: getMessageText(m),
         })),
       }),
-    }).catch(() => { });
+    }).catch(() => {});
   }, [isLoading, messages]);
 
   // Auto-scroll to bottom when new messages arrive or streaming updates
@@ -133,10 +136,7 @@ export function ChatSheet() {
         {/* Messages */}
         <div className="flex-1 overflow-y-auto overscroll-contain px-4 py-4">
           {messages.length === 0 ? (
-            <WelcomeScreen
-              onSuggestionClick={sendMessage}
-              isSignedIn={false}
-            />
+            <WelcomeScreen onSuggestionClick={sendMessage} isSignedIn={false} />
           ) : (
             <div className="space-y-4">
               {messages.map((message) => {

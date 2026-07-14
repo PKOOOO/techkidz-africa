@@ -15,7 +15,8 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://techkidzafrica.co.ke"),
   title: {
-    default: "Tech Kidz Africa | Technology Academy for Children & Youth in Kenya",
+    default:
+      "Tech Kidz Africa | Technology Academy for Children & Youth in Kenya",
     template: "%s | Tech Kidz Africa",
   },
   description:

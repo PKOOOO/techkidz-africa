@@ -1,5 +1,12 @@
 import type { Metadata } from "next";
-import { Hero, About, Programs, Impact, TeamWrapper, Contact } from "@/components/swahilipot";
+import {
+  Hero,
+  About,
+  Programs,
+  Impact,
+  TeamWrapper,
+  Contact,
+} from "@/components/swahilipot";
 import { client } from "@/sanity/lib/client";
 import { urlFor } from "@/sanity/lib/image";
 

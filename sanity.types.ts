@@ -146,7 +146,13 @@ export type Course = {
   _updatedAt: string;
   _rev: string;
   name?: string;
-  certification?: "certificate" | "diploma" | "degree" | "postgraduate" | "short-course" | "other";
+  certification?:
+    | "certificate"
+    | "diploma"
+    | "degree"
+    | "postgraduate"
+    | "short-course"
+    | "other";
   institution?: {
     _ref: string;
     _type: "reference";
@@ -163,7 +169,54 @@ export type LearningInstitution = {
   _rev: string;
   name?: string;
   type?: "university" | "tvet" | "college" | "high-school" | "other";
-  county?: "Mombasa" | "Kwale" | "Kilifi" | "Tana River" | "Lamu" | "Taita-Taveta" | "Garissa" | "Wajir" | "Mandera" | "Marsabit" | "Isiolo" | "Meru" | "Tharaka-Nithi" | "Embu" | "Kitui" | "Machakos" | "Makueni" | "Nyandarua" | "Nyeri" | "Kirinyaga" | "Murang'a" | "Kiambu" | "Turkana" | "West Pokot" | "Samburu" | "Trans-Nzoia" | "Uasin Gishu" | "Elgeyo-Marakwet" | "Nandi" | "Baringo" | "Laikipia" | "Nakuru" | "Narok" | "Kajiado" | "Kericho" | "Bomet" | "Kakamega" | "Vihiga" | "Bungoma" | "Busia" | "Siaya" | "Kisumu" | "Homa Bay" | "Migori" | "Kisii" | "Nyamira" | "Nairobi";
+  county?:
+    | "Mombasa"
+    | "Kwale"
+    | "Kilifi"
+    | "Tana River"
+    | "Lamu"
+    | "Taita-Taveta"
+    | "Garissa"
+    | "Wajir"
+    | "Mandera"
+    | "Marsabit"
+    | "Isiolo"
+    | "Meru"
+    | "Tharaka-Nithi"
+    | "Embu"
+    | "Kitui"
+    | "Machakos"
+    | "Makueni"
+    | "Nyandarua"
+    | "Nyeri"
+    | "Kirinyaga"
+    | "Murang'a"
+    | "Kiambu"
+    | "Turkana"
+    | "West Pokot"
+    | "Samburu"
+    | "Trans-Nzoia"
+    | "Uasin Gishu"
+    | "Elgeyo-Marakwet"
+    | "Nandi"
+    | "Baringo"
+    | "Laikipia"
+    | "Nakuru"
+    | "Narok"
+    | "Kajiado"
+    | "Kericho"
+    | "Bomet"
+    | "Kakamega"
+    | "Vihiga"
+    | "Bungoma"
+    | "Busia"
+    | "Siaya"
+    | "Kisumu"
+    | "Homa Bay"
+    | "Migori"
+    | "Kisii"
+    | "Nyamira"
+    | "Nairobi";
 };
 
 export type Career = {
@@ -429,7 +482,27 @@ export type Geopoint = {
   alt?: number;
 };
 
-export type AllSanitySchemaTypes = Partner | SanityImageCrop | SanityImageHotspot | TeamMember | IndustrialAttachment | Course | LearningInstitution | Career | Slug | Event | Program | Department | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint;
+export type AllSanitySchemaTypes =
+  | Partner
+  | SanityImageCrop
+  | SanityImageHotspot
+  | TeamMember
+  | IndustrialAttachment
+  | Course
+  | LearningInstitution
+  | Career
+  | Slug
+  | Event
+  | Program
+  | Department
+  | SanityImagePaletteSwatch
+  | SanityImagePalette
+  | SanityImageDimensions
+  | SanityImageMetadata
+  | SanityFileAsset
+  | SanityAssetSourceData
+  | SanityImageAsset
+  | Geopoint;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./lib/sanity/queries/categories.ts
 // Variable: ALL_CATEGORIES_QUERY
@@ -548,36 +621,36 @@ export type REVENUE_BY_PERIOD_QUERYResult = {
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    "*[\n  _type == \"category\"\n] | order(title asc) {\n  _id,\n  title,\n  \"slug\": slug.current,\n  \"image\": image{\n    asset->{\n      _id,\n      url\n    },\n    hotspot\n  }\n}": ALL_CATEGORIES_QUERYResult;
-    "*[\n  _type == \"category\"\n  && slug.current == $slug\n][0] {\n  _id,\n  title,\n  \"slug\": slug.current,\n  \"image\": image{\n    asset->{\n      _id,\n      url\n    },\n    hotspot\n  }\n}": CATEGORY_BY_SLUG_QUERYResult;
-    "*[\n  _type == \"customer\"\n  && email == $email\n][0]{\n  _id,\n  email,\n  name,\n  clerkUserId,\n  stripeCustomerId,\n  createdAt\n}": CUSTOMER_BY_EMAIL_QUERYResult;
-    "*[\n  _type == \"customer\"\n  && stripeCustomerId == $stripeCustomerId\n][0]{\n  _id,\n  email,\n  name,\n  clerkUserId,\n  stripeCustomerId,\n  createdAt\n}": CUSTOMER_BY_STRIPE_ID_QUERYResult;
-    "*[\n  _type == \"order\"\n  && clerkUserId == $clerkUserId\n] | order(createdAt desc) {\n  _id,\n  orderNumber,\n  total,\n  status,\n  createdAt,\n  \"itemCount\": count(items),\n  \"itemNames\": items[].product->name,\n  \"itemImages\": items[].product->images[0].asset->url\n}": ORDERS_BY_USER_QUERYResult;
-    "*[\n  _type == \"order\"\n  && _id == $id\n][0] {\n  _id,\n  orderNumber,\n  clerkUserId,\n  email,\n  items[]{\n    _key,\n    quantity,\n    priceAtPurchase,\n    product->{\n      _id,\n      name,\n      \"slug\": slug.current,\n      \"image\": images[0]{\n        asset->{\n          _id,\n          url\n        }\n      }\n    }\n  },\n  total,\n  status,\n  address{\n    name,\n    line1,\n    line2,\n    city,\n    postcode,\n    country\n  },\n  stripePaymentId,\n  createdAt\n}": ORDER_BY_ID_QUERYResult;
-    "*[\n  _type == \"order\"\n] | order(createdAt desc) [0...$limit] {\n  _id,\n  orderNumber,\n  email,\n  total,\n  status,\n  createdAt\n}": RECENT_ORDERS_QUERYResult;
-    "*[\n  _type == \"order\"\n  && stripePaymentId == $stripePaymentId\n][0]{ _id }": ORDER_BY_STRIPE_PAYMENT_ID_QUERYResult;
-    "*[\n  _type == \"product\"\n] | order(name asc) {\n  _id,\n  name,\n  \"slug\": slug.current,\n  description,\n  price,\n  \"images\": images[]{\n    _key,\n    asset->{\n      _id,\n      url\n    },\n    hotspot\n  },\n  category->{\n    _id,\n    title,\n    \"slug\": slug.current\n  },\n\n  year,\n  fuelType,\n  engine,\n  transmission,\n  origin,\n\n  location,\n  mileage,\n  horsePower,\n  torque,\n  stock,\n  featured\n}": ALL_PRODUCTS_QUERYResult;
-    "*[\n  _type == \"product\"\n  && featured == true\n  && stock > 0\n] | order(year desc, name asc) [0...6] {\n  _id,\n  name,\n  \"slug\": slug.current,\n  description,\n  price,\n  \"images\": images[]{\n    _key,\n    asset->{\n      _id,\n      url\n    },\n    hotspot\n  },\n  category->{\n    _id,\n    title,\n    \"slug\": slug.current\n  },\n\n  year,\n  fuelType,\n  engine,\n  transmission,\n  origin,\n\n  location,\n  mileage,\n  horsePower,\n  torque,\n  stock\n}": FEATURED_PRODUCTS_QUERYResult;
-    "*[\n  _type == \"product\"\n  && category->slug.current == $categorySlug\n] | order(year desc, name asc) {\n  _id,\n  name,\n  \"slug\": slug.current,\n  price,\n  \"image\": images[0]{\n    asset->{\n      _id,\n      url\n    },\n    hotspot\n  },\n  category->{\n    _id,\n    title,\n    \"slug\": slug.current\n  },\n\n  year,\n  fuelType,\n  transmission,\n  origin,\n  stock\n}": PRODUCTS_BY_CATEGORY_QUERYResult;
-    "*[\n  _type == \"product\"\n  && slug.current == $slug\n][0] {\n  _id,\n  name,\n  \"slug\": slug.current,\n  description,\n  price,\n  \"images\": images[]{\n    _key,\n    asset->{\n      _id,\n      url\n    },\n    hotspot\n  },\n  category->{\n    _id,\n    title,\n    \"slug\": slug.current\n  },\n\n  year,\n  fuelType,\n  engine,\n  transmission,\n  origin,\n\n  location,\n  mileage,\n  horsePower,\n  torque,\n  stock,\n  featured\n}": PRODUCT_BY_SLUG_QUERYResult;
-    "*[\n  _type == \"product\"\n  && (\n    name match $searchQuery + \"*\"\n    || description match $searchQuery + \"*\"\n    || category->title match $searchQuery + \"*\"\n  )\n] | score(\n  boost(name match $searchQuery + \"*\", 3),\n  boost(category->title match $searchQuery + \"*\", 2),\n  boost(description match $searchQuery + \"*\", 1)\n) | order(_score desc) {\n  _id,\n  _score,\n  name,\n  \"slug\": slug.current,\n  price,\n  \"image\": images[0]{\n    asset->{\n      _id,\n      url\n    },\n    hotspot\n  },\n  category->{\n    _id,\n    title,\n    \"slug\": slug.current\n  },\n\n  year,\n  fuelType,\n  transmission,\n  origin,\n\n  location,\n  mileage,\n  horsePower,\n  torque,\n  stock\n}": SEARCH_PRODUCTS_QUERYResult;
-    "*[\n  _type == \"product\"\n  && ($categorySlug == \"\" || category->slug.current == $categorySlug)\n  && ($fuelType == \"\" || fuelType == $fuelType)\n  && ($transmission == \"\" || transmission == $transmission)\n  && ($origin == \"\" || origin == $origin)\n  && ($minPrice == 0 || price >= $minPrice)\n  && ($maxPrice == 0 || price <= $maxPrice)\n  && ($searchQuery == \"\" || name match $searchQuery + \"*\" || description match $searchQuery + \"*\" || category->title match $searchQuery + \"*\")\n  && ($inStock == false || stock > 0)\n] | order(name asc) {\n  _id,\n  name,\n  \"slug\": slug.current,\n  price,\n  \"images\": images[0...4]{\n    _key,\n    asset->{\n      _id,\n      url\n    }\n  },\n  category->{\n    _id,\n    title,\n    \"slug\": slug.current\n  },\n\n  year,\n  fuelType,\n  engine,\n  transmission,\n  origin,\n\n  location,\n  mileage,\n  horsePower,\n  torque,\n  stock\n}": FILTER_PRODUCTS_BY_NAME_QUERYResult;
-    "*[\n  _type == \"product\"\n  && ($categorySlug == \"\" || category->slug.current == $categorySlug)\n  && ($fuelType == \"\" || fuelType == $fuelType)\n  && ($transmission == \"\" || transmission == $transmission)\n  && ($origin == \"\" || origin == $origin)\n  && ($minPrice == 0 || price >= $minPrice)\n  && ($maxPrice == 0 || price <= $maxPrice)\n  && ($searchQuery == \"\" || name match $searchQuery + \"*\" || description match $searchQuery + \"*\" || category->title match $searchQuery + \"*\")\n  && ($inStock == false || stock > 0)\n] | order(price asc) {\n  _id,\n  name,\n  \"slug\": slug.current,\n  price,\n  \"images\": images[0...4]{\n    _key,\n    asset->{\n      _id,\n      url\n    }\n  },\n  category->{\n    _id,\n    title,\n    \"slug\": slug.current\n  },\n\n  year,\n  fuelType,\n  engine,\n  transmission,\n  origin,\n\n  location,\n  mileage,\n  horsePower,\n  torque,\n  stock\n}": FILTER_PRODUCTS_BY_PRICE_ASC_QUERYResult;
-    "*[\n  _type == \"product\"\n  && ($categorySlug == \"\" || category->slug.current == $categorySlug)\n  && ($fuelType == \"\" || fuelType == $fuelType)\n  && ($transmission == \"\" || transmission == $transmission)\n  && ($origin == \"\" || origin == $origin)\n  && ($minPrice == 0 || price >= $minPrice)\n  && ($maxPrice == 0 || price <= $maxPrice)\n  && ($searchQuery == \"\" || name match $searchQuery + \"*\" || description match $searchQuery + \"*\" || category->title match $searchQuery + \"*\")\n  && ($inStock == false || stock > 0)\n] | order(price desc) {\n  _id,\n  name,\n  \"slug\": slug.current,\n  price,\n  \"images\": images[0...4]{\n    _key,\n    asset->{\n      _id,\n      url\n    }\n  },\n  category->{\n    _id,\n    title,\n    \"slug\": slug.current\n  },\n\n  year,\n  fuelType,\n  engine,\n  transmission,\n  origin,\n\n  location,\n  mileage,\n  horsePower,\n  torque,\n  stock\n}": FILTER_PRODUCTS_BY_PRICE_DESC_QUERYResult;
-    "*[\n  _type == \"product\"\n  && ($categorySlug == \"\" || category->slug.current == $categorySlug)\n  && ($fuelType == \"\" || fuelType == $fuelType)\n  && ($transmission == \"\" || transmission == $transmission)\n  && ($origin == \"\" || origin == $origin)\n  && ($minPrice == 0 || price >= $minPrice)\n  && ($maxPrice == 0 || price <= $maxPrice)\n  && ($searchQuery == \"\" || name match $searchQuery + \"*\" || description match $searchQuery + \"*\" || category->title match $searchQuery + \"*\")\n  && ($inStock == false || stock > 0)\n] | order(year desc, name asc) {\n  _id,\n  name,\n  \"slug\": slug.current,\n  price,\n  \"images\": images[0...4]{\n    _key,\n    asset->{\n      _id,\n      url\n    }\n  },\n  category->{\n    _id,\n    title,\n    \"slug\": slug.current\n  },\n\n  year,\n  fuelType,\n  engine,\n  transmission,\n  origin,\n\n  location,\n  mileage,\n  horsePower,\n  torque,\n  stock\n}": FILTER_PRODUCTS_BY_YEAR_DESC_QUERYResult;
-    "*[\n  _type == \"product\"\n  && ($categorySlug == \"\" || category->slug.current == $categorySlug)\n  && ($fuelType == \"\" || fuelType == $fuelType)\n  && ($transmission == \"\" || transmission == $transmission)\n  && ($origin == \"\" || origin == $origin)\n  && ($minPrice == 0 || price >= $minPrice)\n  && ($maxPrice == 0 || price <= $maxPrice)\n  && ($searchQuery == \"\" || name match $searchQuery + \"*\" || description match $searchQuery + \"*\" || category->title match $searchQuery + \"*\")\n  && ($inStock == false || stock > 0)\n] | score(\n  boost(name match $searchQuery + \"*\", 3),\n  boost(category->title match $searchQuery + \"*\", 2),\n  boost(description match $searchQuery + \"*\", 1)\n) | order(_score desc, name asc) {\n  _id,\n  name,\n  \"slug\": slug.current,\n  price,\n  \"images\": images[0...4]{\n    _key,\n    asset->{\n      _id,\n      url\n    }\n  },\n  category->{\n    _id,\n    title,\n    \"slug\": slug.current\n  },\n\n  year,\n  fuelType,\n  engine,\n  transmission,\n  origin,\n\n  location,\n  mileage,\n  horsePower,\n  torque,\n  stock\n}": FILTER_PRODUCTS_BY_RELEVANCE_QUERYResult;
-    "*[\n  _type == \"product\"\n  && _id in $ids\n] {\n  _id,\n  name,\n  \"slug\": slug.current,\n  price,\n  \"image\": images[0]{\n    asset->{\n      _id,\n      url\n    },\n    hotspot\n  },\n  stock\n}": PRODUCTS_BY_IDS_QUERYResult;
-    "*[\n  _type == \"product\"\n  && stock > 0\n  && stock <= 5\n] | order(stock asc) {\n  _id,\n  name,\n  \"slug\": slug.current,\n  stock,\n  \"image\": images[0]{\n    asset->{\n      _id,\n      url\n    }\n  }\n}": LOW_STOCK_PRODUCTS_QUERYResult;
-    "*[\n  _type == \"product\"\n  && stock == 0\n] | order(name asc) {\n  _id,\n  name,\n  \"slug\": slug.current,\n  \"image\": images[0]{\n    asset->{\n      _id,\n      url\n    }\n  }\n}": OUT_OF_STOCK_PRODUCTS_QUERYResult;
-    "*[\n  _type == \"product\"\n  && (\n    $searchQuery == \"\"\n    || name match $searchQuery + \"*\"\n    || description match $searchQuery + \"*\"\n\n    || category->title match $searchQuery + \"*\"\n  )\n  && ($categorySlug == \"\" || category->slug.current == $categorySlug)\n  && ($fuelType == \"\" || fuelType == $fuelType)\n  && ($transmission == \"\" || transmission == $transmission)\n  && ($origin == \"\" || origin == $origin)\n  && ($minPrice == 0 || price >= $minPrice)\n  && ($maxPrice == 0 || price <= $maxPrice)\n] | order(year desc, name asc) [0...20] {\n  _id,\n  name,\n  \"slug\": slug.current,\n  description,\n  price,\n  \"image\": images[0]{\n    asset->{\n      _id,\n      url\n    }\n  },\n  category->{\n    _id,\n    title,\n    \"slug\": slug.current\n  },\n\n  year,\n  fuelType,\n  engine,\n  transmission,\n  origin,\n\n  location,\n  mileage,\n  horsePower,\n  torque,\n  stock,\n  featured\n}": AI_SEARCH_PRODUCTS_QUERYResult;
-    "count(*[_type == \"product\"])": PRODUCT_COUNT_QUERYResult;
-    "count(*[_type == \"order\"])": ORDER_COUNT_QUERYResult;
-    "math::sum(*[\n  _type == \"order\"\n  && status in [\"paid\", \"shipped\", \"delivered\"]\n].total)": TOTAL_REVENUE_QUERYResult;
-    "*[\n  _type == \"order\"\n  && createdAt >= $startDate\n  && !(_id in path(\"drafts.**\"))\n] | order(createdAt desc) {\n  _id,\n  orderNumber,\n  total,\n  status,\n  createdAt,\n  \"itemCount\": count(items),\n  items[]{\n    quantity,\n    priceAtPurchase,\n    \"productName\": product->name,\n    \"productId\": product->_id\n  }\n}": ORDERS_LAST_7_DAYS_QUERYResult;
-    "{\n  \"paid\": count(*[_type == \"order\" && status == \"paid\" && !(_id in path(\"drafts.**\"))]),\n  \"shipped\": count(*[_type == \"order\" && status == \"shipped\" && !(_id in path(\"drafts.**\"))]),\n  \"delivered\": count(*[_type == \"order\" && status == \"delivered\" && !(_id in path(\"drafts.**\"))]),\n  \"cancelled\": count(*[_type == \"order\" && status == \"cancelled\" && !(_id in path(\"drafts.**\"))])\n}": ORDER_STATUS_DISTRIBUTION_QUERYResult;
-    "*[\n  _type == \"order\"\n  && status in [\"paid\", \"shipped\", \"delivered\"]\n  && !(_id in path(\"drafts.**\"))\n] {\n  items[]{\n    \"productId\": product->_id,\n    \"productName\": product->name,\n    \"productPrice\": product->price,\n    quantity\n  }\n}.items[]": TOP_SELLING_PRODUCTS_QUERYResult;
-    "*[_type == \"product\"] {\n  _id,\n  name,\n  price,\n  stock,\n  \"category\": category->title\n}": PRODUCTS_INVENTORY_QUERYResult;
-    "*[\n  _type == \"order\"\n  && status == \"paid\"\n  && !(_id in path(\"drafts.**\"))\n] | order(createdAt asc) {\n  _id,\n  orderNumber,\n  total,\n  createdAt,\n  email,\n  \"itemCount\": count(items)\n}": UNFULFILLED_ORDERS_QUERYResult;
-    "{\n  \"currentPeriod\": math::sum(*[\n    _type == \"order\"\n    && status in [\"paid\", \"shipped\", \"delivered\"]\n    && createdAt >= $currentStart\n    && !(_id in path(\"drafts.**\"))\n  ].total),\n  \"previousPeriod\": math::sum(*[\n    _type == \"order\"\n    && status in [\"paid\", \"shipped\", \"delivered\"]\n    && createdAt >= $previousStart\n    && createdAt < $currentStart\n    && !(_id in path(\"drafts.**\"))\n  ].total),\n  \"currentOrderCount\": count(*[\n    _type == \"order\"\n    && createdAt >= $currentStart\n    && !(_id in path(\"drafts.**\"))\n  ]),\n  \"previousOrderCount\": count(*[\n    _type == \"order\"\n    && createdAt >= $previousStart\n    && createdAt < $currentStart\n    && !(_id in path(\"drafts.**\"))\n  ])\n}": REVENUE_BY_PERIOD_QUERYResult;
+    '*[\n  _type == "category"\n] | order(title asc) {\n  _id,\n  title,\n  "slug": slug.current,\n  "image": image{\n    asset->{\n      _id,\n      url\n    },\n    hotspot\n  }\n}': ALL_CATEGORIES_QUERYResult;
+    '*[\n  _type == "category"\n  && slug.current == $slug\n][0] {\n  _id,\n  title,\n  "slug": slug.current,\n  "image": image{\n    asset->{\n      _id,\n      url\n    },\n    hotspot\n  }\n}': CATEGORY_BY_SLUG_QUERYResult;
+    '*[\n  _type == "customer"\n  && email == $email\n][0]{\n  _id,\n  email,\n  name,\n  clerkUserId,\n  stripeCustomerId,\n  createdAt\n}': CUSTOMER_BY_EMAIL_QUERYResult;
+    '*[\n  _type == "customer"\n  && stripeCustomerId == $stripeCustomerId\n][0]{\n  _id,\n  email,\n  name,\n  clerkUserId,\n  stripeCustomerId,\n  createdAt\n}': CUSTOMER_BY_STRIPE_ID_QUERYResult;
+    '*[\n  _type == "order"\n  && clerkUserId == $clerkUserId\n] | order(createdAt desc) {\n  _id,\n  orderNumber,\n  total,\n  status,\n  createdAt,\n  "itemCount": count(items),\n  "itemNames": items[].product->name,\n  "itemImages": items[].product->images[0].asset->url\n}': ORDERS_BY_USER_QUERYResult;
+    '*[\n  _type == "order"\n  && _id == $id\n][0] {\n  _id,\n  orderNumber,\n  clerkUserId,\n  email,\n  items[]{\n    _key,\n    quantity,\n    priceAtPurchase,\n    product->{\n      _id,\n      name,\n      "slug": slug.current,\n      "image": images[0]{\n        asset->{\n          _id,\n          url\n        }\n      }\n    }\n  },\n  total,\n  status,\n  address{\n    name,\n    line1,\n    line2,\n    city,\n    postcode,\n    country\n  },\n  stripePaymentId,\n  createdAt\n}': ORDER_BY_ID_QUERYResult;
+    '*[\n  _type == "order"\n] | order(createdAt desc) [0...$limit] {\n  _id,\n  orderNumber,\n  email,\n  total,\n  status,\n  createdAt\n}': RECENT_ORDERS_QUERYResult;
+    '*[\n  _type == "order"\n  && stripePaymentId == $stripePaymentId\n][0]{ _id }': ORDER_BY_STRIPE_PAYMENT_ID_QUERYResult;
+    '*[\n  _type == "product"\n] | order(name asc) {\n  _id,\n  name,\n  "slug": slug.current,\n  description,\n  price,\n  "images": images[]{\n    _key,\n    asset->{\n      _id,\n      url\n    },\n    hotspot\n  },\n  category->{\n    _id,\n    title,\n    "slug": slug.current\n  },\n\n  year,\n  fuelType,\n  engine,\n  transmission,\n  origin,\n\n  location,\n  mileage,\n  horsePower,\n  torque,\n  stock,\n  featured\n}': ALL_PRODUCTS_QUERYResult;
+    '*[\n  _type == "product"\n  && featured == true\n  && stock > 0\n] | order(year desc, name asc) [0...6] {\n  _id,\n  name,\n  "slug": slug.current,\n  description,\n  price,\n  "images": images[]{\n    _key,\n    asset->{\n      _id,\n      url\n    },\n    hotspot\n  },\n  category->{\n    _id,\n    title,\n    "slug": slug.current\n  },\n\n  year,\n  fuelType,\n  engine,\n  transmission,\n  origin,\n\n  location,\n  mileage,\n  horsePower,\n  torque,\n  stock\n}': FEATURED_PRODUCTS_QUERYResult;
+    '*[\n  _type == "product"\n  && category->slug.current == $categorySlug\n] | order(year desc, name asc) {\n  _id,\n  name,\n  "slug": slug.current,\n  price,\n  "image": images[0]{\n    asset->{\n      _id,\n      url\n    },\n    hotspot\n  },\n  category->{\n    _id,\n    title,\n    "slug": slug.current\n  },\n\n  year,\n  fuelType,\n  transmission,\n  origin,\n  stock\n}': PRODUCTS_BY_CATEGORY_QUERYResult;
+    '*[\n  _type == "product"\n  && slug.current == $slug\n][0] {\n  _id,\n  name,\n  "slug": slug.current,\n  description,\n  price,\n  "images": images[]{\n    _key,\n    asset->{\n      _id,\n      url\n    },\n    hotspot\n  },\n  category->{\n    _id,\n    title,\n    "slug": slug.current\n  },\n\n  year,\n  fuelType,\n  engine,\n  transmission,\n  origin,\n\n  location,\n  mileage,\n  horsePower,\n  torque,\n  stock,\n  featured\n}': PRODUCT_BY_SLUG_QUERYResult;
+    '*[\n  _type == "product"\n  && (\n    name match $searchQuery + "*"\n    || description match $searchQuery + "*"\n    || category->title match $searchQuery + "*"\n  )\n] | score(\n  boost(name match $searchQuery + "*", 3),\n  boost(category->title match $searchQuery + "*", 2),\n  boost(description match $searchQuery + "*", 1)\n) | order(_score desc) {\n  _id,\n  _score,\n  name,\n  "slug": slug.current,\n  price,\n  "image": images[0]{\n    asset->{\n      _id,\n      url\n    },\n    hotspot\n  },\n  category->{\n    _id,\n    title,\n    "slug": slug.current\n  },\n\n  year,\n  fuelType,\n  transmission,\n  origin,\n\n  location,\n  mileage,\n  horsePower,\n  torque,\n  stock\n}': SEARCH_PRODUCTS_QUERYResult;
+    '*[\n  _type == "product"\n  && ($categorySlug == "" || category->slug.current == $categorySlug)\n  && ($fuelType == "" || fuelType == $fuelType)\n  && ($transmission == "" || transmission == $transmission)\n  && ($origin == "" || origin == $origin)\n  && ($minPrice == 0 || price >= $minPrice)\n  && ($maxPrice == 0 || price <= $maxPrice)\n  && ($searchQuery == "" || name match $searchQuery + "*" || description match $searchQuery + "*" || category->title match $searchQuery + "*")\n  && ($inStock == false || stock > 0)\n] | order(name asc) {\n  _id,\n  name,\n  "slug": slug.current,\n  price,\n  "images": images[0...4]{\n    _key,\n    asset->{\n      _id,\n      url\n    }\n  },\n  category->{\n    _id,\n    title,\n    "slug": slug.current\n  },\n\n  year,\n  fuelType,\n  engine,\n  transmission,\n  origin,\n\n  location,\n  mileage,\n  horsePower,\n  torque,\n  stock\n}': FILTER_PRODUCTS_BY_NAME_QUERYResult;
+    '*[\n  _type == "product"\n  && ($categorySlug == "" || category->slug.current == $categorySlug)\n  && ($fuelType == "" || fuelType == $fuelType)\n  && ($transmission == "" || transmission == $transmission)\n  && ($origin == "" || origin == $origin)\n  && ($minPrice == 0 || price >= $minPrice)\n  && ($maxPrice == 0 || price <= $maxPrice)\n  && ($searchQuery == "" || name match $searchQuery + "*" || description match $searchQuery + "*" || category->title match $searchQuery + "*")\n  && ($inStock == false || stock > 0)\n] | order(price asc) {\n  _id,\n  name,\n  "slug": slug.current,\n  price,\n  "images": images[0...4]{\n    _key,\n    asset->{\n      _id,\n      url\n    }\n  },\n  category->{\n    _id,\n    title,\n    "slug": slug.current\n  },\n\n  year,\n  fuelType,\n  engine,\n  transmission,\n  origin,\n\n  location,\n  mileage,\n  horsePower,\n  torque,\n  stock\n}': FILTER_PRODUCTS_BY_PRICE_ASC_QUERYResult;
+    '*[\n  _type == "product"\n  && ($categorySlug == "" || category->slug.current == $categorySlug)\n  && ($fuelType == "" || fuelType == $fuelType)\n  && ($transmission == "" || transmission == $transmission)\n  && ($origin == "" || origin == $origin)\n  && ($minPrice == 0 || price >= $minPrice)\n  && ($maxPrice == 0 || price <= $maxPrice)\n  && ($searchQuery == "" || name match $searchQuery + "*" || description match $searchQuery + "*" || category->title match $searchQuery + "*")\n  && ($inStock == false || stock > 0)\n] | order(price desc) {\n  _id,\n  name,\n  "slug": slug.current,\n  price,\n  "images": images[0...4]{\n    _key,\n    asset->{\n      _id,\n      url\n    }\n  },\n  category->{\n    _id,\n    title,\n    "slug": slug.current\n  },\n\n  year,\n  fuelType,\n  engine,\n  transmission,\n  origin,\n\n  location,\n  mileage,\n  horsePower,\n  torque,\n  stock\n}': FILTER_PRODUCTS_BY_PRICE_DESC_QUERYResult;
+    '*[\n  _type == "product"\n  && ($categorySlug == "" || category->slug.current == $categorySlug)\n  && ($fuelType == "" || fuelType == $fuelType)\n  && ($transmission == "" || transmission == $transmission)\n  && ($origin == "" || origin == $origin)\n  && ($minPrice == 0 || price >= $minPrice)\n  && ($maxPrice == 0 || price <= $maxPrice)\n  && ($searchQuery == "" || name match $searchQuery + "*" || description match $searchQuery + "*" || category->title match $searchQuery + "*")\n  && ($inStock == false || stock > 0)\n] | order(year desc, name asc) {\n  _id,\n  name,\n  "slug": slug.current,\n  price,\n  "images": images[0...4]{\n    _key,\n    asset->{\n      _id,\n      url\n    }\n  },\n  category->{\n    _id,\n    title,\n    "slug": slug.current\n  },\n\n  year,\n  fuelType,\n  engine,\n  transmission,\n  origin,\n\n  location,\n  mileage,\n  horsePower,\n  torque,\n  stock\n}': FILTER_PRODUCTS_BY_YEAR_DESC_QUERYResult;
+    '*[\n  _type == "product"\n  && ($categorySlug == "" || category->slug.current == $categorySlug)\n  && ($fuelType == "" || fuelType == $fuelType)\n  && ($transmission == "" || transmission == $transmission)\n  && ($origin == "" || origin == $origin)\n  && ($minPrice == 0 || price >= $minPrice)\n  && ($maxPrice == 0 || price <= $maxPrice)\n  && ($searchQuery == "" || name match $searchQuery + "*" || description match $searchQuery + "*" || category->title match $searchQuery + "*")\n  && ($inStock == false || stock > 0)\n] | score(\n  boost(name match $searchQuery + "*", 3),\n  boost(category->title match $searchQuery + "*", 2),\n  boost(description match $searchQuery + "*", 1)\n) | order(_score desc, name asc) {\n  _id,\n  name,\n  "slug": slug.current,\n  price,\n  "images": images[0...4]{\n    _key,\n    asset->{\n      _id,\n      url\n    }\n  },\n  category->{\n    _id,\n    title,\n    "slug": slug.current\n  },\n\n  year,\n  fuelType,\n  engine,\n  transmission,\n  origin,\n\n  location,\n  mileage,\n  horsePower,\n  torque,\n  stock\n}': FILTER_PRODUCTS_BY_RELEVANCE_QUERYResult;
+    '*[\n  _type == "product"\n  && _id in $ids\n] {\n  _id,\n  name,\n  "slug": slug.current,\n  price,\n  "image": images[0]{\n    asset->{\n      _id,\n      url\n    },\n    hotspot\n  },\n  stock\n}': PRODUCTS_BY_IDS_QUERYResult;
+    '*[\n  _type == "product"\n  && stock > 0\n  && stock <= 5\n] | order(stock asc) {\n  _id,\n  name,\n  "slug": slug.current,\n  stock,\n  "image": images[0]{\n    asset->{\n      _id,\n      url\n    }\n  }\n}': LOW_STOCK_PRODUCTS_QUERYResult;
+    '*[\n  _type == "product"\n  && stock == 0\n] | order(name asc) {\n  _id,\n  name,\n  "slug": slug.current,\n  "image": images[0]{\n    asset->{\n      _id,\n      url\n    }\n  }\n}': OUT_OF_STOCK_PRODUCTS_QUERYResult;
+    '*[\n  _type == "product"\n  && (\n    $searchQuery == ""\n    || name match $searchQuery + "*"\n    || description match $searchQuery + "*"\n\n    || category->title match $searchQuery + "*"\n  )\n  && ($categorySlug == "" || category->slug.current == $categorySlug)\n  && ($fuelType == "" || fuelType == $fuelType)\n  && ($transmission == "" || transmission == $transmission)\n  && ($origin == "" || origin == $origin)\n  && ($minPrice == 0 || price >= $minPrice)\n  && ($maxPrice == 0 || price <= $maxPrice)\n] | order(year desc, name asc) [0...20] {\n  _id,\n  name,\n  "slug": slug.current,\n  description,\n  price,\n  "image": images[0]{\n    asset->{\n      _id,\n      url\n    }\n  },\n  category->{\n    _id,\n    title,\n    "slug": slug.current\n  },\n\n  year,\n  fuelType,\n  engine,\n  transmission,\n  origin,\n\n  location,\n  mileage,\n  horsePower,\n  torque,\n  stock,\n  featured\n}': AI_SEARCH_PRODUCTS_QUERYResult;
+    'count(*[_type == "product"])': PRODUCT_COUNT_QUERYResult;
+    'count(*[_type == "order"])': ORDER_COUNT_QUERYResult;
+    'math::sum(*[\n  _type == "order"\n  && status in ["paid", "shipped", "delivered"]\n].total)': TOTAL_REVENUE_QUERYResult;
+    '*[\n  _type == "order"\n  && createdAt >= $startDate\n  && !(_id in path("drafts.**"))\n] | order(createdAt desc) {\n  _id,\n  orderNumber,\n  total,\n  status,\n  createdAt,\n  "itemCount": count(items),\n  items[]{\n    quantity,\n    priceAtPurchase,\n    "productName": product->name,\n    "productId": product->_id\n  }\n}': ORDERS_LAST_7_DAYS_QUERYResult;
+    '{\n  "paid": count(*[_type == "order" && status == "paid" && !(_id in path("drafts.**"))]),\n  "shipped": count(*[_type == "order" && status == "shipped" && !(_id in path("drafts.**"))]),\n  "delivered": count(*[_type == "order" && status == "delivered" && !(_id in path("drafts.**"))]),\n  "cancelled": count(*[_type == "order" && status == "cancelled" && !(_id in path("drafts.**"))])\n}': ORDER_STATUS_DISTRIBUTION_QUERYResult;
+    '*[\n  _type == "order"\n  && status in ["paid", "shipped", "delivered"]\n  && !(_id in path("drafts.**"))\n] {\n  items[]{\n    "productId": product->_id,\n    "productName": product->name,\n    "productPrice": product->price,\n    quantity\n  }\n}.items[]': TOP_SELLING_PRODUCTS_QUERYResult;
+    '*[_type == "product"] {\n  _id,\n  name,\n  price,\n  stock,\n  "category": category->title\n}': PRODUCTS_INVENTORY_QUERYResult;
+    '*[\n  _type == "order"\n  && status == "paid"\n  && !(_id in path("drafts.**"))\n] | order(createdAt asc) {\n  _id,\n  orderNumber,\n  total,\n  createdAt,\n  email,\n  "itemCount": count(items)\n}': UNFULFILLED_ORDERS_QUERYResult;
+    '{\n  "currentPeriod": math::sum(*[\n    _type == "order"\n    && status in ["paid", "shipped", "delivered"]\n    && createdAt >= $currentStart\n    && !(_id in path("drafts.**"))\n  ].total),\n  "previousPeriod": math::sum(*[\n    _type == "order"\n    && status in ["paid", "shipped", "delivered"]\n    && createdAt >= $previousStart\n    && createdAt < $currentStart\n    && !(_id in path("drafts.**"))\n  ].total),\n  "currentOrderCount": count(*[\n    _type == "order"\n    && createdAt >= $currentStart\n    && !(_id in path("drafts.**"))\n  ]),\n  "previousOrderCount": count(*[\n    _type == "order"\n    && createdAt >= $previousStart\n    && createdAt < $currentStart\n    && !(_id in path("drafts.**"))\n  ])\n}': REVENUE_BY_PERIOD_QUERYResult;
   }
 }

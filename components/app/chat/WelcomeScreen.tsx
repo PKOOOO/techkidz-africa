@@ -27,7 +27,8 @@ export function WelcomeScreen({
         How can I help you today?
       </h3>
       <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400 max-w-xs">
-        I can help you learn about our programs and how to get involved with Tech Kidz Africa.
+        I can help you learn about our programs and how to get involved with
+        Tech Kidz Africa.
       </p>
 
       {/* Suggestions */}
@@ -48,4 +49,3 @@ export function WelcomeScreen({
     </div>
   );
 }
-

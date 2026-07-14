@@ -19,7 +19,12 @@ interface TimelineProps {
   showHeader?: boolean;
 }
 
-export const Timeline = ({ data, heading, subheading, showHeader = true }: TimelineProps) => {
+export const Timeline = ({
+  data,
+  heading,
+  subheading,
+  showHeader = true,
+}: TimelineProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [height, setHeight] = useState(0);

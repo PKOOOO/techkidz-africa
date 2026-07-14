@@ -15,17 +15,17 @@ function AppLayout({ children }: { children: React.ReactNode }) {
     <ChatStoreProvider>
       <PageTracker />
       <MainContentWrapper>
-          <NavbarWrapper />
-          <main className="flex-grow">{children}</main>
-          <Footer />
-        </MainContentWrapper>
+        <NavbarWrapper />
+        <main className="flex-grow">{children}</main>
+        <Footer />
+      </MainContentWrapper>
 
-        <ChatSheet />
-        <FloatingChatTrigger />
-        <Toaster position="bottom-center" />
+      <ChatSheet />
+      <FloatingChatTrigger />
+      <Toaster position="bottom-center" />
 
-        <SanityLive />
-      </ChatStoreProvider>
+      <SanityLive />
+    </ChatStoreProvider>
   );
 }
 

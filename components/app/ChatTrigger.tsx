@@ -8,7 +8,7 @@ export function ChatTrigger() {
   const { openChat } = useChatActions();
 
   return (
-    <Button 
+    <Button
       onClick={openChat}
       className="gap-2 bg-red-600 hover:bg-red-700 text-white shadow-lg"
       size="lg"

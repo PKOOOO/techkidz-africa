@@ -36,7 +36,7 @@ export const CardSpotlight = ({
     <div
       className={cn(
         "group/spotlight p-10 rounded-md relative border border-neutral-800 bg-black dark:border-neutral-800 overflow-hidden",
-        className
+        className,
       )}
       onMouseMove={handleMouseMove}
       onMouseEnter={handleMouseEnter}
@@ -50,14 +50,14 @@ export const CardSpotlight = ({
           containerClassName="bg-transparent absolute inset-0 pointer-events-none"
           colors={[
             [106, 19, 131], // #6A1383 - brand purple
-            [56, 182, 255],  // #38B6FF - brand blue
+            [56, 182, 255], // #38B6FF - brand blue
           ]}
           dotSize={4}
           opacities={[0.5, 0.5, 0.5, 0.7, 0.7, 0.7, 0.9, 0.9, 0.9, 1]}
           showGradient={false}
         />
       </div>
-      
+
       {/* Spotlight effect on hover */}
       <motion.div
         className="pointer-events-none absolute z-10 -inset-px rounded-md opacity-0 transition duration-300 group-hover/spotlight:opacity-100"
@@ -78,16 +78,14 @@ export const CardSpotlight = ({
             containerClassName="bg-transparent absolute inset-0 pointer-events-none"
             colors={[
               [106, 19, 131], // #6A1383 - brand purple
-              [56, 182, 255],  // #38B6FF - brand blue
+              [56, 182, 255], // #38B6FF - brand blue
             ]}
             dotSize={3}
             showGradient={false}
           />
         )}
       </motion.div>
-      <div className="relative z-20">
-        {children}
-      </div>
+      <div className="relative z-20">{children}</div>
     </div>
   );
 };

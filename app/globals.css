@@ -55,7 +55,8 @@
   --radius-2xl: calc(var(--radius) + 8px);
   --radius-3xl: calc(var(--radius) + 12px);
   --radius-4xl: calc(var(--radius) + 16px);
-  --animate-scroll: scroll var(--animation-duration, 40s) var(--animation-direction, forwards) linear infinite;
+  --animate-scroll: scroll var(--animation-duration, 40s)
+    var(--animation-direction, forwards) linear infinite;
 
   @keyframes scroll {
     to {
@@ -183,18 +184,18 @@
   --swahilipot-200: #d6c1e5;
   --swahilipot-300: #b898d0;
   --swahilipot-400: #9a70bb;
-  --swahilipot-500: #80569E;
+  --swahilipot-500: #80569e;
   /* Primary purple */
-  --swahilipot-600: #6A1383;
+  --swahilipot-600: #6a1383;
   /* Dark purple */
   --swahilipot-700: #5a0f70;
   --swahilipot-800: #4a0d5d;
   --swahilipot-900: #3a0a4a;
   --swahilipot-950: #2a0737;
   /* Accent blue */
-  --swahilipot-accent: #38B6FF;
-  --swahilipot-accent-light: #6BC8FF;
-  --swahilipot-accent-dark: #1A9FE8;
+  --swahilipot-accent: #38b6ff;
+  --swahilipot-accent-light: #6bc8ff;
+  --swahilipot-accent-dark: #1a9fe8;
 }
 
 /* Swahilipot Utility Classes */
@@ -307,7 +308,11 @@
 }
 
 .text-gradient-blue {
-  background: linear-gradient(135deg, var(--swahilipot-600) 0%, var(--swahilipot-accent) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--swahilipot-600) 0%,
+    var(--swahilipot-accent) 100%
+  );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -362,7 +367,6 @@
 }
 
 @keyframes float {
-
   0%,
   100% {
     transform: translateY(0);

@@ -55,7 +55,8 @@ export async function generateMetadata({
   }
 
   const title = `${project.title} | TechKidz Africa`;
-  const description = project.description || "Discover this project at TechKidz Africa.";
+  const description =
+    project.description || "Discover this project at TechKidz Africa.";
 
   return {
     title,

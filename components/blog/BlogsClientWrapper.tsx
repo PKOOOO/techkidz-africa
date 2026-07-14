@@ -12,7 +12,7 @@ export function BlogsClientWrapper({ posts }: { posts: Post[] }) {
   const morePosts = posts.slice(1);
 
   const filteredPosts = morePosts.filter((post) =>
-    post.title.toLowerCase().includes(searchQuery.toLowerCase())
+    post.title.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
   return (
@@ -55,7 +55,9 @@ export function BlogsClientWrapper({ posts }: { posts: Post[] }) {
                     ))
                   ) : (
                     <p className="py-10 text-center text-sm text-neutral-500 dark:text-neutral-400">
-                      {searchQuery ? "No posts match your search." : "No posts yet."}
+                      {searchQuery
+                        ? "No posts match your search."
+                        : "No posts yet."}
                     </p>
                   )}
                 </div>

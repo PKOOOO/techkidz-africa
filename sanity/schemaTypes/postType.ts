@@ -58,7 +58,8 @@ export const postType = defineType({
       name: "author",
       title: "Author",
       type: "object",
-      description: "Auto-filled from your Sanity Studio account — override if needed",
+      description:
+        "Auto-filled from your Sanity Studio account — override if needed",
       fields: [
         defineField({
           name: "name",

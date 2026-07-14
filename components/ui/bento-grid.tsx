@@ -60,10 +60,7 @@ export const BentoGridItem = ({
 
   if (href) {
     return (
-      <Link
-        href={href}
-        className={cardClassName}
-      >
+      <Link href={href} className={cardClassName}>
         <GlowingEffect
           disabled={false}
           proximity={100}

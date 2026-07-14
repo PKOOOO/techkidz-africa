@@ -7,7 +7,10 @@ interface AnimatedSpriteProps {
   walkSpeed?: number;
 }
 
-export function AnimatedSprite({ className = "", walkSpeed = 0.3 }: AnimatedSpriteProps) {
+export function AnimatedSprite({
+  className = "",
+  walkSpeed = 0.3,
+}: AnimatedSpriteProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -106,7 +109,7 @@ export function AnimatedSprite({ className = "", walkSpeed = 0.3 }: AnimatedSpri
                   strokeWidth="1"
                 />
               </g>
-              
+
               {/* Front leg - walking animation (opposite to back leg) */}
               <motion.path
                 d="M 32.8 77.2 C 32.8 77.2 37.7 81 43.6 86.8 C 47.6 90.7 53.9 96.3 56.1 98.2 C 56.6 98.6 57.2 98.8 57.8 98.9 C 67.5 99.8 74.7 98.8 74.7 94.5 C 74.7 87.3 60.4 89.8 60.4 89.8 C 60.4 89.8 55.8 85.9 53.7 84 L 46.2 76.7"

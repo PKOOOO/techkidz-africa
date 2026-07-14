@@ -25,10 +25,11 @@ export function ToolCallUI({ toolPart }: ToolCallUIProps) {
           <MessageSquare className="h-4 w-4 text-blue-600 dark:text-blue-400" />
         </div>
         <div
-          className={`flex items-center gap-3 rounded-xl px-4 py-2 text-sm ${isComplete
-            ? "bg-emerald-50 border border-emerald-200 dark:bg-emerald-950/30 dark:border-emerald-800"
-            : "bg-blue-50 border border-blue-200 dark:bg-blue-950/30 dark:border-blue-800"
-            }`}
+          className={`flex items-center gap-3 rounded-xl px-4 py-2 text-sm ${
+            isComplete
+              ? "bg-emerald-50 border border-emerald-200 dark:bg-emerald-950/30 dark:border-emerald-800"
+              : "bg-blue-50 border border-blue-200 dark:bg-blue-950/30 dark:border-blue-800"
+          }`}
         >
           {isComplete ? (
             <CheckCircle2 className="h-4 w-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
@@ -37,10 +38,11 @@ export function ToolCallUI({ toolPart }: ToolCallUIProps) {
           )}
           <div className="flex flex-col">
             <span
-              className={`font-medium ${isComplete
-                ? "text-emerald-700 dark:text-emerald-300"
-                : "text-blue-700 dark:text-blue-300"
-                }`}
+              className={`font-medium ${
+                isComplete
+                  ? "text-emerald-700 dark:text-emerald-300"
+                  : "text-blue-700 dark:text-blue-300"
+              }`}
             >
               {isComplete ? `${displayName} complete` : `${displayName}...`}
             </span>
