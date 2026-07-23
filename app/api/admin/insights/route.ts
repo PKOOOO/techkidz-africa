@@ -74,7 +74,7 @@ export async function GET() {
     };
 
     const { text } = await generateText({
-      model: gateway("anthropic/claude-haiku-4-5"),
+      model: gateway("google/gemini-2.5-flash"),
       system: `You are a website analytics expert for Tech Kidz Africa. Analyze the provided data and generate actionable insights.
 
 Your response must be valid JSON:

@@ -67,7 +67,7 @@ When mentioning pages, use these exact links:
  */
 export function createHubAgent(_options: HubAgentOptions) {
   return new ToolLoopAgent({
-    model: gateway("anthropic/claude-haiku-4-5"),
+    model: gateway("google/gemini-2.5-flash"),
     instructions,
     tools: sanityTools,
   });
